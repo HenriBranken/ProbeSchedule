@@ -1,0 +1,4 @@
+https://app.probeschedule.com/data_api/v3/devices/P-370/data/2018-03-01 00:00:00/2019-01-21 00:00:00/
+https://app.probeschedule.com/data_api/v3/custom/wb/P-370/2018-03-01/2019-02-03
+https://app.probeschedule.com/data_api/v3/custom/heat_units/P-370/2018-03-01/2019-02-03
+
