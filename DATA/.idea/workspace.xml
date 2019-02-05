@@ -1,7 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5ac4b8d0-95ac-459b-ad1a-216ca220d9d5" name="Default Changelist" comment="" />
+    <list default="true" id="5ac4b8d0-95ac-459b-ad1a-216ca220d9d5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/transform_to_excel_format.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../1542371522517_Agtergrond vir MasjienLeer gesprek 2018 - 20190129 v7.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/transform_to_excel_format-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/transform_to_excel_format-checkpoint.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Golden_Delicious_daily_data.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Golden_Delicious_daily_data.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Golden_Delicious_probe_data.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Golden_Delicious_probe_data.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Masjienleer Skoon data vir toets.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/P-1426_daily_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/P-1426_daily_data.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/P-370_daily_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/P-370_daily_data.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/P-371_daily_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/P-371_daily_data.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/P-372_daily_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/P-372_daily_data.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/P-372_probe_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/P-372_probe_data.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/P-384_daily_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/P-384_daily_data.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/P-391_daily_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/P-391_daily_data.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/P-392_daily_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/P-392_daily_data.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/P-891_daily_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/P-891_daily_data.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transform_to_excel_format.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/transform_to_excel_format.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../P-370_azm_data.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../P-370_daily_data.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../endpoints.txt" beforeDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -10,6 +31,16 @@
   </component>
   <component name="FileEditorManager">
     <leaf />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -20,6 +51,7 @@
         <option value="$PROJECT_DIR$/get_daily_data.py" />
         <option value="$PROJECT_DIR$/get_probe_data.py" />
         <option value="$PROJECT_DIR$/../get_data.py" />
+        <option value="$PROJECT_DIR$/transform_to_excel_format.py" />
       </list>
     </option>
   </component>
@@ -28,6 +60,9 @@
     <option name="y" value="27" />
     <option name="width" value="1380" />
     <option name="height" value="1000" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -63,6 +98,34 @@
       </list>
     </option>
   </component>
+  <component name="RunManager">
+    <configuration name="transform_to_excel_format" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="DATA" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/transform_to_excel_format.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.transform_to_excel_format" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -84,7 +147,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32975295" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -143,6 +206,16 @@
           <caret line="75" lean-forward="true" selection-start-line="75" selection-end-line="75" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/transform_to_excel_format.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="12" column="27" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
