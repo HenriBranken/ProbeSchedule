@@ -1,168 +1,262 @@
 import numpy as np
 import datetime
 import pandas as pd
+import master_data
 
 # Definitions of certain constants
 DAY = datetime.timedelta(days=1)
 
-ERAIN_DESC = "erain perturbing etcp"
+# The following are "irredeemable"
+RAIN_DESC = "Rain perturbing etcp"
 SIMUL_DESC = "Software simulation"
 IRR_DESC = "Irrigation perturbing etcp"
 NULL_PROFILE_DESC = "Null profile value"
-HUGE_PROFILE_DIP_DESC = "Huge profile dip"
+DATA_BLIP_DESC = "Profile data blip"
 LARGE_PROFILE_DIP_DESC = "Large profile dip"
-HU_STUCK_DESC = "Heat Units `stuck`"
-ET0_STUCK_DESC = "et0 `stuck`"
-ETCP_POS_DESC = "etcp is positive"
-ETCP_OUTLIERS_DESC = "etcp outliers"
+ETCP_POS_DESC = "Etcp is positive"
+ETCP_OUTLIERS_DESC = "Etcp outliers"
 LUX_DESC = "Luxurious water uptake"
+BAD_KCP_DESC = "Unacceptable kcp"
+UNREDEEMABLE = [RAIN_DESC, SIMUL_DESC, IRR_DESC, NULL_PROFILE_DESC, DATA_BLIP_DESC,
+                LARGE_PROFILE_DIP_DESC, ETCP_POS_DESC, ETCP_OUTLIERS_DESC, LUX_DESC, BAD_KCP_DESC]
 
-ET0_MAX = 12
+# The following  are "redeemable"
+HU_STUCK_DESC = "Heat Units `stuck`"
+ETO_STUCK_DESC = "Eto `stuck`"
+ETC_STUCK_DESC = "Stuck etc due to stuck eto"
+IMPUTED_ETO = "Imputed eto"
+REDEEMABLE = [HU_STUCK_DESC, ETO_STUCK_DESC, ETC_STUCK_DESC, IMPUTED_ETO]
+
+ETO_MAX = 12
 KCP_MAX = 0.8
-ETCP_MAX = ET0_MAX * KCP_MAX
+ETCP_MAX = ETO_MAX * KCP_MAX
 
 
-def flagger(bad_dates, brief_desc, df):
+def flagger(bad_dates, brief_desc, df, bin_value=0):
     """
-    Flag bad_dates with a binary value of 1 and append a brief description about why bad_dates were flagged.
+        Flag bad_dates with a binary value of 1 and append a brief description about why bad_dates were flagged.
 
-    Parameters:
-    bad_dates (pandas.core.indexes.datetimes.DatetimeIndex):  Dates for which we cannot calculate k_cp because our
-    readings were perturbed and rendered unuseful.
-    brief_desc (str):  A very short description about why bad_dates were flagged.
+        Parameters:
+        bad_dates (pandas.core.indexes.datetimes.DatetimeIndex):  Dates for which we cannot calculate k_cp because our readings were perturbed and rendered unuseful.
+        brief_desc (str):  A very short description about why bad_dates were flagged.
+        bin_value (int):  The binary value.  If Eto is imputed, Etc and heat_units are stuck, we can still get away with a new calculation of kcp; thus set binary_value=0 for such redeemable events.
 
-    Returns:
-    None.  It updates the DataFrame storing all the information related to flagging.  In this case the DataFrame is
-    called `df_flag`
-    """
+        Returns:
+        None.  It updates the DataFrame storing all the information related to flagging.  In this case the DataFrame is called `df`
+        """
     if df.loc[bad_dates, "description"].str.contains(brief_desc).all(axis=0):
         # The bad_dates have already been flagged for the reason given in brief_desc.
         # No use in duplicating brief_desc contents in the description column.
-        # Therefore redundant information in the df_flag DataFrame is avoided.
+        # Therefore redundant information in the df DataFrame is avoided.
         print("You have already flagged these dates for the reason given in `brief_desc`; No flagging has taken place.")
         return
     else:
-        df.loc[bad_dates, "binary_value"] = 1
-        df.loc[bad_dates, "description"] += (" " + brief_desc + ".")
-        df.loc[:, "description"] = df.loc[:, "description"].apply(lambda s: s.lstrip().rstrip())
+        for d in bad_dates:
+            cond = (brief_desc in df.loc[d, "description"])
+            if (df.loc[d, "binary_value"] == 0) & (bin_value == 0) & (cond is True):
+                continue
+            elif (df.loc[d, "binary_value"] == 0) & (bin_value == 0) & (cond is False):
+                df.loc[d, "description"] += (" " + brief_desc + ".")
+            elif (df.loc[d, "binary_value"] == 0) & (bin_value == 1) & (cond is True):
+                df.loc[d, "binary_value"] = 1
+            elif (df.loc[d, "binary_value"] == 0) & (bin_value == 1) & (cond is False):
+                df.loc[d, "binary_value"] = 1
+                df.loc[d, "description"] += (" " + brief_desc + ".")
+            elif (df.loc[d, "binary_value"] == 1) & (bin_value == 0) & (cond is True):
+                continue
+            elif (df.loc[d, "binary_value"] == 1) & (bin_value == 0) & (cond is False):
+                df.loc[d, "description"] += (" " + brief_desc + ".")
+            elif (df.loc[d, "binary_value"] == 1) & (bin_value == 1) & (cond is True):
+                continue
+            else:  # (df.loc[d, "binary_value"] == 1) & (bin_value == 1) & (cond is False)
+                df.loc[d, "description"] += (" " + brief_desc + ".")
+        df.loc[bad_dates, "description"] = df.loc[:, "description"].apply(lambda s: s.lstrip().rstrip())
+
+
+def reporter(df, brief_desc, remaining=False):
+    tally = df["description"].str.contains(brief_desc).sum()
+    n_tot_entries = len(df.index)
+    perc = tally / n_tot_entries * 100
+    print("{:.1f}% of data is affected due to [{}].".format(perc, brief_desc))
+
+    if remaining:
+        calc = 100 - df["binary_value"].sum() / len(df.index) * 100
+        print(
+            "After all the flagging that has taken place in this entire notebook, only {:.0f}% of your data is useful.".format(
+                calc))
 
 
 def drop_redundant_columns(df):
     labels = ["rzone", "available", "days_left", "deficit_current",
-              "rzm", "fcap", "deficit_want", "refill", "et0_forecast_yr"]
+              "rzm", "fcap", "deficit_want", "refill", "eto_forecast_yr"]
     df.drop(labels=labels, axis=1, inplace=True)
+    return df
 
 
-def flag_erain_events(df):
-    df_rain = df.filter(["rain", "erain"], axis=1)
+def flag_spurious_eto(df):
+    df["eto_diff1"] = df["eto"].diff(periods=1)
+    df["eto_diff2"] = df["eto"].diff(periods=2)
+    condition = (df["eto_diff1"] == 0.0) | (df["eto_diff2"] == 0)
+    bad_eto_days = df[condition].index
+    flagger(bad_dates=bad_eto_days, brief_desc=ETO_STUCK_DESC, df=df, bin_value=1)
+    df.loc[bad_eto_days, ["eto"]] = np.nan
 
-    condition = (df_rain["erain"] > 0) & (df["total_irrig"] == 0) & (df["etcp"] > 0)
-    erain_dates = df_rain[condition].index
+    df.loc[bad_eto_days, ["etc"]] = np.nan
+    flagger(bad_dates=bad_eto_days, brief_desc=ETC_STUCK_DESC, df=df, bin_value=1)
+    reporter(df=df, brief_desc=ETC_STUCK_DESC)
+    return bad_eto_days, df
 
-    flagger(bad_dates=erain_dates, brief_desc=ERAIN_DESC, df=df)
+
+def kbv_imputer(flagged_dates, df, column_to_be_imputed):
+    for d in flagged_dates:
+        week_number = d.isocalendar()[1]
+        try:
+            df.loc[d, [column_to_be_imputed]] = master_data.df_kbv.loc[week_number, "kbv_eto"]
+            for description in UNREDEEMABLE:
+                if description in df.loc[d, "description"]:
+                    break
+            else:
+                df.loc[d, "binary_value"] = 0  # we have 'salvaged' an entry.
+                df.loc[d, "description"] = df.loc[d, "description"].replace(ETO_STUCK_DESC, IMPUTED_ETO)
+        except KeyError:
+            df.loc[d, column_to_be_imputed] = np.nan
+    return df
+
+
+def impute_kbv_data(df, bad_eto_days):
+    return kbv_imputer(flagged_dates=bad_eto_days, df=df, column_to_be_imputed="eto")
+
+
+def flag_rain_events(df):
+    condition = (df["rain"] > 2)
+    bad_rain_dates = df[condition].index
+    flagger(bad_dates=bad_rain_dates, brief_desc=RAIN_DESC, df=df, bin_value=1)
+    reporter(df=df, brief_desc=RAIN_DESC)
+    return df
+
+
+def flag_irrigation_events(df):
+    conditions = (df["total_irrig"] > 0) & (df["etcp"] > 0.5*df["etc"]) & (df["rain"] == 0)
+    flag_irrigation_dates = df[conditions].index
+    flagger(bad_dates=flag_irrigation_dates, brief_desc=IRR_DESC, df=df)
+    reporter(df=df, brief_desc=IRR_DESC)
+    return df
 
 
 def flag_simulated_events(df):
     condition = df["rzm_source"].str.contains("software")
     flag_software_dates = df[condition].index
-
-    flagger(bad_dates=flag_software_dates, brief_desc=SIMUL_DESC, df=df)
-
-
-def flag_irrigation_events(df):
-    df_irr = df.filter(["total_irrig"], axis=1)
-
-    conditions = (df_irr["total_irrig"] > 0) & (df["etcp"] > 0) & (df["rain"] == 0)
-    flag_irrigation_dates = df[conditions].index
-
-    flagger(bad_dates=flag_irrigation_dates, brief_desc=IRR_DESC, df=df)
+    flagger(bad_dates=flag_software_dates, brief_desc=SIMUL_DESC, df=df, bin_value=1)
+    reporter(df=df, brief_desc=SIMUL_DESC)
+    return df
 
 
 def flag_suspicious_and_missing_profile_events(df):
-    df_profile = df.filter(["profile"], axis=1)
-    df_profile["difference"] = df_profile["profile"].diff()
+    df["profile"].replace(0.0, np.nan, inplace=True)
+    condition = df["profile"].isnull()
+    bad_profile_days = df[condition].index
+    flagger(bad_dates=bad_profile_days, brief_desc=NULL_PROFILE_DESC, df=df, bin_value=1)
+    reporter(df=df, brief_desc=NULL_PROFILE_DESC)
 
-    df_profile["profile"].replace(0.0, np.nan, inplace=True)
-    condition = df_profile["profile"].isnull()
-    bad_profile_days = df_profile[condition].index
-    flagger(bad_dates=bad_profile_days, brief_desc=NULL_PROFILE_DESC, df=df)
-
-    huge_dip_days = []
-    for d in df_profile.index:
+    df["profile_difference"] = df["profile"].diff()
+    data_blip_days = []
+    for d in df.index:
         try:
-            if (df_profile.loc[d, "difference"] < 0) and pd.isnull(df_profile.loc[d + DAY, "profile"]):
-                huge_dip_days.append(d)
+            if (df.loc[d, "profile_difference"] < 0) and pd.isnull(df.loc[d + DAY, "profile"]):
+                data_blip_days.append(d)
         except KeyError:
             pass
-    huge_dip_days = pd.to_datetime(huge_dip_days)
-    flagger(bad_dates=huge_dip_days, brief_desc=HUGE_PROFILE_DIP_DESC, df=df)
-    df_profile.loc[huge_dip_days, ["profile"]] = np.nan
-    df.loc[huge_dip_days, ["profile"]] = np.nan
+    data_blip_days = pd.to_datetime(data_blip_days)
+    flagger(bad_dates=data_blip_days, brief_desc=DATA_BLIP_DESC, df=df, bin_value=1)
+    reporter(df=df, brief_desc=DATA_BLIP_DESC)
 
-    df_profile.loc[huge_dip_days, ["difference"]] = np.nan
-    negative_differences = df_profile[df_profile["difference"] < 0]["difference"].values
-    percentile_value = np.quantile(negative_differences, q=[0.01, 0.015, 0.02])[2]
+    df.loc[data_blip_days, ["profile_difference"]] = np.nan
+    negative_differences = df[df["profile_difference"] < 0]["profile_difference"].values
+    percentile_value = np.quantile(negative_differences, q=[0.01, 0.02, 0.03, 0.04, 0.05,
+                                                            0.06, 0.07, 0.08, 0.09, 0.10])[4]
     large_dip_days = []
-    for d in df_profile.index:
+    for d in df.index:
         try:
-            if (df_profile.loc[d, "difference"] < percentile_value) and (df_profile.loc[d + DAY, "difference"] > 0):
+            if (df.loc[d, "profile_difference"] < percentile_value) and (df.loc[d + DAY, "profile_difference"] > 0):
                 large_dip_days.append(d)
         except KeyError:
             pass
     large_dip_days = pd.to_datetime(large_dip_days)
-    flagger(bad_dates=large_dip_days, brief_desc=LARGE_PROFILE_DIP_DESC, df=df)
-    df_profile.loc[large_dip_days, ["profile"]] = np.nan
-    df.loc[large_dip_days, ["profile"]] = np.nan
+    flagger(bad_dates=large_dip_days, brief_desc=LARGE_PROFILE_DIP_DESC, df=df, bin_value=1)
+    reporter(df=df, brief_desc=LARGE_PROFILE_DIP_DESC)
+    return df
 
 
 def flag_spurious_heat_units(df):
-    df_gdd = df.filter(["heat_units"], axis=1)
-    df_gdd["hu_diff1"] = df_gdd["heat_units"].diff(periods=1)
-    df_gdd["hu_diff2"] = df_gdd["heat_units"].diff(periods=2)
-    condition = (df_gdd["hu_diff1"] == 0.0) | (df_gdd["hu_diff2"] == 0)
-    bad_hu_days = df_gdd[condition].index
-    flagger(bad_dates=bad_hu_days, brief_desc=HU_STUCK_DESC, df=df)
-    df_gdd.loc[bad_hu_days, ["heat_units"]] = 0.0
+    df["hu_diff1"] = df["heat_units"].diff(periods=1)
+    df["hu_diff2"] = df["heat_units"].diff(periods=2)
+    condition = (df["hu_diff1"] == 0.0) | (df["hu_diff2"] == 0)
+    bad_hu_days = df[condition].index
+    flagger(bad_dates=bad_hu_days, brief_desc=HU_STUCK_DESC, df=df, bin_value=0)
+    reporter(df=df, brief_desc=HU_STUCK_DESC)
     df.loc[bad_hu_days, ["heat_units"]] = 0.0
-
-
-def flag_spurious_et0(df):
-    df_et0 = df.filter(["et0"], axis=1)
-    df_et0["et0_diff1"] = df_et0["et0"].diff(periods=1)
-    df_et0["et0_diff2"] = df_et0["et0"].diff(periods=2)
-    condition = (df_et0["et0_diff1"] == 0.0) | (df_et0["et0_diff2"] == 0)
-    bad_et0_days = df_et0[condition].index
-    flagger(bad_dates=bad_et0_days, brief_desc=ET0_STUCK_DESC, df=df)
-    df_et0.loc[bad_et0_days, ["et0"]] = np.nan
-    df.loc[bad_et0_days, ["et0"]] = np.nan
+    df.loc[bad_hu_days, ["heat_units"]] = 0.0
+    return df
 
 
 def flag_unwanted_etcp(df):
-    df_etcp = df.filter(["etcp"], axis=1)
-
-    condition = df_etcp["etcp"] >= 0.0
-    positive_etcp_days = df_etcp[condition].index
-    flagger(bad_dates=positive_etcp_days, brief_desc=ETCP_POS_DESC, df=df)
-    df_etcp.loc[positive_etcp_days, ["etcp"]] = np.nan
-    df.loc[positive_etcp_days, ["etcp"]] = np.nan
+    condition = df["etcp"] >= 0.0
+    positive_etcp_days = df[condition].index
+    flagger(bad_dates=positive_etcp_days, brief_desc=ETCP_POS_DESC, df=df, bin_value=1)
+    reporter(df=df, brief_desc=ETCP_POS_DESC)
 
     condition = df["binary_value"] == 1
     junk_data_dates = df[condition].index
-    df_etcp.loc[junk_data_dates, ["etcp"]] = np.nan
     df.loc[junk_data_dates, ["etcp"]] = np.nan
 
-    # to simply programming, multiply `etcp` column with -1
-    df_etcp["etcp"] = df_etcp["etcp"].multiply(-1, fill_value=np.nan)
+    # to simplify programming, multiply `etcp` column with -1
     df["etcp"] = df["etcp"].multiply(-1, fill_value=np.nan)
 
-    condition = df_etcp["etcp"] > ETCP_MAX
-    etcp_outlier_dates = df_etcp[condition].index
-    df_etcp.loc[etcp_outlier_dates, ["etcp"]] = np.nan
+    condition = df["etcp"] > ETCP_MAX
+    etcp_outlier_dates = df[condition].index
     df.loc[etcp_outlier_dates, ["etcp"]] = np.nan
-    flagger(bad_dates=etcp_outlier_dates, brief_desc=ETCP_OUTLIERS_DESC, df=df)
+    flagger(bad_dates=etcp_outlier_dates, brief_desc=ETCP_OUTLIERS_DESC, df=df, bin_value=1)
+    reporter(df=df, brief_desc=ETCP_OUTLIERS_DESC)
 
-    condition = df_etcp["etcp"] > df["et0"].mul(KCP_MAX, fill_value=np.nan)
-    luxurious_dates = df_etcp[condition].index
-    df_etcp.loc[luxurious_dates, ["etcp"]] = np.nan
+    condition = df["etcp"] > df["eto"].mul(KCP_MAX, fill_value=np.nan)
+    luxurious_dates = df[condition].index
     df.loc[luxurious_dates, ["etcp"]] = np.nan
-    flagger(bad_dates=luxurious_dates, brief_desc=LUX_DESC, df=df)
+    flagger(bad_dates=luxurious_dates, brief_desc=LUX_DESC, df=df, bin_value=1)
+    reporter(df=df, brief_desc=LUX_DESC)
+    return df
+
+
+def calculate_kcp_deviation(dataframe):
+    dataframe["kcp_perc_deviation"] = 0.0
+    for d in dataframe.index:
+        month_from_datetime = d.month
+        associated_kcp_norm = master_data.accepted_kcp_norm.loc[month_from_datetime, "norm_kcp"]
+        empirical_kcp = dataframe.loc[d, "kcp"]
+        perc_deviation = np.abs((empirical_kcp - associated_kcp_norm)/associated_kcp_norm) * 100.0
+        dataframe.loc[d, ["kcp_perc_deviation"]] = perc_deviation
+    return dataframe["kcp_perc_deviation"]
+
+
+def flag_unwanted_kcp(df):
+    df["kcp"] = df["etcp"].div(df["eto"])
+    perc_series = calculate_kcp_deviation(df)
+    condition = (perc_series.isnull()) | (perc_series > 50)
+    bad_calc_kcp_dates = df[condition].index
+    df.loc[bad_calc_kcp_dates, "kcp"] = np.nan
+    flagger(bad_dates=bad_calc_kcp_dates, brief_desc=BAD_KCP_DESC, df=df, bin_value=1)
+    reporter(df=df, brief_desc=BAD_KCP_DESC, remaining=True)
+    return df
+
+
+def get_final_dates(df):
+    condition = df["binary_value"] == 0
+    useful_dates = df[condition].index
+    starting_year = useful_dates[0].year
+    new_dates = []
+    for d in useful_dates:
+        extracted_month = d.month
+        if 8 <= extracted_month <= 12:
+            new_dates.append(datetime.datetime(year=starting_year, month=d.month, day=d.day))
+        else:
+            new_dates.append(datetime.datetime(year=starting_year + 1, month=d.month, day=d.day))
+    return starting_year, new_dates
