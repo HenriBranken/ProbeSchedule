@@ -28,7 +28,8 @@ IMPUTED_ETO = "Imputed eto"
 REDEEMABLE = [HU_STUCK_DESC, ETO_STUCK_DESC, ETC_STUCK_DESC, IMPUTED_ETO]
 
 ETO_MAX = 12
-KCP_MAX = 0.8
+# KCP_MAX = 0.8
+KCP_MAX = 0.95
 ETCP_MAX = ETO_MAX * KCP_MAX
 
 
@@ -218,7 +219,7 @@ def flag_unwanted_etcp(df):
     flagger(bad_dates=etcp_outlier_dates, brief_desc=ETCP_OUTLIERS_DESC, df=df, bin_value=1)
     reporter(df=df, brief_desc=ETCP_OUTLIERS_DESC)
 
-    condition = df["etcp"] > df["eto"].mul(KCP_MAX, fill_value=np.nan)
+    condition = df["etcp"] > df["eto"].mul((KCP_MAX + 0.3), fill_value=np.nan)
     luxurious_dates = df[condition].index
     df.loc[luxurious_dates, ["etcp"]] = np.nan
     flagger(bad_dates=luxurious_dates, brief_desc=LUX_DESC, df=df, bin_value=1)
@@ -240,7 +241,7 @@ def calculate_kcp_deviation(dataframe):
 def flag_unwanted_kcp(df):
     df["kcp"] = df["etcp"].div(df["eto"])
     perc_series = calculate_kcp_deviation(df)
-    condition = (perc_series.isnull()) | (perc_series > 50)
+    condition = (perc_series.isnull()) | (perc_series > 50) | df["kcp"].isnull()
     bad_calc_kcp_dates = df[condition].index
     df.loc[bad_calc_kcp_dates, "kcp"] = np.nan
     flagger(bad_dates=bad_calc_kcp_dates, brief_desc=BAD_KCP_DESC, df=df, bin_value=1)
@@ -255,8 +256,8 @@ def get_final_dates(df):
     new_dates = []
     for d in useful_dates:
         extracted_month = d.month
-        if 8 <= extracted_month <= 12:
+        if 7 <= extracted_month <= 12:
             new_dates.append(datetime.datetime(year=starting_year, month=d.month, day=d.day))
         else:
             new_dates.append(datetime.datetime(year=starting_year + 1, month=d.month, day=d.day))
-    return starting_year, new_dates
+    return starting_year, new_dates, useful_dates
