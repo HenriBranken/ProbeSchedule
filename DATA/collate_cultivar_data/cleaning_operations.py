@@ -28,8 +28,8 @@ IMPUTED_ETO = "Imputed eto"
 REDEEMABLE = [HU_STUCK_DESC, ETO_STUCK_DESC, ETC_STUCK_DESC, IMPUTED_ETO]
 
 ETO_MAX = 12
-# KCP_MAX = 0.8
-KCP_MAX = 0.95
+KCP_MAX = 0.8
+# KCP_MAX = 0.95
 ETCP_MAX = ETO_MAX * KCP_MAX
 
 
@@ -219,7 +219,7 @@ def flag_unwanted_etcp(df):
     flagger(bad_dates=etcp_outlier_dates, brief_desc=ETCP_OUTLIERS_DESC, df=df, bin_value=1)
     reporter(df=df, brief_desc=ETCP_OUTLIERS_DESC)
 
-    condition = df["etcp"] > df["eto"].mul((KCP_MAX + 0.3), fill_value=np.nan)
+    condition = df["etcp"] > df["eto"].mul(KCP_MAX, fill_value=np.nan)
     luxurious_dates = df[condition].index
     df.loc[luxurious_dates, ["etcp"]] = np.nan
     flagger(bad_dates=luxurious_dates, brief_desc=LUX_DESC, df=df, bin_value=1)

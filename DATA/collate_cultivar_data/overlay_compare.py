@@ -3,9 +3,10 @@ import pickle
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import datetime
-import time
 from master_data import accepted_kcp_norm
 import pandas as pd
+from pandas.plotting import register_matplotlib_converters
+register_matplotlib_converters()
 
 with open("./data_to_plot", "rb") as f:
     data_to_plot = pickle.load(f)
@@ -59,6 +60,7 @@ df["days"] = df["offset"].dt.days
 df.sort_values(by="days", axis=0, inplace=True)
 print(df.head())
 print(df.info())
+df.to_excel("kcp_vs_dates.xlsx", sheet_name="sheet_1", header=True, index=True, index_label=True)
 # z = np.polyfit(x=df["days"].values, y=df["kcp"].values, deg=2)
 # print(z)
 
