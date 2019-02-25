@@ -3,10 +3,12 @@ import datetime
 import pandas as pd
 import master_data
 
+# ----------------------------------------------------------------------------------------------------------------------
 # Definitions of certain constants
+# ----------------------------------------------------------------------------------------------------------------------
 DAY = datetime.timedelta(days=1)
 
-# The following are "irredeemable"
+# The following events are "irredeemable"
 RAIN_DESC = "Rain perturbing etcp"
 SIMUL_DESC = "Software simulation"
 IRR_DESC = "Irrigation perturbing etcp"
@@ -20,7 +22,7 @@ BAD_KCP_DESC = "Unacceptable kcp"
 UNREDEEMABLE = [RAIN_DESC, SIMUL_DESC, IRR_DESC, NULL_PROFILE_DESC, DATA_BLIP_DESC,
                 LARGE_PROFILE_DIP_DESC, ETCP_POS_DESC, ETCP_OUTLIERS_DESC, LUX_DESC, BAD_KCP_DESC]
 
-# The following  are "redeemable"
+# The following events are "redeemable"
 HU_STUCK_DESC = "Heat Units `stuck`"
 ETO_STUCK_DESC = "Eto `stuck`"
 ETC_STUCK_DESC = "Stuck etc due to stuck eto"
@@ -29,21 +31,28 @@ REDEEMABLE = [HU_STUCK_DESC, ETO_STUCK_DESC, ETC_STUCK_DESC, IMPUTED_ETO]
 
 ETO_MAX = 12
 KCP_MAX = 0.8
-# KCP_MAX = 0.95
 ETCP_MAX = ETO_MAX * KCP_MAX
+BEGINNING_MONTH = 7
+# ----------------------------------------------------------------------------------------------------------------------
 
 
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Define some helper functions
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 def flagger(bad_dates, brief_desc, df, bin_value=0):
     """
         Flag bad_dates with a binary value of 1 and append a brief description about why bad_dates were flagged.
 
         Parameters:
-        bad_dates (pandas.core.indexes.datetimes.DatetimeIndex):  Dates for which we cannot calculate k_cp because our readings were perturbed and rendered unuseful.
+        bad_dates (pandas.core.indexes.datetimes.DatetimeIndex):  Dates for which we cannot calculate k_cp because our
+        readings were perturbed and rendered unuseful.
         brief_desc (str):  A very short description about why bad_dates were flagged.
-        bin_value (int):  The binary value.  If Eto is imputed, Etc and heat_units are stuck, we can still get away with a new calculation of kcp; thus set binary_value=0 for such redeemable events.
+        bin_value (int):  The binary value.  If Eto is imputed, Etc and heat_units are stuck, we can still get away with
+        a new calculation of kcp; thus set binary_value=0 for such redeemable events.
 
         Returns:
-        None.  It updates the DataFrame storing all the information related to flagging.  In this case the DataFrame is called `df`
+        None.  It updates the DataFrame storing all the information related to flagging.  In this case the DataFrame is
+        called `df`
         """
     if df.loc[bad_dates, "description"].str.contains(brief_desc).all(axis=0):
         # The bad_dates have already been flagged for the reason given in brief_desc.
@@ -82,9 +91,8 @@ def reporter(df, brief_desc, remaining=False):
 
     if remaining:
         calc = 100 - df["binary_value"].sum() / len(df.index) * 100
-        print(
-            "After all the flagging that has taken place in this entire notebook, only {:.0f}% of your data is useful.".format(
-                calc))
+        print("After all the flagging that has taken place for this probe data-set,"
+              " only {:.0f}% of your data is useful.".format(calc))
 
 
 def drop_redundant_columns(df):
@@ -94,6 +102,21 @@ def drop_redundant_columns(df):
     return df
 
 
+def calculate_kcp_deviation(df):
+    df["kcp_perc_deviation"] = 0.0
+    for d in df.index:
+        month_from_datetime = d.month
+        associated_kcp_norm = master_data.accepted_kcp_norm.loc[month_from_datetime, "norm_kcp"]
+        empirical_kcp = df.loc[d, "kcp"]
+        perc_deviation = np.abs((empirical_kcp - associated_kcp_norm)/associated_kcp_norm) * 100.0
+        df.loc[d, ["kcp_perc_deviation"]] = perc_deviation
+    return df["kcp_perc_deviation"]
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+# ======================================================================================================================
+# Define all the flagging functions
+# ======================================================================================================================
 def flag_spurious_eto(df):
     df["eto_diff1"] = df["eto"].diff(periods=1)
     df["eto_diff2"] = df["eto"].diff(periods=2)
@@ -227,17 +250,6 @@ def flag_unwanted_etcp(df):
     return df
 
 
-def calculate_kcp_deviation(dataframe):
-    dataframe["kcp_perc_deviation"] = 0.0
-    for d in dataframe.index:
-        month_from_datetime = d.month
-        associated_kcp_norm = master_data.accepted_kcp_norm.loc[month_from_datetime, "norm_kcp"]
-        empirical_kcp = dataframe.loc[d, "kcp"]
-        perc_deviation = np.abs((empirical_kcp - associated_kcp_norm)/associated_kcp_norm) * 100.0
-        dataframe.loc[d, ["kcp_perc_deviation"]] = perc_deviation
-    return dataframe["kcp_perc_deviation"]
-
-
 def flag_unwanted_kcp(df):
     df["kcp"] = df["etcp"].div(df["eto"])
     perc_series = calculate_kcp_deviation(df)
@@ -247,8 +259,12 @@ def flag_unwanted_kcp(df):
     flagger(bad_dates=bad_calc_kcp_dates, brief_desc=BAD_KCP_DESC, df=df, bin_value=1)
     reporter(df=df, brief_desc=BAD_KCP_DESC, remaining=True)
     return df
+# ======================================================================================================================
 
 
+# ----------------------------------------------------------------------------------------------------------------------
+# Define a function that wraps all the dates into 1 Season interval
+# ----------------------------------------------------------------------------------------------------------------------
 def get_final_dates(df):
     condition = df["binary_value"] == 0
     useful_dates = df[condition].index
@@ -256,8 +272,9 @@ def get_final_dates(df):
     new_dates = []
     for d in useful_dates:
         extracted_month = d.month
-        if 7 <= extracted_month <= 12:
+        if BEGINNING_MONTH <= extracted_month <= 12:
             new_dates.append(datetime.datetime(year=starting_year, month=d.month, day=d.day))
         else:
             new_dates.append(datetime.datetime(year=starting_year + 1, month=d.month, day=d.day))
     return starting_year, new_dates, useful_dates
+# ----------------------------------------------------------------------------------------------------------------------
