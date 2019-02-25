@@ -2,26 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="49ef9e0d-250f-43a7-a4f1-33f52ead0df1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/henri.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/get_trends_from_stacked_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Golden_Delicious_probe_data.xlsx" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/binning_trend_line.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/P-370.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P-371.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P-372.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P-384.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P-391.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P-392.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P-891.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cleaning_operations.py" beforeDir="false" afterPath="$PROJECT_DIR$/cleaning_operations.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kcp_vs_dates.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/master_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/master_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/overlay.png" beforeDir="false" afterPath="$PROJECT_DIR$/overlay.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/overlay01.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/overlay02.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/overlay03.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/overlay_compare.py" beforeDir="false" afterPath="$PROJECT_DIR$/overlay_compare.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -70,7 +52,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/overlay_compare.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="472">
+            <state relative-caret-position="513">
               <caret line="93" column="26" selection-start-line="93" selection-start-column="26" selection-end-line="93" selection-end-column="26" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
@@ -79,13 +61,25 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/get_trends_from_stacked_data.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="484">
-              <caret line="22" column="45" selection-start-line="22" selection-start-column="45" selection-end-line="22" selection-end-column="45" />
+            <state relative-caret-position="352">
+              <caret line="130" column="114" lean-forward="true" selection-start-line="130" selection-start-column="31" selection-end-line="130" selection-end-column="114" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/binning_trend_line.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="579">
+              <caret line="66" lean-forward="true" selection-start-line="66" selection-end-line="66" />
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -128,6 +122,7 @@
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/get_trends_from_stacked_data.py" />
         <option value="$PROJECT_DIR$/overlay_compare.py" />
+        <option value="$PROJECT_DIR$/binning_trend_line.py" />
       </list>
     </option>
   </component>
@@ -174,7 +169,28 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.overlay_compare">
+  <component name="RunManager" selected="Python.binning_trend_line">
+    <configuration name="binning_trend_line" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="collate_cultivar_data" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/binning_trend_line.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="get_trends_from_stacked_data" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="collate_cultivar_data" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -240,6 +256,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.binning_trend_line" />
         <item itemvalue="Python.overlay_compare" />
         <item itemvalue="Python.get_trends_from_stacked_data" />
         <item itemvalue="Python.main" />
@@ -277,7 +294,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.25241676" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.20837809" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39957035" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -307,16 +324,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
           <caret line="17" selection-start-line="17" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/overlay_compare.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="472">
-          <caret line="93" column="26" selection-start-line="93" selection-start-column="26" selection-end-line="93" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -350,12 +357,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/get_trends_from_stacked_data.py">
+    <entry file="file://$PROJECT_DIR$/overlay_compare.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="484">
-          <caret line="22" column="45" selection-start-line="22" selection-start-column="45" selection-end-line="22" selection-end-column="45" />
+        <state relative-caret-position="513">
+          <caret line="93" column="26" selection-start-line="93" selection-start-column="26" selection-end-line="93" selection-end-column="26" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/get_trends_from_stacked_data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="130" column="114" lean-forward="true" selection-start-line="130" selection-start-column="31" selection-end-line="130" selection-end-column="114" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/binning_trend_line.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="579">
+          <caret line="66" lean-forward="true" selection-start-line="66" selection-end-line="66" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
