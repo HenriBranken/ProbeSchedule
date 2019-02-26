@@ -13,7 +13,7 @@ from cleaning_operations import BEGINNING_MONTH, KCP_MAX
 # Import all the necessary data
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Load the serialised data that were saved in `main.py`, and unpickle it
-with open("./data_to_plot", "rb") as f:
+with open("data/data_to_plot", "rb") as f:
     data_to_plot = pickle.load(f)
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -55,7 +55,7 @@ df["days"] = df["offset"].dt.days
 
 # Sort the whole DataFrame by the `days` column in ascending order
 df.sort_values(by="days", axis=0, inplace=True)
-df.to_excel("kcp_vs_days.xlsx", sheet_name="sheet_1", header=True, index=True, index_label=True,
+df.to_excel("data/kcp_vs_days.xlsx", sheet_name="sheet_1", header=True, index=True, index_label=True,
             columns=["days", "kcp"])
 
 # Store `days` and `kcp` columns in numpy array (of type float)
@@ -63,7 +63,7 @@ df.to_excel("kcp_vs_days.xlsx", sheet_name="sheet_1", header=True, index=True, i
 days = np.reshape(df.loc[:, "days"].values, newshape=(-1, 1)).astype(dtype=float)
 kcp = np.reshape(df.loc[:, "kcp"].values, newshape=(-1, 1))
 data_np_array = np.hstack((days, kcp))
-np.save("kcp_vs_days_data", data_np_array)
+np.save("data/kcp_vs_days_data", data_np_array)
 # ----------------------------------------------------------------------------------------------------------------------
 
 
@@ -100,7 +100,7 @@ for highest_order in [2, 3]:
     ax.plot(linspaced_x, p(linspaced_x), label="Order-{} Polynomial Fit".format(highest_order))
 ax.legend()
 plt.tight_layout()
-plt.savefig("./fit_kcp_versus_days.png")
+plt.savefig("figures/fit_kcp_versus_days.png")
 # ======================================================================================================================
 
 
@@ -133,9 +133,9 @@ ax.plot(datetime_linspaced, trend(linspaced_x), label="Order-2 Polynomial Fit")
 ax.legend()
 fig.autofmt_xdate()  # rotate and align the tick labels so they look better
 plt.tight_layout()
-plt.savefig("./fit_kcp_versus_month.png")
+plt.savefig("figures/fit_kcp_versus_month.png")
 
 datetimestamp = np.reshape(datetime_linspaced, newshape=(-1, 1))
 kcp = np.reshape(trend(linspaced_x), newshape=(-1, 1))
-np.save("daily_trend_of_kcp_vs_datetime", np.hstack((datetimestamp, kcp)))
+np.save("data/daily_trend_of_kcp_vs_datetime", np.hstack((datetimestamp, kcp)))
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

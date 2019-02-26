@@ -1,6 +1,7 @@
 import pandas as pd
 import pickle
 import cleaning_operations
+import os
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -88,10 +89,13 @@ for probe_id in probe_ids:
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Save all the cleaned data to file
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-with open("./data_to_plot", "wb") as f:
+if not os.path.exists("./data"):
+    os.makedirs("./data")
+
+with open("data/data_to_plot", "wb") as f:
     pickle.dump(data_to_plot, f)
 
-with open("./probe_ids.txt", "w", encoding="utf-8") as f2:
+with open("data/probe_ids.txt", "w", encoding="utf-8") as f2:
     f2.write("\n".join(probe_ids))
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

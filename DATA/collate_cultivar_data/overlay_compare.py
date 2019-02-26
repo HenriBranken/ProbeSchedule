@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import pickle
 import matplotlib.pyplot as plt
@@ -14,11 +15,11 @@ register_matplotlib_converters()
 # Import all the necessary data
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Load the serialised data that were saved in `main.py`, and unpickle it
-with open("./data_to_plot", "rb") as f:
+with open("data/data_to_plot", "rb") as f:
     data_to_plot = pickle.load(f)
 
 # Get a list of all the Probe-IDs involved for the cultivar
-with open("./probe_ids.txt", "r") as f2:
+with open("data/probe_ids.txt", "r") as f2:
     probe_ids = f2.readlines()
 probe_ids = [x.strip() for x in probe_ids]
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -65,6 +66,9 @@ def convert_master_data():
 # Plot all the data and save the plotted figure
 # In addition to making the scatter plots, also plot the Master kcp data from the Perennial spreadsheet
 # ======================================================================================================================
+if not os.path.exists("./figures"):
+    os.makedirs("figures")
+
 starting_year = get_starting_year()  # extract the starting year
 
 # Create some meta data that will be used in the upcoming scatter plots
@@ -91,5 +95,5 @@ ax.plot(wrapped_dates, wrapped_kcps, linewidth=2, label="Master Perennial Data")
 ax.legend()
 fig.autofmt_xdate()  # rotate and align the tick labels so they look better
 plt.tight_layout()
-plt.savefig("overlay.png")
+plt.savefig("figures/overlay.png")
 # ======================================================================================================================
