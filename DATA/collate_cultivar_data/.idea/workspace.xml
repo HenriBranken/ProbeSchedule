@@ -2,22 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="49ef9e0d-250f-43a7-a4f1-33f52ead0df1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/plotting_binned_kcp_trends.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/7_day_kcp_averages_vs_date.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/binning_trend_line.py" beforeDir="false" afterPath="$PROJECT_DIR$/binning_trend_line.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/daily_trend_of_kcp_vs_datetime.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_to_plot" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fit_kcp_versus_days.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fit_kcp_versus_month.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/binned_kcp_data.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/binned_kcp_data.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/daily_trend_of_kcp_vs_datetime.npy" beforeDir="false" afterPath="$PROJECT_DIR$/data/daily_trend_of_kcp_vs_datetime.npy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/kcp_vs_days.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/kcp_vs_days.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/figures/fit_kcp_versus_days.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/fit_kcp_versus_days.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/figures/fit_kcp_versus_month.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/fit_kcp_versus_month.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/figures/kcp_binning_strategies.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/kcp_binning_strategies.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/get_trends_from_stacked_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/get_trends_from_stacked_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kcp_vs_days.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kcp_vs_days_data.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/overlay.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/overlay_compare.py" beforeDir="false" afterPath="$PROJECT_DIR$/overlay_compare.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/probe_ids.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/weekly_kcp_trend.npy" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,7 +22,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/master_data.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
+            <state relative-caret-position="110">
               <caret line="6" column="27" selection-start-line="6" selection-start-column="27" selection-end-line="6" selection-end-column="27" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
@@ -42,7 +34,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cleaning_operations.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-12">
+            <state relative-caret-position="154">
               <caret line="10" column="41" selection-start-line="10" selection-start-column="41" selection-end-line="10" selection-end-column="41" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
@@ -54,7 +46,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="447">
+            <state relative-caret-position="1980">
               <caret line="93" selection-start-line="93" selection-end-line="93" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
@@ -66,8 +58,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/overlay_compare.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="557">
-              <caret line="99" lean-forward="true" selection-start-line="99" selection-end-line="99" />
+            <state relative-caret-position="1958">
+              <caret line="99" selection-start-line="99" selection-end-line="99" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -78,8 +70,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/get_trends_from_stacked_data.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="57" column="18" selection-start-line="57" selection-start-column="18" selection-end-line="57" selection-end-column="18" />
+            <state relative-caret-position="3300">
+              <caret line="158" column="25" selection-start-line="158" selection-start-column="25" selection-end-line="158" selection-end-column="25" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -90,7 +82,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/binning_trend_line.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="205">
+            <state relative-caret-position="3476">
               <caret line="161" column="29" selection-start-line="161" selection-start-column="29" selection-end-line="161" selection-end-column="29" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
@@ -102,8 +94,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/plotting_binned_kcp_trends.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="513">
-              <caret line="76" column="20" selection-start-line="76" selection-start-column="20" selection-end-line="76" selection-end-column="20" />
+            <state relative-caret-position="946">
+              <caret line="43" column="51" selection-start-line="43" selection-start-column="51" selection-end-line="43" selection-end-column="51" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -129,11 +121,13 @@
       <find>dataframe</find>
       <find>kcp_month_values</find>
       <find>kcp_vs_calendar_month</find>
+      <find>trend_values</find>
     </findStrings>
     <replaceStrings>
       <replace>df</replace>
       <replace>kcp_vs_calendar_month</replace>
       <replace>kcp_vs_calendar_month_dict</replace>
+      <replace>fitted_trend_values</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -151,9 +145,9 @@
         <option value="$PROJECT_DIR$/master_data.py" />
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/overlay_compare.py" />
-        <option value="$PROJECT_DIR$/get_trends_from_stacked_data.py" />
         <option value="$PROJECT_DIR$/binning_trend_line.py" />
         <option value="$PROJECT_DIR$/plotting_binned_kcp_trends.py" />
+        <option value="$PROJECT_DIR$/get_trends_from_stacked_data.py" />
       </list>
     </option>
   </component>
@@ -340,14 +334,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="25" width="1920" height="1055" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.113804005" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.20837809" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.20837809" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39957035" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -367,12 +360,8 @@
     <option name="LAST_COMMIT_MESSAGE" value="Added a module for making polynomial fits to the cleaned data scatter plot." />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/P-370.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/probe_ids.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/P-370.png" />
+    <entry file="file://$PROJECT_DIR$/probe_ids.txt" />
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_imps/_pydev_execfile.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
@@ -380,20 +369,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cleaning_operations.py">
+    <entry file="file://$PROJECT_DIR$/master_data.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-12">
-          <caret line="10" column="41" selection-start-line="10" selection-start-column="41" selection-end-line="10" selection-end-column="41" />
+        <state relative-caret-position="110">
+          <caret line="6" column="27" selection-start-line="6" selection-start-column="27" selection-end-line="6" selection-end-column="27" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/master_data.py">
+    <entry file="file://$PROJECT_DIR$/cleaning_operations.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="6" column="27" selection-start-line="6" selection-start-column="27" selection-end-line="6" selection-end-column="27" />
+        <state relative-caret-position="154">
+          <caret line="10" column="41" selection-start-line="10" selection-start-column="41" selection-end-line="10" selection-end-column="41" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
@@ -402,7 +391,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="447">
+        <state relative-caret-position="1980">
           <caret line="93" selection-start-line="93" selection-end-line="93" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
@@ -412,8 +401,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/overlay_compare.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="557">
-          <caret line="99" lean-forward="true" selection-start-line="99" selection-end-line="99" />
+        <state relative-caret-position="1958">
+          <caret line="99" selection-start-line="99" selection-end-line="99" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
@@ -422,8 +411,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/get_trends_from_stacked_data.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="57" column="18" selection-start-line="57" selection-start-column="18" selection-end-line="57" selection-end-column="18" />
+        <state relative-caret-position="3300">
+          <caret line="158" column="25" selection-start-line="158" selection-start-column="25" selection-end-line="158" selection-end-column="25" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
@@ -432,7 +421,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/binning_trend_line.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
+        <state relative-caret-position="3476">
           <caret line="161" column="29" selection-start-line="161" selection-start-column="29" selection-end-line="161" selection-end-column="29" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
@@ -442,8 +431,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/plotting_binned_kcp_trends.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="76" column="20" selection-start-line="76" selection-start-column="20" selection-end-line="76" selection-end-column="20" />
+        <state relative-caret-position="946">
+          <caret line="43" column="51" selection-start-line="43" selection-start-column="51" selection-end-line="43" selection-end-column="51" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>

@@ -8,6 +8,38 @@ import pandas as pd
 import calendar
 from cleaning_operations import BEGINNING_MONTH, KCP_MAX
 
+# ----------------------------------------------------------------------------------------------------------------------
+# Declare important constants
+# ----------------------------------------------------------------------------------------------------------------------
+polynomial_orders = [2, 3]
+# ----------------------------------------------------------------------------------------------------------------------
+
+
+# ======================================================================================================================
+# Define a helper function
+# ======================================================================================================================
+def rectify_trend(fitted_trend_values):
+    if all(ii > 0 for ii in fitted_trend_values):
+        return fitted_trend_values
+    else:
+        negative_indices = np.where(fitted_trend_values <= 0)[0]  # identify all the negative indices
+        last_positive_index = negative_indices[0] - 1  # identify the last possible index having a positive value
+        for neg_ind in negative_indices:  # loop over all the negative indices
+            fitted_trend_values[neg_ind] = fitted_trend_values[last_positive_index]  # rectify the trend values
+        return fitted_trend_values
+
+
+def get_r_squared(x_vals, y_vals, degree):
+    coeffs = np.polyfit(x_vals, y_vals, degree)
+    pol = np.poly1d(coeffs)
+    yhat = pol(x_vals)
+    ybar = np.sum(y_vals)/len(y_vals)
+    ssreg = np.sum((yhat - ybar)**2)
+    sstot = np.sum((y - ybar)**2)
+    rsquared = ssreg / sstot
+    return coeffs, rsquared
+# ======================================================================================================================
+
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Import all the necessary data
@@ -75,6 +107,7 @@ np.save("data/kcp_vs_days_data", data_np_array)
 x = np.array(data_np_array[:, 0], dtype=float)
 y = np.array(data_np_array[:, 1], dtype=float)
 
+saved_trend_lines = []
 # Set the plotting meta-data, etc...
 fig, ax = plt.subplots(figsize=(10, 5))
 ax.set_xlabel("$n$ Days into the Season")
@@ -84,20 +117,24 @@ loc = plticker.MultipleLocator(base=30)  # The spacing between the major-gridlin
 ax.xaxis.set_major_locator(loc)
 ax.grid(True)
 ax.set_xlim(left=0, right=365)
-ax.set_ylim(bottom=0.05, top=KCP_MAX + 0.05)
+ax.set_ylim(bottom=0, top=KCP_MAX + 0.05)
 ax.scatter(x, y, c="magenta", marker=".", edgecolors="black", alpha=0.5, label="Cleaned Probe Data")
 
 fit_coeffs = []  # instantiate an empty list that will contain the coefficients of the np.polyfit executions
 linspaced_x = np.arange(start=0, stop=365, step=1)  # linspaced_x = [0, 1, 2, ..., 364].  This represents number of days
+fit_statistics = []
 # Notice that in the following we only consider quadratic and cubic polynomial fits to the data
 # Performing a linear fit (y = mx + c) would be non-sensical
 # From an educated guess, performing polynomial fits above order 3 would result in more oscillations,
 # and we sould also have the risk of OVERFITTING the data
-for highest_order in [2, 3]:
-    z = np.polyfit(x=x, y=y, deg=highest_order)  # z contains the polynomial coefficients, with the highest power first
+for highest_order in polynomial_orders:
+    z, fit_statistic = get_r_squared(x_vals=x, y_vals=y, degree=highest_order)
     fit_coeffs.append(list(z))
-    p = np.poly1d(z)  # It is convenient to use poly1d objects for dealing with polynomials
-    ax.plot(linspaced_x, p(linspaced_x), label="Order-{} Polynomial Fit".format(highest_order))
+    fit_statistics.append(fit_statistic)
+    p = np.poly1d(z)  # It is convenient to use poly1d objects when dealing with polynomials
+    trend_values = rectify_trend(p(linspaced_x))
+    saved_trend_lines.append(trend_values)
+    ax.plot(linspaced_x, trend_values, label="Order-{} Polynomial Fit".format(highest_order))
 ax.legend()
 plt.tight_layout()
 plt.savefig("figures/fit_kcp_versus_days.png")
@@ -117,7 +154,6 @@ datetime_clouded = []  # These correspond to the scatter plot.  There are typica
 for i in x:
     datetime_clouded.append(starting_date + datetime.timedelta(days=float(i)))
 
-trend = np.poly1d(fit_coeffs[0])  # Create a poly1d object with the coefficients of the quadratic polynomial
 fig, ax = plt.subplots(figsize=(10, 5))
 ax.set_xlabel("Date (Month of the Year)")
 ax.set_ylabel("$k_{cp}$")
@@ -127,15 +163,25 @@ ax.set_xlim(left=datetime.datetime(year=starting_year, month=BEGINNING_MONTH, da
             right=datetime.datetime(year=starting_year+1, month=BEGINNING_MONTH - 1,
                                     day=calendar.monthrange(starting_year+1, BEGINNING_MONTH-1)[1]))
 ax.xaxis.set_major_formatter(mdates.DateFormatter('%b/%d'))  # Month/01
-ax.set_ylim(bottom=0.05, top=KCP_MAX + 0.05)
-ax.scatter(datetime_clouded, y, c="magenta", marker=".", edgecolors="black", alpha=0.5, label="Cleaned Probe Data")
-ax.plot(datetime_linspaced, trend(linspaced_x), label="Order-2 Polynomial Fit")
+ax.set_ylim(bottom=0.0, top=KCP_MAX + 0.05)
+for i in range(len(saved_trend_lines)):
+    trend_line = saved_trend_lines[i]
+    ax.scatter(datetime_clouded, y, c="magenta", marker=".", edgecolors="black", alpha=0.5, label="Cleaned Probe Data")
+    ax.plot(datetime_linspaced, trend_line, label="Order-{} Polynomial fit".format(polynomial_orders[i]))
 ax.legend()
 fig.autofmt_xdate()  # rotate and align the tick labels so they look better
 plt.tight_layout()
 plt.savefig("figures/fit_kcp_versus_month.png")
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Extract the trend line that generates the greatest r-squared (coefficient of determination)
+# Save the data related to the best-fitting trend line.
+# ----------------------------------------------------------------------------------------------------------------------
+prized_index = np.where(fit_statistics == max(fit_statistics))[0][0]
 
 datetimestamp = np.reshape(datetime_linspaced, newshape=(-1, 1))
-kcp = np.reshape(trend(linspaced_x), newshape=(-1, 1))
+kcp = np.reshape(saved_trend_lines[prized_index], newshape=(-1, 1))
 np.save("data/daily_trend_of_kcp_vs_datetime", np.hstack((datetimestamp, kcp)))
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# ----------------------------------------------------------------------------------------------------------------------
