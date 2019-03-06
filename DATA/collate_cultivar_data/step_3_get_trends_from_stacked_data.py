@@ -29,7 +29,7 @@ def rectify_trend(fitted_trend_values):
         return fitted_trend_values
 
 
-def get_r_squared(x_vals, y_vals, degree):
+def get_r_squared(x_vals, y_vals, degree):  # also known as the coefficient of determination
     coeffs = np.polyfit(x_vals, y_vals, degree)
     pol = np.poly1d(coeffs)
     yhat = pol(x_vals)
@@ -126,7 +126,7 @@ fit_statistics = []
 # Notice that in the following we only consider quadratic and cubic polynomial fits to the data
 # Performing a linear fit (y = mx + c) would be non-sensical
 # From an educated guess, performing polynomial fits above order 3 would result in more oscillations,
-# and we sould also have the risk of OVERFITTING the data
+# and we will also have the risk of OVERFITTING the data
 for highest_order in polynomial_orders:
     z, fit_statistic = get_r_squared(x_vals=x, y_vals=y, degree=highest_order)
     fit_coeffs.append(list(z))
@@ -139,6 +139,17 @@ ax.legend()
 plt.tight_layout()
 plt.savefig("figures/fit_kcp_versus_days.png")
 # ======================================================================================================================
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Write the r-squared statistics to file
+# Each line in the file corresponds to the highest order used in the polynomial fit, (and the associated r2 statistic)
+# ----------------------------------------------------------------------------------------------------------------------
+with open("./data/statistics_trend_lines.txt", "w") as f:
+    f.write("highest_polynomial_order | statistic\n")
+    for i, p in enumerate(polynomial_orders):
+        f.write("{:.0f} | {:.3f}\n".format(p, fit_statistics[i]))
+# ----------------------------------------------------------------------------------------------------------------------
 
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
