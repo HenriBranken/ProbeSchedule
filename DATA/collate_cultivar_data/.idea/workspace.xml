@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="49ef9e0d-250f-43a7-a4f1-33f52ead0df1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/kcp_vs_days.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/kcp_vs_days.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/step_3_get_trends_from_stacked_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/step_3_get_trends_from_stacked_data.py" afterDir="false" />
-    </list>
+    <list default="true" id="49ef9e0d-250f-43a7-a4f1-33f52ead0df1" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,7 +37,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/step_3_get_trends_from_stacked_data.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-565">
+            <state relative-caret-position="-169">
               <caret line="147" column="40" selection-start-line="147" selection-start-column="40" selection-end-line="147" selection-end-column="40" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
@@ -101,9 +97,9 @@
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="1920" />
-    <option name="y" value="-2" />
+    <option name="y" value="25" />
     <option name="width" value="1920" />
-    <option name="height" value="1082" />
+    <option name="height" value="1055" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -289,7 +285,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.20837809" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.20837809" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39957035" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -390,7 +386,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/step_3_get_trends_from_stacked_data.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-565">
+        <state relative-caret-position="-169">
           <caret line="147" column="40" selection-start-line="147" selection-start-column="40" selection-end-line="147" selection-end-column="40" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />

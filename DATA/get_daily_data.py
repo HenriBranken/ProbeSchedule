@@ -1,3 +1,9 @@
+# ----------------------------------------------------------------------------------------------------------------------
+# Notice that in this script we extract data from:
+#   https://app.probeschedule.com/data_api/v3/custom/heat_units/<ProbeId>/<start_date>/<end_date>
+#   https://app.probeschedule.com/data_api/v3/custom/wb/<ProbeId>/<start_date>/<end_date>
+# ----------------------------------------------------------------------------------------------------------------------
+
 import requests
 import json
 import operator
@@ -20,7 +26,7 @@ start_date = '2017-08-01'
 start_datetime = start_date + ' 00:00:00'
 end_date = '2019-02-01'
 end_datetime = end_date + ' 00:00:00'
-devices = [370, 371, 372, 384, 391, 392, 891, 1426]
+devices = [370, 371, 372, 384, 391, 392, 891]
 
 for device in devices:
     print("Currently busy with probe {}...".format(device))
@@ -64,11 +70,11 @@ for device in devices:
     f.write("date")
     for k, v in daily_data[magic_date].items():
         f.write(", "+k)
-    f.write("\n")
+    f.write("\n")  # after writing all the column headings
 
     for date, values in daily_data.items():
         f.write(date)
-        for k, v in values.items():
+        for _, v in values.items():
             f.write(', '+str(v))  # write the value
         f.write("\n")
 

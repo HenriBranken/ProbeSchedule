@@ -22,7 +22,7 @@ end_date = '2018-08-01'
 end_datetime = end_date + ' 00:00:00'
 
 # Insert here all the Probe-IDs of interest
-devices = [370, 371, 372, 384, 391, 392, 891, 1426]
+devices = [370, 371, 372, 384, 391, 392, 891]
 
 for device in devices:
     print("Currently working with Probe: {}...".format(device))
