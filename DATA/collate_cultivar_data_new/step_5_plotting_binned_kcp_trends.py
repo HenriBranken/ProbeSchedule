@@ -2,15 +2,19 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import matplotlib.dates as mdates
+from cleaning_operations import KCP_MAX, BEGINNING_MONTH
+import datetime
 pd.set_option('display.max_columns', 6)
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Load the necessary data
-#   1.  kcp_trend_vs_datetime is the data associated with the quadratic fit (2nd-order polynomial)
+# ----------------------------------------------------------------------------------------------------------------------
+#   1.  kcp_trend_vs_datetime is the data associated with the best polynomial fit
 #   2.  kcp_vs_days --> cleaned probe data
 #   3.  kcp_vs_day_df --> kcp as a function of day of the year/season
 #   4.  kcp_vs_week_df --> kcp as a function of week of the year/season
 #   5.  kcp_vs_month_df --> kcp as a function of month of the year/season
+#   6.  probe_ids --> List of probe-ids used in the analysis
 # ----------------------------------------------------------------------------------------------------------------------
 kcp_trend_vs_datetime = np.load("data/daily_trend_of_kcp_vs_datetime.npy")
 
@@ -32,11 +36,18 @@ kcp_vs_week_df = pd.read_excel("data/binned_kcp_data.xlsx", sheet_name="week_fre
 kcp_vs_month_df = pd.read_excel("data/binned_kcp_data.xlsx", sheet_name="month_frequency", header=0,
                                 names=["season_month", "calendar_month", "monthly_averaged_kcp"], index_col=0,
                                 squeeze=True, parse_dates=True)
+
+with open("./data/probe_ids.txt", "r") as f:
+    probe_ids = f.readlines()
+probe_ids = [x.rstrip() for x in probe_ids]
+
+cco_df = pd.read_excel("./data/reference_crop_coeff.xlsx", sheet_name=0, header=0, index_col=0,
+                       parse_dates=True)
 # ----------------------------------------------------------------------------------------------------------------------
 
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# Define a helper function in which we want to extract the highest polynomial order with the best r^2 statistic
+# Code block in which we extract the highest polynomial order associated with the best R^2 statistic
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 stats_df = pd.read_csv("./data/statistics_trend_lines.txt", sep="|", header=0, index_col=False, squeeze=True)
 new_columns = []
@@ -45,11 +56,11 @@ for c in stats_df.columns:
 stats_df.columns = new_columns
 stats_df.sort_values(by="statistic", axis=0, ascending=False, inplace=True)
 prized_polynomial_order = int(stats_df.iloc[0, 0])
-print(prized_polynomial_order)
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+
 # ======================================================================================================================
-# Replicate kcp values for weekly and monthly bins accordingly
+# Replicate/repeat kcp values for weekly and monthly bins accordingly
 # ======================================================================================================================
 repeated_weekly_kcp_vs_day = []
 repeated_monthly_kcp_vs_day = []
@@ -68,25 +79,34 @@ for d in base_datetimestamp:
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Plot the data
 # Compare the scatter plot of the cleaned data with the:
-#   a.  Polynomial fit
+#   a.  Best polynomial fit
 #   b.  Weekly-binned kcp data
 #   c.  Monthly-binned kcp data
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 fig, ax = plt.subplots(figsize=(10, 5))
 ax.scatter(kcp_vs_days.index, kcp_vs_days["kcp"], c="magenta", marker=".",
            edgecolors="black", alpha=0.5, label="Cleaned Probe Data")
-ax.plot(base_datetimestamp, base_daily_kcp, linewidth=1, alpha=0.55,
+ax.plot(base_datetimestamp, base_daily_kcp, linewidth=2, alpha=1.0,
         label="Order-{} Polynomial trend".format(prized_polynomial_order))
-ax.plot(base_datetimestamp, repeated_weekly_kcp_vs_day, linewidth=1, label="Weekly-binned $k_{cp}$")
-ax.plot(base_datetimestamp, repeated_monthly_kcp_vs_day, linewidth=1, label="Monthly-binned $k_{cp}$")
+ax.plot(base_datetimestamp, repeated_weekly_kcp_vs_day, linewidth=2, label="Weekly-binned $k_{cp}$", alpha=0.55)
+ax.plot(base_datetimestamp, repeated_monthly_kcp_vs_day, linewidth=2, label="Monthly-binned $k_{cp}$", alpha=0.55)
+ax.scatter(cco_df.index, cco_df["cco"].values, c="red", marker=".", alpha=0.5, label="Reference $k_{cp}$")
 ax.set_xlabel("Date (Month of the Year)")
 ax.set_ylabel("$k_{cp}$")
 ax.set_title("Different binning strategies for $k_{cp}$ as a function of time")
 ax.set_xlim(left=base_datetimestamp[0], right=base_datetimestamp[-1])
+ax.set_ylim(bottom=0.0, top=KCP_MAX)
 ax.xaxis.set_major_formatter(mdates.DateFormatter('%b/%d'))  # Month/01
+major_xticks = pd.date_range(start=datetime.datetime(year=starting_year, month=BEGINNING_MONTH, day=1),
+                             end=datetime.datetime(year=starting_year + 1, month=BEGINNING_MONTH, day=1), freq="MS")
+# Notice that the `MS` alias stands for `Month Start Frequency`.  Jul/01, Aug/01, etc...
+# https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#timeseries-offset-aliases gives a full list of
+# frequency aliases.
+ax.set_xticks(major_xticks)
 ax.legend()
 ax.grid()
 fig.autofmt_xdate()
 plt.tight_layout()
 plt.savefig("figures/kcp_binning_strategies.png")
+plt.close()
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

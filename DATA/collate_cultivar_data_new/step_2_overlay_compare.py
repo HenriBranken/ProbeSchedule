@@ -4,9 +4,8 @@ import pickle
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import datetime
-import calendar
 from master_data import accepted_kcp_norm
-from cleaning_operations import BEGINNING_MONTH
+from cleaning_operations import BEGINNING_MONTH, KCP_MAX
 import pandas as pd
 from pandas.plotting import register_matplotlib_converters
 register_matplotlib_converters()
@@ -15,20 +14,23 @@ register_matplotlib_converters()
 # Import all the necessary data
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Load the serialised data that were saved in `main.py`, and unpickle it
-with open("data/data_to_plot", "rb") as f:
+with open("./data/data_to_plot", "rb") as f:
     data_to_plot = pickle.load(f)
 
 # Get a list of all the Probe-IDs involved for the cultivar
-with open("data/probe_ids.txt", "r") as f2:
+with open("./data/probe_ids.txt", "r") as f2:
     probe_ids = f2.readlines()
 probe_ids = [x.strip() for x in probe_ids]
+
+cco_df = pd.read_excel("./data/reference_crop_coeff.xlsx", sheet_name=0, header=0, index_col=0,
+                       parse_dates=True)
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Define all the helper functions
 # ----------------------------------------------------------------------------------------------------------------------
-# Get the year of the oldest (the most "historic") data point
+# Get the year of the oldest (the most "historic/past") data point
 def get_starting_year():
     date_values, _ = separate_dates_from_kcp(data_to_plot[0])
     return date_values[0].year
@@ -75,7 +77,6 @@ starting_year = get_starting_year()  # extract the starting year
 marker_list = ["o", ">", "<", "s", "P", "*", "X", "D"]
 color_list = ["red", "gold", "seagreen", "lightseagreen", "royalblue", "darkorchid", "plum", "burlywood"]
 zipped_meta = ((m, c) for m, c in zip(marker_list, color_list))  # here we used generator comprehension
-wrapped_dates, wrapped_kcps = convert_master_data()
 
 fig, ax = plt.subplots(figsize=(10, 5))
 ax.set_xlabel("Month of the Year")
@@ -83,17 +84,25 @@ ax.set_ylabel("$k_{cp}$")
 ax.set_title("$k_{cp}$ versus Month of the Year")
 ax.xaxis.set_major_formatter(mdates.DateFormatter('%b/%d'))
 ax.set_xlim(left=datetime.datetime(year=starting_year, month=BEGINNING_MONTH, day=1),
-            right=datetime.datetime(year=starting_year+1, month=BEGINNING_MONTH - 1,
-                                    day=calendar.monthrange(starting_year+1, BEGINNING_MONTH-1)[1]))
+            right=datetime.datetime(year=starting_year+1, month=BEGINNING_MONTH, day=1))
+major_xticks = pd.date_range(start=datetime.datetime(year=starting_year, month=BEGINNING_MONTH, day=1),
+                             end=datetime.datetime(year=starting_year + 1, month=BEGINNING_MONTH, day=1), freq="MS")
+# Notice that the `MS` alias stands for `Month Start Frequency`.  Jul/01, Aug/01, etc...
+# https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#timeseries-offset-aliases gives a full list of
+# frequency aliases.
+ax.set_xticks(major_xticks)
+ax.set_ylim(bottom=0.0, top=KCP_MAX)
 ax.grid(True)
 for i in range(len(data_to_plot)):  # iterate over the datasets corresponding to the different probes
     dates, kcp = separate_dates_from_kcp(data_to_plot[i])  # extract the data from the zipped object, and sort by date
     meta = next(zipped_meta)
     ax.scatter(dates, kcp, color=meta[1], marker=meta[0], s=60, edgecolors="black", linewidth=1, alpha=0.5,
                label=probe_ids[i])
-# ax.plot(wrapped_dates, wrapped_kcps, linewidth=2, label="Master Perennial Data")  # Plot the Master data
+ax.scatter(cco_df.index, cco_df["cco"], color="aquamarine", marker=".", linewidth=1, alpha=1.0,
+           label="Reference $k_{cp}$")
 ax.legend()
 fig.autofmt_xdate()  # rotate and align the tick labels so they look better
 plt.tight_layout()
 plt.savefig("figures/overlay.png")
+plt.close()
 # ======================================================================================================================

@@ -30,7 +30,7 @@ cleaned_kcp_df = pd.read_excel("data/kcp_vs_days.xlsx", sheet_name="sheet_1", na
 # Define helper functions
 # ======================================================================================================================
 def season_month_mapper(cal_m):
-    if cal_m < 7:
+    if cal_m < BEGINNING_MONTH:
         return int(cal_m + 13 - BEGINNING_MONTH)
     else:
         return int(cal_m + 1 - BEGINNING_MONTH)
@@ -147,8 +147,6 @@ kcp_vs_month_df["datetimestamp"] = \
     kcp_vs_month_df["calendar_month"].map(from_calendar_month_datetime_mapper)
 kcp_vs_month_df.set_index(keys="datetimestamp", drop=True, inplace=True)
 kcp_vs_month_df.sort_values(by="season_month", axis=0, ascending=True, inplace=True)
-
-
 # ======================================================================================================================
 
 

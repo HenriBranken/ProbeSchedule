@@ -1,12 +1,24 @@
 # ----------------------------------------------------------------------------------------------------------------------
 # Notice that in this script we extract data from:
-#   https://app.probeschedule.com/data_api/v3/custom/heat_units/<ProbeId>/<start_date>/<end_date>
-#   https://app.probeschedule.com/data_api/v3/custom/wb/<ProbeId>/<start_date>/<end_date>
+#   https://app.probeschedule.com/data_api/v3/custom/heat_units/<ProbeID>/<start_date>/<end_date>
+#   https://app.probeschedule.com/data_api/v3/custom/wb/<ProbeID>/<start_date>/<end_date>
 # ----------------------------------------------------------------------------------------------------------------------
 
 import requests
 import json
 import operator
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Important parameters used in the extraction process.
+# Parameters involved are:
+#   1.  The date range for which we want probe data.  This is represented by [start_date; end_date].
+#   2.  The probe NUMBERS for which we need to extract data.  This needs to be specified in `devices`.
+#       Later in the code, we loop over `devices` to extract the individual probe data.
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+start_date = '2017-01-01'
+end_date = '2019-04-18'
+devices = [370, 371, 372, 384, 391, 392, 891]
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 headers = {'content-type': 'application/json'}
 url = 'http://api.probeschedule.com/data_api/v3/token'
@@ -21,15 +33,8 @@ token = token['data']['token']
 data = {}
 headers = {'authorization': 'Bearer ' + token}
 
-# Insert here your beginning date and end date
-start_date = '2017-08-01'
-start_datetime = start_date + ' 00:00:00'
-end_date = '2019-02-01'
-end_datetime = end_date + ' 00:00:00'
-devices = [370, 371, 372, 384, 391, 392, 891]
-
 for device in devices:
-    print("Currently busy with probe {}...".format(device))
+    print("Currently busy with probe {}...\n".format(device))
     url = "https://app.probeschedule.com/data_api/v3/custom/heat_units/P-"+str(device)+'/'+start_date+'/'+end_date
 
     response = requests.get(url, params=params, data=json.dumps(data), headers=headers)
@@ -77,5 +82,4 @@ for device in devices:
         for _, v in values.items():
             f.write(', '+str(v))  # write the value
         f.write("\n")
-
     f.close()
