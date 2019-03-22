@@ -121,6 +121,10 @@ for probe_id in probe_ids:
     # Get the cumulative Growing Degree Days
     df = cleaning_operations.cumulative_gdd(df)
 
+    # 10.d
+    # Flag events in which the heat units remain stuck after interpolation.
+    df = cleaning_operations.flag_spurious_heat_units(df)
+
     # 11.
     # Flag events in which `etcp` is known to be faulty/contaminated.
     df = cleaning_operations.flag_unwanted_etcp(df)

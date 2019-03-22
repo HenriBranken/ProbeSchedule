@@ -179,7 +179,7 @@ def flag_spurious_eto(df):
     df.loc[bad_eto_days, ["eto"]] = np.nan
 
     df.loc[bad_eto_days, ["etc"]] = np.nan
-    flagger(bad_dates=bad_eto_days, brief_desc=ETC_STUCK_DESC, df=df, bin_value=1)
+    flagger(bad_dates=bad_eto_days, brief_desc=ETC_STUCK_DESC, df=df, bin_value=0)
     reporter(df=df, brief_desc=ETC_STUCK_DESC)
     return bad_eto_days, df
 
@@ -305,6 +305,7 @@ def flag_unwanted_etcp(df):
     positive_etcp_days = df[condition].index
     flagger(bad_dates=positive_etcp_days, brief_desc=ETCP_POS_DESC, df=df, bin_value=1)
     reporter(df=df, brief_desc=ETCP_POS_DESC)
+    df.loc[positive_etcp_days, ["etcp"]] = np.nan
 
     condition = df["binary_value"] == 1
     junk_data_dates = df[condition].index

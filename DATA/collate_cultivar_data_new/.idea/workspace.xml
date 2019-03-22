@@ -2,51 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="49ef9e0d-250f-43a7-a4f1-33f52ead0df1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/step_6_et_al.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/step_7_figure_arrays.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.ipynb_checkpoints/working_with_time_series_data_3-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../.ipynb_checkpoints/working_with_time_series_data_3-checkpoint.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Golden_Delicious_daily_data.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Golden_Delicious_daily_data_new.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Golden_Delicious_daily_data_new.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Golden_Delicious_probe_data.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../P-370_daily_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../P-370_daily_data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../P-370_probe_data.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../P-371_daily_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../P-371_daily_data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../P-371_probe_data.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../P-372_daily_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../P-372_daily_data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../P-372_probe_data.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../P-384_daily_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../P-384_daily_data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../P-384_probe_data.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../P-391_daily_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../P-391_daily_data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../P-391_probe_data.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../P-392_daily_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../P-392_daily_data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../P-392_probe_data.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../P-891_daily_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../P-891_daily_data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../P-891_probe_data.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cleaning_operations.py" beforeDir="false" afterPath="$PROJECT_DIR$/cleaning_operations.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/binned_kcp_data.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/binned_kcp_data.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/daily_trend_of_kcp_vs_datetime.npy" beforeDir="false" afterPath="$PROJECT_DIR$/data/daily_trend_of_kcp_vs_datetime.npy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data_to_plot" beforeDir="false" afterPath="$PROJECT_DIR$/data/data_to_plot" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/kcp_vs_days.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/kcp_vs_days.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/kcp_vs_days_data.npy" beforeDir="false" afterPath="$PROJECT_DIR$/data/kcp_vs_days_data.npy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/statistics_trend_lines.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/statistics_trend_lines.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/fit_kcp_versus_days.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/fit_kcp_versus_days.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/fit_kcp_versus_month.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/fit_kcp_versus_month.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed_probe_data.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed_probe_data.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reference_crop_coeff.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/reference_crop_coeff.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/figures/etcp_versus_date.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/etcp_versus_date.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/figures/kcp_binning_strategies.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/kcp_binning_strategies.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/overlay.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/overlay.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/step_1_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/step_1_main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/step_2_overlay_compare.py" beforeDir="false" afterPath="$PROJECT_DIR$/step_2_overlay_compare.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/step_3_get_trends_from_stacked_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/step_3_get_trends_from_stacked_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/step_4_binning_trend_line.py" beforeDir="false" afterPath="$PROJECT_DIR$/step_4_binning_trend_line.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/step_5_plotting_binned_kcp_trends.py" beforeDir="false" afterPath="$PROJECT_DIR$/step_5_plotting_binned_kcp_trends.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../get_daily_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/../get_daily_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../get_probe_data.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../transform_to_excel_format.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../transform_to_excel_format.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../transform_to_excel_format.py" beforeDir="false" afterPath="$PROJECT_DIR$/../transform_to_excel_format.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../working_with_time_series_data_3.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../working_with_time_series_data_3.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../get_data.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../kcp_plot.png" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -56,11 +20,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cleaning_operations.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2352">
-              <caret line="298" column="13" selection-start-line="298" selection-start-column="13" selection-end-line="298" selection-end-column="13" />
+            <state relative-caret-position="6950">
+              <caret line="349" column="24" lean-forward="true" selection-start-line="349" selection-start-column="24" selection-end-line="349" selection-end-column="24" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -68,11 +32,22 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/step_3_get_trends_from_stacked_data.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-3819">
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/step_1_main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1281">
-              <caret line="117" column="81" selection-start-line="117" selection-start-column="81" selection-end-line="117" selection-end-column="81" />
+            <state relative-caret-position="462">
+              <caret line="124" column="75" selection-start-line="124" selection-start-column="75" selection-end-line="124" selection-end-column="75" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -141,11 +116,11 @@
         <option value="$PROJECT_DIR$/step_2_overlay_compare.py" />
         <option value="$PROJECT_DIR$/step_4_binning_trend_line.py" />
         <option value="$PROJECT_DIR$/step_5_plotting_binned_kcp_trends.py" />
-        <option value="$PROJECT_DIR$/cleaning_operations.py" />
-        <option value="$PROJECT_DIR$/step_1_main.py" />
         <option value="$PROJECT_DIR$/step_6_et_al.py" />
         <option value="$PROJECT_DIR$/step_9_array_profile.py" />
         <option value="$PROJECT_DIR$/step_7_figure_arrays.py" />
+        <option value="$PROJECT_DIR$/cleaning_operations.py" />
+        <option value="$PROJECT_DIR$/step_1_main.py" />
       </list>
     </option>
   </component>
@@ -409,16 +384,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/step_3_get_trends_from_stacked_data.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-7">
-          <caret line="232" selection-start-line="232" selection-end-line="232" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/step_4_binning_trend_line.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-7">
@@ -449,16 +414,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/step_9_array_profile.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="89">
-          <caret line="76" lean-forward="true" selection-start-line="76" selection-end-line="76" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/step_9_array_profile.py" />
     <entry file="file://$PROJECT_DIR$/step_7_figure_arrays.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="7518">
@@ -479,10 +435,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cleaning_operations.py">
+    <entry file="file://$PROJECT_DIR$/step_3_get_trends_from_stacked_data.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2352">
-          <caret line="298" column="13" selection-start-line="298" selection-start-column="13" selection-end-line="298" selection-end-column="13" />
+        <state relative-caret-position="-3819">
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
@@ -491,10 +446,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/step_1_main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1281">
-          <caret line="117" column="81" selection-start-line="117" selection-start-column="81" selection-end-line="117" selection-end-column="81" />
+        <state relative-caret-position="462">
+          <caret line="124" column="75" selection-start-line="124" selection-start-column="75" selection-end-line="124" selection-end-column="75" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cleaning_operations.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6950">
+          <caret line="349" column="24" lean-forward="true" selection-start-line="349" selection-start-column="24" selection-end-line="349" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
