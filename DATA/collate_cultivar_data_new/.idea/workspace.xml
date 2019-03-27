@@ -2,15 +2,41 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="49ef9e0d-250f-43a7-a4f1-33f52ead0df1" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/step_8_kcp_versus_gdd.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/step_9_fit_kcp_vs_gdd.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.~lock.Golden_Delicious_daily_data_new.xlsx#" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Golden_Delicious_daily_data_new.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Golden_Delicious_daily_data_new.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/.idea/collate_cultivar_data.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/.idea/dictionaries/henri.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/cleaning_operations.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/data/binned_kcp_data.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/data/daily_trend_of_kcp_vs_datetime.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/data/data_to_plot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/data/kcp_vs_days.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/data/kcp_vs_days_data.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/data/probe_ids.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/data/statistics_trend_lines.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/figures/fit_kcp_versus_days.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/figures/fit_kcp_versus_month.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/figures/kcp_binning_strategies.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/figures/overlay.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/master_data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/step_1_main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/step_2_overlay_compare.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/step_3_get_trends_from_stacked_data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/step_4_binning_trend_line.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/step_5_plotting_binned_kcp_trends.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/steps_1_to_5_run_pipeline.sh" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cleaning_operations.py" beforeDir="false" afterPath="$PROJECT_DIR$/cleaning_operations.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/.~lock.processed_probe_data.xlsx#" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/data/binned_kcp_data.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/binned_kcp_data.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/kcp_vs_days.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/kcp_vs_days.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/processed_probe_data.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed_probe_data.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/reference_crop_coeff.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/reference_crop_coeff.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/etcp_versus_date.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/etcp_versus_date.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/kcp_binning_strategies.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/kcp_binning_strategies.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/step_1_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/step_1_main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/steps_1_to_5_run_pipeline.sh" beforeDir="false" afterPath="$PROJECT_DIR$/steps_1_to_5_run_pipeline.sh" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,43 +45,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/cleaning_operations.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6950">
-              <caret line="349" column="24" lean-forward="true" selection-start-line="349" selection-start-column="24" selection-end-line="349" selection-end-column="24" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/step_3_get_trends_from_stacked_data.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3819">
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/step_1_main.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="462">
-              <caret line="124" column="75" selection-start-line="124" selection-start-column="75" selection-end-line="124" selection-end-column="75" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -121,13 +111,16 @@
         <option value="$PROJECT_DIR$/step_7_figure_arrays.py" />
         <option value="$PROJECT_DIR$/cleaning_operations.py" />
         <option value="$PROJECT_DIR$/step_1_main.py" />
+        <option value="$PROJECT_DIR$/steps_1_to_5_run_pipeline.sh" />
+        <option value="$PROJECT_DIR$/step_8_kcp_versus_gdd.py" />
+        <option value="$PROJECT_DIR$/step_9_fit_kcp_vs_gdd.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="-2" />
-    <option name="width" value="1920" />
-    <option name="height" value="1082" />
+    <option name="x" value="96" />
+    <option name="width" value="1910" />
+    <option name="height" value="810" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -152,6 +145,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RunDashboard">
@@ -166,49 +160,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.step_7_figure_arrays">
-    <configuration name="step_1_main" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="collate_cultivar_data" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/step_1_main.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="step_2_overlay_compare" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="collate_cultivar_data" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/step_2_overlay_compare.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Python.step_9_fit_kcp_vs_gdd">
     <configuration name="step_6_et_al" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="collate_cultivar_data" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -251,6 +203,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="step_8_kcp_versus_gdd" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="collate_cultivar_data" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/step_8_kcp_versus_gdd.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="step_9_array_profile" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="collate_cultivar_data" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -272,13 +245,34 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="step_9_fit_kcp_vs_gdd" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="collate_cultivar_data" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/step_9_fit_kcp_vs_gdd.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.step_9_fit_kcp_vs_gdd" />
+        <item itemvalue="Python.step_8_kcp_versus_gdd" />
         <item itemvalue="Python.step_7_figure_arrays" />
         <item itemvalue="Python.step_9_array_profile" />
         <item itemvalue="Python.step_6_et_al" />
-        <item itemvalue="Python.step_1_main" />
-        <item itemvalue="Python.step_2_overlay_compare" />
       </list>
     </recent_temporary>
   </component>
@@ -306,14 +300,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="-2" width="1920" height="1082" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.11275026" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16438356" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.2651357" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.25678498" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39957035" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -326,25 +319,6 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
-    <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.11275026" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.26617953" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39957035" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32975295" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32975295" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32975295" />
-      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Python Console" order="10" weight="0.32975295" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-    </layout-to-restore>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
@@ -384,32 +358,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/step_4_binning_trend_line.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-7">
-          <caret line="149" selection-start-line="149" selection-end-line="149" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/step_5_plotting_binned_kcp_trends.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="236">
           <caret line="98" column="59" selection-start-line="98" selection-end-line="98" selection-end-column="59" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/step_2_overlay_compare.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-121">
-          <caret line="74" selection-start-line="74" selection-end-line="74" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -427,26 +381,54 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/step_6_et_al.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="121" column="26" lean-forward="true" selection-start-line="121" selection-start-column="26" selection-end-line="121" selection-end-column="26" />
+        <state relative-caret-position="-6749">
+          <caret lean-forward="true" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/step_3_get_trends_from_stacked_data.py">
+    <entry file="file://$PROJECT_DIR$/cleaning_operations.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3819">
+        <state relative-caret-position="23">
+          <caret line="137" column="52" lean-forward="true" selection-start-line="137" selection-start-column="52" selection-end-line="137" selection-end-column="52" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/step_2_overlay_compare.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-256">
+          <caret line="74" selection-start-line="74" selection-end-line="74" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/steps_1_to_5_run_pipeline.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="460">
+          <caret line="20" column="35" selection-start-line="20" selection-start-column="35" selection-end-line="20" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/step_4_binning_trend_line.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1722">
+          <caret line="149" selection-start-line="149" selection-end-line="149" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/step_1_main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
+        <state relative-caret-position="2852">
           <caret line="124" column="75" selection-start-line="124" selection-start-column="75" selection-end-line="124" selection-end-column="75" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
@@ -454,12 +436,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cleaning_operations.py">
+    <entry file="file://$PROJECT_DIR$/step_3_get_trends_from_stacked_data.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6950">
-          <caret line="349" column="24" lean-forward="true" selection-start-line="349" selection-start-column="24" selection-end-line="349" selection-end-column="24" />
+        <state relative-caret-position="989">
+          <caret line="196" column="40" lean-forward="true" selection-start-line="196" selection-start-column="40" selection-end-line="196" selection-end-column="40" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/step_9_fit_kcp_vs_gdd.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1906">
+          <caret line="201" lean-forward="true" selection-start-line="201" selection-end-line="201" />
+          <folding>
+            <element signature="e#1#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/step_8_kcp_versus_gdd.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3427">
+          <caret line="149" column="75" selection-start-line="149" selection-start-column="75" selection-end-line="149" selection-end-column="75" />
+          <folding>
+            <element signature="e#28#59#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -17,6 +17,8 @@ then
     python3 step_3_get_trends_from_stacked_data.py
     python3 step_4_binning_trend_line.py
     python3 step_5_plotting_binned_kcp_trends.py
+    python3 step_6_et_al.py
+    python3 step_7_figure_arrays.py
 else
     echo "User decided against executing run_pipeline.sh"
     sleep 3s
