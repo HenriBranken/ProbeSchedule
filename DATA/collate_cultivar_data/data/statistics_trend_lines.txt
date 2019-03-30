@@ -1,0 +1,4 @@
+highest_polynomial_order | statistic
+2 | 0.61044469
+3 | 0.68692145
+4 | 0.68696473
