@@ -118,12 +118,12 @@ def reporter(df, brief_desc, remaining=False):
     tally = df["description"].str.contains(brief_desc).sum()
     n_tot_entries = len(df.index)
     perc = tally / n_tot_entries * 100
-    print("{:.1f}% of data is affected due to [{}].".format(perc, brief_desc))
+    print("{:.2f}% of data is affected due to [{}].".format(perc, brief_desc))
 
     if remaining:
         calc = 100 - df["binary_value"].sum() / len(df.index) * 100
         print("After all the flagging that has taken place for this probe data-set,"
-              " only {:.0f}% of your data is useful.".format(calc))
+              " only {:.2f}% of your data is useful.".format(calc))
 
 
 #   3.
@@ -188,8 +188,8 @@ def flag_spurious_et(df):
                               index=df.index, copy=True)
     condition = (interim_df["eto_diff1"] == 0.0) | (interim_df["eto"] == 0)
     bad_eto_days = df[condition].index
-    flagger(bad_dates=bad_eto_days, brief_desc=ETO_BAD_DESC, df=df, bin_value=1, affected_cols=["eto", "etcp"],
-            set_to_nan=True)
+    flagger(bad_dates=bad_eto_days, brief_desc=ETO_BAD_DESC, df=df, bin_value=0, affected_cols=["eto", "etcp"],
+            set_to_nan=False)
     reporter(df=df, brief_desc=ETO_BAD_DESC)
 
     # Do the same for etc ----------------------------------------------------------------------------------------------
@@ -197,8 +197,8 @@ def flag_spurious_et(df):
                               index=df.index, copy=True)
     condition = (interim_df["etc_diff1"] == 0.0) | (interim_df["etc"] == 0)
     bad_etc_days = df[condition].index
-    flagger(bad_dates=bad_etc_days, brief_desc=ETC_BAD_DESC, df=df, bin_value=1, affected_cols=["etc", "etcp"],
-            set_to_nan=True)
+    flagger(bad_dates=bad_etc_days, brief_desc=ETC_BAD_DESC, df=df, bin_value=0, affected_cols=["etc", "etcp"],
+            set_to_nan=False)
     reporter(df=df, brief_desc=ETC_BAD_DESC)
 
     return bad_eto_days, df
