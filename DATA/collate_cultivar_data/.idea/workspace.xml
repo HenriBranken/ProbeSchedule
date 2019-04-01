@@ -2,12 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="49ef9e0d-250f-43a7-a4f1-33f52ead0df1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/write_report.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cleaning_operations.py" beforeDir="false" afterPath="$PROJECT_DIR$/cleaning_operations.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/data_to_plot" beforeDir="false" afterPath="$PROJECT_DIR$/data/data_to_plot" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/processed_probe_data.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed_probe_data.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/reference_crop_coeff.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/reference_crop_coeff.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/figures/overlay.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/overlay.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/write_report.py" beforeDir="false" afterPath="$PROJECT_DIR$/write_report.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,24 +17,12 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cleaning_operations.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3497">
-              <caret line="175" column="31" selection-start-line="175" selection-start-column="31" selection-end-line="175" selection-end-column="31" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/write_report.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="989">
-              <caret line="43" column="32" lean-forward="true" selection-start-line="43" selection-start-column="32" selection-end-line="43" selection-end-column="32" />
+            <state relative-caret-position="483">
+              <caret line="216" column="44" lean-forward="true" selection-start-line="216" selection-start-column="44" selection-end-line="216" selection-end-column="44" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -44,8 +33,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/step_1_perform_cleaning.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2047">
-              <caret line="89" column="59" selection-start-line="89" selection-start-column="59" selection-end-line="89" selection-end-column="59" />
+            <state relative-caret-position="552">
+              <caret line="24" column="31" lean-forward="true" selection-start-line="24" selection-start-column="31" selection-end-line="24" selection-end-column="31" />
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/write_report.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="486">
+              <caret line="163" lean-forward="true" selection-start-line="163" selection-end-line="163" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -56,32 +57,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/step_2_overlay_compare.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="368">
-              <caret line="76" column="31" selection-start-line="76" selection-start-column="31" selection-end-line="76" selection-end-column="31" />
+            <state>
+              <caret lean-forward="true" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/step_3_get_trends_from_stacked_data.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="401">
-              <caret line="67" column="77" selection-start-line="67" selection-start-column="77" selection-end-line="67" selection-end-column="77" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/step_9_fit_kcp_vs_gdd.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2829">
-              <caret line="135" column="52" selection-start-line="135" selection-start-column="52" selection-end-line="135" selection-end-column="52" />
             </state>
           </provider>
         </entry>
@@ -121,6 +101,8 @@
       <find>get_starting_year()</find>
       <find>get_starting_year</find>
       <find>smoothed_y</find>
+      <find>df</find>
+      <find>idx</find>
     </findStrings>
     <replaceStrings>
       <replace>df</replace>
@@ -136,6 +118,7 @@
       <replace>EXCEEDING_NORMAL_UPTAKE_DESC</replace>
       <replace>starting_year</replace>
       <replace>y_smoothed</replace>
+      <replace>dataframe</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -171,6 +154,7 @@
         <option value="$PROJECT_DIR$/step_1_perform_cleaning.py" />
         <option value="$PROJECT_DIR$/step_9_fit_kcp_vs_gdd.py" />
         <option value="$PROJECT_DIR$/step_3_get_trends_from_stacked_data.py" />
+        <option value="$PROJECT_DIR$/write_report_new.py" />
         <option value="$PROJECT_DIR$/cleaning_operations.py" />
         <option value="$PROJECT_DIR$/write_report.py" />
       </list>
@@ -189,7 +173,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -201,6 +184,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -220,7 +204,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.write_report">
+  <component name="RunManager" selected="Python.step_2_overlay_compare">
     <configuration name="step_1_perform_cleaning" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="collate_cultivar_data" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -284,7 +268,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="step_9_fit_kcp_vs_gdd" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="write_report" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="collate_cultivar_data" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -296,7 +280,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/step_9_fit_kcp_vs_gdd.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/write_report.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -305,7 +289,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="write_report" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="write_report_new" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="collate_cultivar_data" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -328,11 +312,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.write_report" />
-        <item itemvalue="Python.step_3_get_trends_from_stacked_data" />
         <item itemvalue="Python.step_2_overlay_compare" />
+        <item itemvalue="Python.write_report" />
         <item itemvalue="Python.step_1_perform_cleaning" />
-        <item itemvalue="Python.step_9_fit_kcp_vs_gdd" />
+        <item itemvalue="Python.write_report_new" />
+        <item itemvalue="Python.step_3_get_trends_from_stacked_data" />
       </list>
     </recent_temporary>
   </component>
@@ -367,7 +351,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.28331584" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.29066107" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39957035" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -479,16 +463,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/step_9_fit_kcp_vs_gdd.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2829">
-          <caret line="135" column="52" selection-start-line="135" selection-start-column="52" selection-end-line="135" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/step_3_get_trends_from_stacked_data.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="401">
+        <state relative-caret-position="1357">
           <caret line="67" column="77" selection-start-line="67" selection-start-column="77" selection-end-line="67" selection-end-column="77" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
@@ -496,20 +473,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/step_2_overlay_compare.py">
+    <entry file="file://$PROJECT_DIR$/step_9_fit_kcp_vs_gdd.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="76" column="31" selection-start-line="76" selection-start-column="31" selection-end-line="76" selection-end-column="31" />
+        <state relative-caret-position="3036">
+          <caret line="135" column="52" selection-start-line="135" selection-start-column="52" selection-end-line="135" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/write_report.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2073">
+          <caret line="137" lean-forward="true" selection-start-line="137" selection-end-line="137" />
           <folding>
-            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cleaning_operations.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3497">
-          <caret line="175" column="31" selection-start-line="175" selection-start-column="31" selection-end-line="175" selection-end-column="31" />
+        <state relative-caret-position="483">
+          <caret line="216" column="44" lean-forward="true" selection-start-line="216" selection-start-column="44" selection-end-line="216" selection-end-column="44" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
@@ -518,20 +502,30 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/step_1_perform_cleaning.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2047">
-          <caret line="89" column="59" selection-start-line="89" selection-start-column="59" selection-end-line="89" selection-end-column="59" />
+        <state relative-caret-position="552">
+          <caret line="24" column="31" lean-forward="true" selection-start-line="24" selection-start-column="31" selection-end-line="24" selection-end-column="31" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/step_2_overlay_compare.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret lean-forward="true" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/write_report.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="989">
-          <caret line="43" column="32" lean-forward="true" selection-start-line="43" selection-start-column="32" selection-end-line="43" selection-end-column="32" />
+        <state relative-caret-position="486">
+          <caret line="163" lean-forward="true" selection-start-line="163" selection-end-line="163" />
           <folding>
-            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>

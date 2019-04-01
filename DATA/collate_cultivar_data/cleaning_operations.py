@@ -10,6 +10,8 @@ import sys
 ETO_MAX = 12
 KCP_MAX = 0.8
 BEGINNING_MONTH = 7  # i.e. beginning of July.
+SUSP_LOW_VAL = 0.50
+SUSP_HIGH_VAL = 1.50
 ETCP_MAX = ETO_MAX * KCP_MAX
 DAY = datetime.timedelta(days=1)
 
@@ -39,12 +41,23 @@ REDEEMABLE = [HU_BAD_DESC, IMPUTED_ETO]
 
 # With the definition of `description_dict`, we can use only 1 import statement instead of individually importing all
 # the different _DESC constants.
-description_dict = {"rain_desc": RAIN_DESC, "simul_desc": SIMUL_DESC, "irr_desc": IRR_DESC,
-                    "null_profile_desc": NULL_PROFILE_DESC, "data_blip_desc": DATA_BLIP_DESC,
-                    "large_profile_dip_desc": LARGE_PROFILE_DIP_DESC, "etcp_pos_desc": ETCP_POS_DESC,
-                    "etcp_outliers_desc": ETCP_OUTLIERS_DESC, "exceeding_normal_desc": EXCEEDING_NORMAL_UPTAKE_DESC,
-                    "bad_kcp_desc": BAD_KCP_DESC, "hu_bad_desc": HU_BAD_DESC, "eto_bad_desc": ETO_BAD_DESC,
-                    "etc_bad_desc": ETC_BAD_DESC, "imputed_eto": IMPUTED_ETO}
+description_dict = {"rain_desc": RAIN_DESC,
+                    "simul_desc": SIMUL_DESC,
+                    "irr_desc": IRR_DESC,
+                    "null_profile_desc": NULL_PROFILE_DESC,
+                    "data_blip_desc": DATA_BLIP_DESC,
+                    "large_profile_dip_desc": LARGE_PROFILE_DIP_DESC,
+                    "etcp_pos_desc": ETCP_POS_DESC,
+                    "etcp_outliers_desc": ETCP_OUTLIERS_DESC,
+                    "etcp_susp_low_desc": ETCP_SUSP_LOW_DESC,
+                    "etcp_susp_high": ETCP_SUSP_HIGH_DESC,
+                    "exceeding_normal_desc": EXCEEDING_NORMAL_UPTAKE_DESC,
+                    "bad_kcp_desc": BAD_KCP_DESC,
+                    "hu_bad_desc": HU_BAD_DESC,
+                    "imputed_eto": IMPUTED_ETO,
+                    "eto_bad_desc": ETO_BAD_DESC,
+                    "etc_bad_desc": ETC_BAD_DESC
+                    }
 # ----------------------------------------------------------------------------------------------------------------------
 
 
@@ -141,14 +154,16 @@ def kbv_imputer(flagged_dates, df, column_to_be_imputed):
         week_number = d.isocalendar()[1]
         try:
             df.loc[d, [column_to_be_imputed]] = master_data.df_kbv.loc[week_number, "kbv_eto"]
+            df.loc[d, "description"] = df.loc[d, "description"].replace(ETO_BAD_DESC, IMPUTED_ETO)
             for description in UNREDEEMABLE:
                 if description in df.loc[d, "description"]:
                     break
             else:
                 df.loc[d, "binary_value"] = 0  # we have 'salvaged' an entry.
-                df.loc[d, "description"] = df.loc[d, "description"].replace(ETO_BAD_DESC, IMPUTED_ETO)
         except KeyError:
             df.loc[d, column_to_be_imputed] = np.nan
+    reporter(df=df, brief_desc=IMPUTED_ETO, remaining=False)
+    reporter(df=df, brief_desc=ETO_BAD_DESC, remaining=False)
     return df
 
 
@@ -188,8 +203,8 @@ def flag_spurious_et(df):
                               index=df.index, copy=True)
     condition = (interim_df["eto_diff1"] == 0.0) | (interim_df["eto"] == 0)
     bad_eto_days = df[condition].index
-    flagger(bad_dates=bad_eto_days, brief_desc=ETO_BAD_DESC, df=df, bin_value=0, affected_cols=["eto", "etcp"],
-            set_to_nan=False)
+    flagger(bad_dates=bad_eto_days, brief_desc=ETO_BAD_DESC, df=df, bin_value=1, affected_cols=["eto", "etcp"],
+            set_to_nan=True)
     reporter(df=df, brief_desc=ETO_BAD_DESC)
 
     # Do the same for etc ----------------------------------------------------------------------------------------------
@@ -197,8 +212,8 @@ def flag_spurious_et(df):
                               index=df.index, copy=True)
     condition = (interim_df["etc_diff1"] == 0.0) | (interim_df["etc"] == 0)
     bad_etc_days = df[condition].index
-    flagger(bad_dates=bad_etc_days, brief_desc=ETC_BAD_DESC, df=df, bin_value=0, affected_cols=["etc", "etcp"],
-            set_to_nan=False)
+    flagger(bad_dates=bad_etc_days, brief_desc=ETC_BAD_DESC, df=df, bin_value=1, affected_cols=["etc", "etcp"],
+            set_to_nan=True)
     reporter(df=df, brief_desc=ETC_BAD_DESC)
 
     return bad_eto_days, df
@@ -333,17 +348,17 @@ def flag_unwanted_etcp(df):
             set_to_nan=True)
     reporter(df=df, brief_desc=ETCP_POS_DESC)
 
-    condition = (df["etc"].multiply(-0.50, fill_value=np.nan) < df["etcp"]) & (df["etcp"] < 0)
-    susp_low_etcp_dates = df[condition].index
-    flagger(bad_dates=susp_low_etcp_dates, brief_desc=ETCP_SUSP_LOW_DESC, df=df, bin_value=1,
-            affected_cols=["etcp"], set_to_nan=True)
-    reporter(df=df, brief_desc=ETCP_SUSP_LOW_DESC)
-
-    condition = (df["etcp"] < df["etc"].multiply(-1.50, fill_value=np.nan)) & (df["etcp"] < 0)
-    susp_high_etcp_dates = df[condition].index
-    flagger(bad_dates=susp_high_etcp_dates, brief_desc=ETCP_SUSP_HIGH_DESC, df=df, bin_value=1,
-            affected_cols=["etcp"], set_to_nan=True)
-    reporter(df=df, brief_desc=ETCP_SUSP_HIGH_DESC)
+    # condition = (df["etc"].multiply(-1*SUSP_LOW_VAL, fill_value=np.nan) < df["etcp"]) & (df["etcp"] < 0)
+    # susp_low_etcp_dates = df[condition].index
+    # flagger(bad_dates=susp_low_etcp_dates, brief_desc=ETCP_SUSP_LOW_DESC, df=df, bin_value=1,
+    #         affected_cols=["etcp"], set_to_nan=True)
+    # reporter(df=df, brief_desc=ETCP_SUSP_LOW_DESC)
+    #
+    # condition = (df["etcp"] < df["etc"].multiply(-1*SUSP_HIGH_VAL, fill_value=np.nan)) & (df["etcp"] < 0)
+    # susp_high_etcp_dates = df[condition].index
+    # flagger(bad_dates=susp_high_etcp_dates, brief_desc=ETCP_SUSP_HIGH_DESC, df=df, bin_value=1,
+    #         affected_cols=["etcp"], set_to_nan=True)
+    # reporter(df=df, brief_desc=ETCP_SUSP_HIGH_DESC)
 
     # To simplify the remaining programming, multiply the `etcp` column with -1 so that we henceforth only work with
     # positive values.
