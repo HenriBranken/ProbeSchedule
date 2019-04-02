@@ -203,8 +203,8 @@ def flag_spurious_et(df):
                               index=df.index, copy=True)
     condition = (interim_df["eto_diff1"] == 0.0) | (interim_df["eto"] == 0)
     bad_eto_days = df[condition].index
-    flagger(bad_dates=bad_eto_days, brief_desc=ETO_BAD_DESC, df=df, bin_value=1, affected_cols=["eto", "etcp"],
-            set_to_nan=True)
+    flagger(bad_dates=bad_eto_days, brief_desc=ETO_BAD_DESC, df=df, bin_value=0, affected_cols=["eto", "etcp"],
+            set_to_nan=False)
     reporter(df=df, brief_desc=ETO_BAD_DESC)
 
     # Do the same for etc ----------------------------------------------------------------------------------------------
@@ -212,8 +212,8 @@ def flag_spurious_et(df):
                               index=df.index, copy=True)
     condition = (interim_df["etc_diff1"] == 0.0) | (interim_df["etc"] == 0)
     bad_etc_days = df[condition].index
-    flagger(bad_dates=bad_etc_days, brief_desc=ETC_BAD_DESC, df=df, bin_value=1, affected_cols=["etc", "etcp"],
-            set_to_nan=True)
+    flagger(bad_dates=bad_etc_days, brief_desc=ETC_BAD_DESC, df=df, bin_value=0, affected_cols=["etc", "etcp"],
+            set_to_nan=False)
     reporter(df=df, brief_desc=ETC_BAD_DESC)
 
     return bad_eto_days, df
@@ -382,7 +382,7 @@ def flag_unwanted_etcp(df):
 def flag_unwanted_kcp(df):
     df["kcp"] = df["etcp"].div(df["eto"])
     perc_series = calculate_kcp_deviation(df)
-    condition = (perc_series > 50)
+    condition = (perc_series > 50) | (df["kcp"] is np.nan) | (~np.isfinite(df["kcp"]))
     bad_calc_kcp_dates = df[condition].index
     flagger(bad_dates=bad_calc_kcp_dates, brief_desc=BAD_KCP_DESC, df=df, bin_value=1, affected_cols=["kcp"],
             set_to_nan=True)

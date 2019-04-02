@@ -1,0 +1,190 @@
++------------------------------------------------------------------------------+
+|                             Probe P-370 Report:                              |
++-------------------------------------------+---------------+------------------+
+| Rain perturbing etcp                      |        12.61% |         102/809  |
+| Software simulation                       |        23.11% |         187/809  |
+| `Possible` irrigation                     |        10.88% |          88/809  |
+| Null profile value                        |        33.99% |         275/809  |
+| Profile data blip                         |         1.24% |          10/809  |
+| Large profile dip                         |         0.74% |           6/809  |
+| Etcp is positive                          |        12.98% |         105/809  |
+| Etcp larger than allowed maximum          |        14.09% |         114/809  |
+| Etcp suspiciously low                     |         0.00% |           0/809  |
+| Etcp suspiciously high                    |         0.00% |           0/809  |
+| Etcp exceeding normal water uptake        |         9.64% |          78/809  |
+| Unacceptable kcp                          |        96.54% |         781/809  |
+| Heat Units stuck or faulty                |        19.04% |         154/809  |
+| Imputed eto                               |        58.71% |         475/809  |
+| Stuck or faulty eto                       |         0.25% |           2/809  |
+| Stuck or faulty etc                       |        57.97% |         469/809  |
++-------------------------------------------+---------------+------------------+
+| Only 3.46% of data, that is 28/809 samples, are useful for probe P-370.      |
++------------------------------------------------------------------------------+
+
+
++------------------------------------------------------------------------------+
+|                             Probe P-371 Report:                              |
++-------------------------------------------+---------------+------------------+
+| Rain perturbing etcp                      |        12.61% |         102/809  |
+| Software simulation                       |        20.89% |         169/809  |
+| `Possible` irrigation                     |        12.98% |         105/809  |
+| Null profile value                        |        31.77% |         257/809  |
+| Profile data blip                         |         1.36% |          11/809  |
+| Large profile dip                         |         1.36% |          11/809  |
+| Etcp is positive                          |        13.35% |         108/809  |
+| Etcp larger than allowed maximum          |         5.32% |          43/809  |
+| Etcp suspiciously low                     |         0.00% |           0/809  |
+| Etcp suspiciously high                    |         0.00% |           0/809  |
+| Etcp exceeding normal water uptake        |        14.83% |         120/809  |
+| Unacceptable kcp                          |        94.56% |         765/809  |
+| Heat Units stuck or faulty                |        19.04% |         154/809  |
+| Imputed eto                               |        58.84% |         476/809  |
+| Stuck or faulty eto                       |         0.25% |           2/809  |
+| Stuck or faulty etc                       |        56.49% |         457/809  |
++-------------------------------------------+---------------+------------------+
+| Only 5.44% of data, that is 44/809 samples, are useful for probe P-371.      |
++------------------------------------------------------------------------------+
+
+
++------------------------------------------------------------------------------+
+|                             Probe P-372 Report:                              |
++-------------------------------------------+---------------+------------------+
+| Rain perturbing etcp                      |        12.61% |         102/809  |
+| Software simulation                       |        20.89% |         169/809  |
+| `Possible` irrigation                     |        10.38% |          84/809  |
+| Null profile value                        |        31.77% |         257/809  |
+| Profile data blip                         |         1.24% |          10/809  |
+| Large profile dip                         |         0.87% |           7/809  |
+| Etcp is positive                          |        12.24% |          99/809  |
+| Etcp larger than allowed maximum          |         9.15% |          74/809  |
+| Etcp suspiciously low                     |         0.00% |           0/809  |
+| Etcp suspiciously high                    |         0.00% |           0/809  |
+| Etcp exceeding normal water uptake        |        10.26% |          83/809  |
+| Unacceptable kcp                          |        93.82% |         759/809  |
+| Heat Units stuck or faulty                |        19.04% |         154/809  |
+| Imputed eto                               |        58.71% |         475/809  |
+| Stuck or faulty eto                       |         0.25% |           2/809  |
+| Stuck or faulty etc                       |        54.88% |         444/809  |
++-------------------------------------------+---------------+------------------+
+| Only 6.18% of data, that is 50/809 samples, are useful for probe P-372.      |
++------------------------------------------------------------------------------+
+
+
++------------------------------------------------------------------------------+
+|                             Probe P-384 Report:                              |
++-------------------------------------------+---------------+------------------+
+| Rain perturbing etcp                      |        12.61% |         102/809  |
+| Software simulation                       |        20.89% |         169/809  |
+| `Possible` irrigation                     |        12.98% |         105/809  |
+| Null profile value                        |        31.77% |         257/809  |
+| Profile data blip                         |         1.36% |          11/809  |
+| Large profile dip                         |         1.36% |          11/809  |
+| Etcp is positive                          |        13.35% |         108/809  |
+| Etcp larger than allowed maximum          |         5.32% |          43/809  |
+| Etcp suspiciously low                     |         0.00% |           0/809  |
+| Etcp suspiciously high                    |         0.00% |           0/809  |
+| Etcp exceeding normal water uptake        |        14.83% |         120/809  |
+| Unacceptable kcp                          |        94.56% |         765/809  |
+| Heat Units stuck or faulty                |        19.04% |         154/809  |
+| Imputed eto                               |        58.84% |         476/809  |
+| Stuck or faulty eto                       |         0.25% |           2/809  |
+| Stuck or faulty etc                       |        56.49% |         457/809  |
++-------------------------------------------+---------------+------------------+
+| Only 5.44% of data, that is 44/809 samples, are useful for probe P-384.      |
++------------------------------------------------------------------------------+
+
+
++------------------------------------------------------------------------------+
+|                             Probe P-391 Report:                              |
++-------------------------------------------+---------------+------------------+
+| Rain perturbing etcp                      |        12.61% |         102/809  |
+| Software simulation                       |        22.25% |         180/809  |
+| `Possible` irrigation                     |        14.96% |         121/809  |
+| Null profile value                        |        32.76% |         265/809  |
+| Profile data blip                         |         1.11% |           9/809  |
+| Large profile dip                         |         1.61% |          13/809  |
+| Etcp is positive                          |        11.50% |          93/809  |
+| Etcp larger than allowed maximum          |         5.32% |          43/809  |
+| Etcp suspiciously low                     |         0.00% |           0/809  |
+| Etcp suspiciously high                    |         0.00% |           0/809  |
+| Etcp exceeding normal water uptake        |        10.01% |          81/809  |
+| Unacceptable kcp                          |        93.08% |         753/809  |
+| Heat Units stuck or faulty                |        19.04% |         154/809  |
+| Imputed eto                               |        58.47% |         473/809  |
+| Stuck or faulty eto                       |         0.25% |           2/809  |
+| Stuck or faulty etc                       |        57.23% |         463/809  |
++-------------------------------------------+---------------+------------------+
+| Only 6.92% of data, that is 56/809 samples, are useful for probe P-391.      |
++------------------------------------------------------------------------------+
+
+
++------------------------------------------------------------------------------+
+|                             Probe P-392 Report:                              |
++-------------------------------------------+---------------+------------------+
+| Rain perturbing etcp                      |        12.61% |         102/809  |
+| Software simulation                       |        21.51% |         174/809  |
+| `Possible` irrigation                     |        13.23% |         107/809  |
+| Null profile value                        |        32.39% |         262/809  |
+| Profile data blip                         |         0.74% |           6/809  |
+| Large profile dip                         |         1.48% |          12/809  |
+| Etcp is positive                          |        12.24% |          99/809  |
+| Etcp larger than allowed maximum          |         5.07% |          41/809  |
+| Etcp suspiciously low                     |         0.00% |           0/809  |
+| Etcp suspiciously high                    |         0.00% |           0/809  |
+| Etcp exceeding normal water uptake        |         4.33% |          35/809  |
+| Unacceptable kcp                          |        89.86% |         727/809  |
+| Heat Units stuck or faulty                |        19.04% |         154/809  |
+| Imputed eto                               |        58.47% |         473/809  |
+| Stuck or faulty eto                       |         0.25% |           2/809  |
+| Stuck or faulty etc                       |        55.01% |         445/809  |
++-------------------------------------------+---------------+------------------+
+| Only 10.14% of data, that is 82/809 samples, are useful for probe P-392.     |
++------------------------------------------------------------------------------+
+
+
++------------------------------------------------------------------------------+
+|                             Probe P-891 Report:                              |
++-------------------------------------------+---------------+------------------+
+| Rain perturbing etcp                      |        12.61% |         102/809  |
+| Software simulation                       |         0.00% |           0/809  |
+| `Possible` irrigation                     |        12.36% |         100/809  |
+| Null profile value                        |        26.21% |         212/809  |
+| Profile data blip                         |         0.00% |           0/809  |
+| Large profile dip                         |         1.11% |           9/809  |
+| Etcp is positive                          |        11.50% |          93/809  |
+| Etcp larger than allowed maximum          |         3.83% |          31/809  |
+| Etcp suspiciously low                     |         0.00% |           0/809  |
+| Etcp suspiciously high                    |         0.00% |           0/809  |
+| Etcp exceeding normal water uptake        |        12.73% |         103/809  |
+| Unacceptable kcp                          |        86.77% |         702/809  |
+| Heat Units stuck or faulty                |        19.04% |         154/809  |
+| Imputed eto                               |        58.71% |         475/809  |
+| Stuck or faulty eto                       |         0.25% |           2/809  |
+| Stuck or faulty etc                       |        55.01% |         445/809  |
++-------------------------------------------+---------------+------------------+
+| Only 13.23% of data, that is 107/809 samples, are useful for probe P-891.    |
++------------------------------------------------------------------------------+
+
+
++------------------------------------------------------------------------------+
+|                     Report for the entire SET of probes:                     |
++-------------------------------------------+---------------+------------------+
+| Rain perturbing etcp                      |        12.61% |         714/5663 |
+| Software simulation                       |        18.51% |        1048/5663 |
+| `Possible` irrigation                     |        12.54% |         710/5663 |
+| Null profile value                        |        31.52% |        1785/5663 |
+| Profile data blip                         |         1.01% |          57/5663 |
+| Large profile dip                         |         1.22% |          69/5663 |
+| Etcp is positive                          |        12.45% |         705/5663 |
+| Etcp larger than allowed maximum          |         6.87% |         389/5663 |
+| Etcp suspiciously low                     |         0.00% |           0/5663 |
+| Etcp suspiciously high                    |         0.00% |           0/5663 |
+| Etcp exceeding normal water uptake        |        10.95% |         620/5663 |
+| Unacceptable kcp                          |        92.74% |        5252/5663 |
+| Heat Units stuck or faulty                |        19.04% |        1078/5663 |
+| Imputed eto                               |        58.68% |        3323/5663 |
+| Stuck or faulty eto                       |         0.25% |          14/5663 |
+| Stuck or faulty etc                       |        56.15% |        3180/5663 |
++-------------------------------------------+---------------+------------------+
+| Only 7.26% of data, that is 411/5663 samples, are useful for the probe SET.  |
++------------------------------------------------------------------------------+
