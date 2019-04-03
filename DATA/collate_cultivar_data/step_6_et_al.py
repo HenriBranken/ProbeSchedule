@@ -56,8 +56,8 @@ def get_dates_and_kcp(dataframe, probe_id):
     return sub_df.index, sub_df["kcp"].values
 
 
-def get_labels(begin, terminate):
-    return [x for x in pd.date_range(start=begin, end=terminate, freq="MS")]
+def get_labels(begin, terminate, freq="MS"):
+    return [x for x in pd.date_range(start=begin, end=terminate, freq=freq)]
 
 
 def date_wrapper(date_iterable):
@@ -87,6 +87,8 @@ for d in eg_df.index:
 vline_date = vline_dates[0]
 beginning_datetime = datetime.datetime(year=starting_year, month=BEGINNING_MONTH, day=1)
 end_datetime = datetime.datetime(year=starting_year + 1, month=BEGINNING_MONTH, day=1)
+api_start_date, api_end_date = min(processed_eg_df.index), max(processed_eg_df.index)
+api_xticks = get_labels(begin=api_start_date, terminate=api_end_date, freq="QS")
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
@@ -298,28 +300,44 @@ plt.close()
 # ----------------------------------------------------------------------------------------------------------------------
 # Compare original heat_units versus the interpolated_hu
 # ----------------------------------------------------------------------------------------------------------------------
-fig, ax = plt.subplots(nrows=2, ncols=1, sharex="col")
+fig, ax = plt.subplots(nrows=2, ncols=1)
+fig.autofmt_xdate()
+fig.suptitle("Comparison between base Heat Units and interpolated Heat Units")
 
 color = "red"
 ax[0].bar(processed_eg_df.index, processed_eg_df["heat_units"], color=color, label="Base Heat Units", alpha=0.5)
 for v in vline_dates:
-    ax[0].axvline(x=v, linestyle="--", linewidth=2, color="cyan", alpha=0.5)
-ax[0].plot([], [], linestyle="--", linewidth=2, color="cyan", alpha=0.5, label="New Season")
+    ax[0].axvline(x=v, linestyle="--", linewidth=2, color="magenta", alpha=0.5)
+ax[0].plot([], [], linestyle="--", linewidth=2, color="magenta", alpha=0.5, label="New Season")
+ax[0].tick_params(which="major", bottom=True, labelbottom=True, colors="black", labelcolor="black",
+                  labelsize="small", axis="x")
+ax[0].set_xticks(api_xticks)
+ax[0].set_xticklabels(api_xticks, rotation=40, ha="right")
+ax[0].xaxis.set_major_formatter(mdates.DateFormatter('%Y/%b'))
+ax[0].set_xlim(left=api_start_date, right=api_end_date)
+for tick in ax[0].get_xticklabels():
+    tick.set_visible(True)
 ax[0].set_ylabel("Heat Units")
-ax[0].legend()
+ax[0].legend(prop={"size": 8})
 
 color = "green"
 ax[1].bar(processed_eg_df.index, processed_eg_df["interpolated_hu"], color=color, label="Interpolated H.U.", alpha=0.5)
 for v in vline_dates:
-    ax[1].axvline(x=v, linestyle="--", linewidth=2, color="cyan", alpha=0.5)
-ax[1].plot([], [], linestyle="--", linewidth=2, color="cyan", alpha=0.5, label="New Season")
-ax[1].set_xlim(left=processed_eg_df.index[0], right=processed_eg_df.index[-1])
+    ax[1].axvline(x=v, linestyle="--", linewidth=2, color="magenta", alpha=0.5)
+ax[1].plot([], [], linestyle="--", linewidth=2, color="magenta", alpha=0.5, label="New Season")
+ax[1].tick_params(which="major", bottom=True, labelbottom=True, colors="black", labelcolor="black",
+                  labelsize="small", axis="x")
+ax[1].set_xticks(api_xticks)
+ax[1].set_xticklabels(api_xticks, rotation=40, ha="right")
+ax[1].xaxis.set_major_formatter(mdates.DateFormatter('%Y/%b'))
+ax[1].set_xlim(left=api_start_date, right=api_end_date)
+for tick in ax[1].get_xticklabels():
+    tick.set_visible(True)
 ax[1].set_ylabel("Heat Units")
 ax[1].set_xlabel("Date")
-ax[1].legend()
+ax[1].legend(prop={"size": 8})
 
-fig.autofmt_xdate()
-fig.suptitle("Comparison between base Heat Units and interpolated Heat Units")
+plt.tight_layout(rect=[0, 0.03, 1, 0.95])
 plt.savefig("./figures/heat_units_comparison.png")
 plt.close()
 # ----------------------------------------------------------------------------------------------------------------------

@@ -269,7 +269,7 @@ def flag_suspicious_and_missing_profile_events(df):
         except KeyError:
             pass
     data_blip_days = pd.to_datetime(data_blip_days)
-    flagger(bad_dates=data_blip_days, brief_desc=DATA_BLIP_DESC, df=df, bin_value=1, affected_cols=["profile", "etcp"],
+    flagger(bad_dates=data_blip_days, brief_desc=DATA_BLIP_DESC, df=df, bin_value=1, affected_cols=["etcp"],
             set_to_nan=True)
     reporter(df=df, brief_desc=DATA_BLIP_DESC)
 
@@ -287,7 +287,7 @@ def flag_suspicious_and_missing_profile_events(df):
             pass
     large_dip_days = pd.to_datetime(large_dip_days)
     flagger(bad_dates=large_dip_days, brief_desc=LARGE_PROFILE_DIP_DESC, df=df, bin_value=1,
-            affected_cols=["profile", "etcp"], set_to_nan=True)
+            affected_cols=["etcp"], set_to_nan=True)
     reporter(df=df, brief_desc=LARGE_PROFILE_DIP_DESC)
     return df
 
