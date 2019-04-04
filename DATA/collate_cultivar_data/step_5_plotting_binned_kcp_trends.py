@@ -81,7 +81,7 @@ for d in base_datetimestamp:
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Plot the data
 # Compare the scatter plot of the cleaned data with the:
-#   a.  Best polynomial fit
+#   a.  Best trend
 #   b.  Weekly-binned kcp data
 #   c.  Monthly-binned kcp data
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

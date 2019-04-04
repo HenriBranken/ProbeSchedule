@@ -6,6 +6,7 @@ from cleaning_operations import BEGINNING_MONTH, KCP_MAX
 import pandas as pd
 from cleaning_operations import description_dict
 import math
+import numpy as np
 
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -31,6 +32,14 @@ processed_eg_df = pd.read_excel("./data/processed_probe_data.xlsx", sheet_name=0
 
 with open("./data/starting_year.txt", "r") as f:
     starting_year = int(f.readline().rstrip())
+start_date = datetime.datetime(year=starting_year, month=BEGINNING_MONTH, day=1)
+
+WMA_kcp_trend_vs_datetime_df = pd.read_excel("./data/WMA_kcp_trend_vs_datetime.xlsx", sheet_name=0, index_col=0,
+                                             squeeze=False, parse_dates=True)
+WMA_kcp_trend_vs_datetime_df["days"] = WMA_kcp_trend_vs_datetime_df.index - start_date
+WMA_kcp_trend_vs_datetime_df["days"] = WMA_kcp_trend_vs_datetime_df["days"].dt.days
+x_WMA, y_WMA = WMA_kcp_trend_vs_datetime_df["days"].values, WMA_kcp_trend_vs_datetime_df["WMA_kcp_trend"].values
+x_WMA_dates = WMA_kcp_trend_vs_datetime_df.index.values
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
@@ -44,7 +53,7 @@ marker_list = ["o", ">", "<", "s", "P", "*", "X", "D"]
 color_list = ["red", "gold", "seagreen", "lightseagreen", "royalblue", "darkorchid", "plum", "burlywood"]
 
 num_cols = 2
-num_rows = int(math.ceil(len(probe_ids) / 2))
+num_rows = int(math.ceil(len(probe_ids) / num_cols))
 # ======================================================================================================================
 
 
@@ -57,11 +66,32 @@ num_rows = int(math.ceil(len(probe_ids) / 2))
 # Note that wrapping has already occurred previously by calling cleaning_operations.get_final_dates(df) in `main.py`
 def get_dates_and_kcp(dataframe, probe_id):
     sub_df = dataframe.loc[(probe_id, ), ["kcp"]]
-    return sub_df.index, sub_df["kcp"].values
+    sub_df["days"] = sub_df.index - start_date
+    sub_df["days"] = sub_df["days"].dt.days
+    return sub_df.index, sub_df["days"].values, sub_df["kcp"].values
 
 
 def get_labels(begin, terminate, freq="MS"):
     return [x for x in pd.date_range(start=begin, end=terminate, freq=freq)]
+
+
+def find_nearest_index(model_array, raw_value):
+    model_array = np.asarray(model_array)
+    ii = (np.abs(model_array - raw_value)).argmin()
+    return ii
+
+
+def get_r_squared(x_raw, y_raw, x_fit, y_fit):
+    indices = []
+    for x in x_raw:
+        indices.append(find_nearest_index(x_fit, x))
+    y_proxies = []
+    for j in indices:
+        y_proxies.append(y_fit[j])
+    y_bar = np.mean(y_raw)
+    ssreg = np.sum((y_proxies - y_bar)**2)
+    sstot = np.sum((y_raw - y_bar)**2)
+    return ssreg/sstot
 
 
 season_xticks = get_labels(begin=season_begin_date, terminate=season_end_date)
@@ -99,9 +129,12 @@ for idx, ax in enumerate(axs):
     meta = next(zipped_meta)
     ax.set_ylim(bottom=0.0, top=KCP_MAX)
     ax.grid(True)
-    dates, kcp = get_dates_and_kcp(dataframe=cleaned_multi_df, probe_id=probe_ids[idx])
+    dates, days, kcp = get_dates_and_kcp(dataframe=cleaned_multi_df, probe_id=probe_ids[idx])
+    r_squared = get_r_squared(x_raw=days, y_raw=kcp, x_fit=x_WMA, y_fit=y_WMA)
+    # print("r^2 = {:.4f}.".format(r_squared))
     ax.scatter(dates, kcp, marker=meta[0], color=meta[1], s=20, edgecolors="black", linewidth=1, alpha=0.5,
                label=probe_ids[idx])
+    ax.plot(x_WMA_dates, y_WMA, linewidth=1.5, alpha=0.75, label="WMA trend")
     ax.tick_params(which="major", bottom=True, labelbottom=True, colors="black", labelcolor="black",
                    labelsize="small", axis="x")
     ax.set_xticks(season_xticks)
@@ -110,9 +143,14 @@ for idx, ax in enumerate(axs):
     ax.set_xlim(left=season_begin_date, right=season_end_date)
     for tick in ax.get_xticklabels():
         tick.set_visible(True)
-    ax.legend(prop={"size": 6})
+    ax.legend(prop={"size": 6}, loc=6)
+    ax.annotate(s="$R^2$ = {:.3f}".format(r_squared), xycoords="axes fraction", xy=(0.01, 0.87), fontsize=9)
     if idx == 6:
         break
+for idx in [0, 2, 4, 6]:
+    axs[idx].set_ylabel("$k_{cp}$")
+for idx in [5, 6]:
+    axs[idx].set_xlabel("Month of the Season")
 
 plt.tight_layout(rect=[0, 0.03, 1, 0.95])
 plt.savefig("./figures/array_kcp.png")
@@ -153,6 +191,10 @@ for idx, ax in enumerate(axs):
     ax.legend(prop={"size": 6})
     if idx == 6:
         break
+for idx in [0, 2, 4, 6]:
+    axs[idx].set_ylabel("Irrigation $\mathrm{[mm]}$")
+for idx in [5, 6]:
+    axs[idx].set_xlabel("Date")
 
 plt.tight_layout(rect=[0, 0.03, 1, 0.95])
 plt.savefig("./figures/array_irrigation.png")
@@ -183,7 +225,7 @@ for idx, ax in enumerate(axs):
                color="black", marker="X", label="Dips", edgecolors="green")
     for v in vline_dates:
         ax.axvline(x=v, linewidth=2, color="magenta", alpha=0.4, ls="--")
-    ax.plot([], [], linewidth=2, color="magenta", label="New Season", alpha=0.4, ls="--")
+    ax.plot([], [], linewidth=1, color="magenta", label="New Season", alpha=0.4, ls="--")
     ax.tick_params(which="major", bottom=True, labelbottom=True, colors="black", labelcolor="black",
                    labelsize="small", axis="x")
     ax.set_xticks(api_xticks)
@@ -195,6 +237,10 @@ for idx, ax in enumerate(axs):
     ax.legend(prop={"size": 6})
     if idx == 6:
         break
+for idx in [0, 2, 4, 6]:
+    axs[idx].set_ylabel("Profile $\mathrm{[mm]}$")
+for idx in [5, 6]:
+    axs[idx].set_xlabel("Date")
 
 plt.tight_layout(rect=[0, 0.03, 1, 0.95])
 plt.savefig("./figures/array_profile.png")

@@ -155,8 +155,8 @@ cleaned_df.sort_values(by="days", axis=0, inplace=True)
 
 
 # ======================================================================================================================
-# Perform polynomial fits to `data_np_array`
-# Make plots of `kcp` versus `Days into the Season` of the Polynomial fits
+# Perform weighted-moving-average trends to the data
+# Make plots of `kcp` versus `Days into the Season` of the WMA trends
 # Here, the x-axis is simply an integer: the offset (in units of days) since the beginning of the season
 # ======================================================================================================================
 independent_var = cleaned_df["days"].values
