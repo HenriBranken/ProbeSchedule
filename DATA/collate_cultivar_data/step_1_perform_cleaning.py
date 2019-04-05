@@ -64,6 +64,7 @@ def initialize_flagging_columns(dataframe):
 #           One Excel sheet represents ONE probe-id.
 #           A set of Excel spreadsheets represents a set of probe-id's on a farm / farm-block / region / etc...
 #   16.     Once all the sheets have been populated, save and close the .xlsx file.
+#           Also save .xlsx containing cleaned kcp data of all the probes.
 # ======================================================================================================================
 writer = pd.ExcelWriter("./data/processed_probe_data.xlsx", engine="xlsxwriter")
 writer_2 = pd.ExcelWriter("./data/cleaned_data_for_overlay.xlsx", engine="xlsxwriter")
@@ -164,12 +165,12 @@ writer_2.save()  # `./data/cleaned_data_for_overlay.xlsx`
 # Save all the cleaned data to file.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # The code below can be summarised as follows:
-# 2. Stacked the cleaned data, from `./data/cleaned_data_for_overlay.xlsx`, together into one MultiIndex DataFrame.
-# 3. Populate a .txt file containing all the names of the probeIDs:
+# 1. Stack the cleaned data, from `./data/cleaned_data_for_overlay.xlsx`, together into one MultiIndex DataFrame.
+# 2. Populate a .txt file containing all the names of the probeIDs:
 #    This is saved at `./data/probe_ids.txt`
-# 4. Save dataframe containing reference crop coefficient data to an excel spreadsheet.
+# 3. Save dataframe containing reference crop coefficient data to an excel spreadsheet.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# 2.
+# 1.
 # Stack the cleaned data together into one MultiIndex DataFrame.
 # Outer level index is "probe_id", and inner level index is "datetimeStamp".
 cleaned_dict = pd.read_excel("./data/cleaned_data_for_overlay.xlsx", sheet_name=None, header=0, parse_dates=True,
@@ -184,13 +185,13 @@ stacked_multi_df = stacked_df.set_index(["probe_id", stacked_df.index])
 stacked_multi_df.to_excel("./data/stacked_cleaned_data_for_overlay.xlsx", float_format="%.7f", columns=["kcp"],
                           header=True, index=True)
 
-# 3.
+# 2.
 # Populate a .txt file containing all the probe-ids (in the format of 'P-{some_number}').
 # There is exactly one ProbeID per line in the .txt file.
 with open("./data/probe_ids.txt", "w", encoding="utf-8") as f2:
     f2.write("\n".join(probe_ids))
 
-# 4.
+# 3.
 # Extract and save reference "cco" data
 processed_df = pd.read_excel("./data/processed_probe_data.xlsx", sheet_name="{}".format(probe_ids[0]), header=0,
                              index_col=0, squeeze=True, parse_dates=True)

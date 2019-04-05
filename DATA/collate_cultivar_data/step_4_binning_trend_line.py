@@ -62,7 +62,7 @@ def calendar_day_mapper(season_d):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-# Daily for kcp.
+# Create Daily Averages for kcp.
 # Create a pandas DataFrame, called kcp_vs_day_df.  kcp_vs_day_df contains the columns:
 #   datetimestamp --> the index of the DataFrame
 #   calendar_day --> self-explanatory

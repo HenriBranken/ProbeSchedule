@@ -10,10 +10,10 @@ register_matplotlib_converters()
 
 
 # ======================================================================================================================
-# Declare some necessary constants
+# Declare some necessary "constants"
 # ======================================================================================================================
 # 1. Create some meta data that will be used in the upcoming scatter plots
-#    This meta data stores `marker` and `color` constants.
+#    This meta data stores `marker` and `color` values.
 # ======================================================================================================================
 marker_list = ["o", ">", "<", "s", "P", "*", "X", "D"]
 color_list = ["red", "gold", "seagreen", "lightseagreen", "royalblue", "darkorchid", "plum", "burlywood"]
@@ -57,15 +57,13 @@ def get_starting_year():
     return int(inner_level[0].year)
 
 
-# Extract dates and kcp values from tuple
-# Sort according to datetime
-# Return sorted dates and associated kcp values that also got sorted in the process
-# Note that wrapping has already occurred previously by calling cleaning_operations.get_final_dates(df) in `main.py`
+# Get the (dates, kcp) dataset associated with a specific probe_id
 def get_dates_and_kcp(dataframe, probe_id):
     sub_df = dataframe.loc[(probe_id, ), ["kcp"]]
     return sub_df.index, sub_df["kcp"].values
 
 
+# "Wrap" the dates so that we only consider data spanning exactly one whole year/season.
 def date_wrapper(date_iterable):
     new_dates = []
     for datum in date_iterable:
@@ -77,6 +75,7 @@ def date_wrapper(date_iterable):
     return new_dates
 
 
+# Generate xticklabels to be shown on the x-axis of the plot.
 def get_labels(begin, terminate):
     return [x for x in pd.date_range(start=begin, end=terminate, freq="MS")]
 # ----------------------------------------------------------------------------------------------------------------------
@@ -85,6 +84,7 @@ def get_labels(begin, terminate):
 # ======================================================================================================================
 # Plot all the cleaned kcp data and save the plotted figure
 # ======================================================================================================================
+# Ensure that the `./figures` directory exists.
 if not os.path.exists("./figures"):
     os.makedirs("figures")
 
@@ -123,9 +123,9 @@ plt.close()
 
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# Make a plot of etcp for each probe on a single set of axes.
+# Make a plot of etcp for each probe on a single set of axes.  Each probe is indicated by a different marker.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# Reset the cycle
+# Reset the cycle iterable
 zipped_meta = cycle([(m, c) for m, c in zip(marker_list, color_list)])
 
 fig, ax = plt.subplots(figsize=(10, 5))

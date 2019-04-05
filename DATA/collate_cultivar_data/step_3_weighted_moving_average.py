@@ -11,8 +11,9 @@ from scipy.signal import argrelextrema
 # ----------------------------------------------------------------------------------------------------------------------
 # Declare important constants
 # ----------------------------------------------------------------------------------------------------------------------
-n_neighbours_list = list(np.arange(start=1, stop=25+1, step=1))
-delta_x = 1
+n_neighbours_list = list(np.arange(start=1, stop=25+1, step=1))  # i.e. the width of the Gaussian in the gaussian
+# helper function.
+delta_x = 1  # the step-size of the trendline
 x_limits = [0, 365]
 # ----------------------------------------------------------------------------------------------------------------------
 
@@ -20,8 +21,8 @@ x_limits = [0, 365]
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Import all the necessary data
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# Load the serialised data that were saved in `step_1_perform_cleaning.py`; unpickle the serialised data.
-# `data_to_plot` only consists of cleaned (datetime, kcp) samples for each probe.
+# Create a DataFrame containing all the cleaned (date, kcp) data samples.  Probe-id information is not necessary in this
+# dataframe.
 cleaned_df = pd.read_excel("./data/stacked_cleaned_data_for_overlay.xlsx", header=0, index_col=[0, 1],
                            parse_dates=True)
 outer_index = list(cleaned_df.index.get_level_values("probe_id").unique())
@@ -48,8 +49,6 @@ cco_df["days"] = cco_df["days"].dt.days  # we use the dt.days attribute
 
 # ======================================================================================================================
 # Define some helper functions
-# 1. rectify_trend(fitted_trend_values)
-# 2. simplify_trend(fitted_trend_values)
 # ======================================================================================================================
 def rectify_trend(fitted_trend_values):
     """
@@ -138,9 +137,9 @@ def get_prized_index(n_bumps_list):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-# Calculate the offset of each date from the beginning of the season
-# Convert the offsets, which are of type timedelta, to integer values, representing the number of days
-# Sort the DataFrame by the "days" column
+# Calculate the offset of each date from the beginning of the season.
+# Convert the offsets, which are of type timedelta, to integer values, representing the number of days.
+# Sort the DataFrame by the "days" column.
 # ----------------------------------------------------------------------------------------------------------------------
 # Calculate the number_of_days offset for each sample from the beginning of the cultivar Season
 cleaned_df["offset"] = cleaned_df.index - datetime.datetime(year=starting_year, month=BEGINNING_MONTH, day=1)
@@ -241,7 +240,7 @@ plt.close()
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Write the r-squared statistics to file
-# Each line in the file corresponds to the highest order used in the polynomial fit, (and the associated R^2 statistic)
+# Each line in the file corresponds to the n_neighbours hyperparameter, and the associated R^2 statistic.
 # ----------------------------------------------------------------------------------------------------------------------
 with open("./data/statistics_trend_lines.txt", "w") as f:
     f.write("n_neighbours | statistic\n")

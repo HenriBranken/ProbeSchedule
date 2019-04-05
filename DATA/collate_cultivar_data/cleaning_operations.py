@@ -40,7 +40,7 @@ IMPUTED_ETO = "Imputed eto"
 REDEEMABLE = [HU_BAD_DESC, IMPUTED_ETO]
 
 # With the definition of `description_dict`, we can use only 1 import statement instead of individually importing all
-# the different _DESC constants.
+# the different *_DESC constants.
 description_dict = {"rain_desc": RAIN_DESC,
                     "simul_desc": SIMUL_DESC,
                     "irr_desc": IRR_DESC,

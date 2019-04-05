@@ -68,16 +68,16 @@ def weighted_moving_average(x, y, step_size=1, width=10):
 # ----------------------------------------------------------------------------------------------------------------------
 # Import the necessary data to perform data crunching on.
 # ----------------------------------------------------------------------------------------------------------------------
-# 1.    We will import the excel file at ./data/processed_probe_data.xlsx
+# 1.    We will import the excel file at `./data/processed_probe_data.xlsx`
 #       In this excel file we need the column "cumulative_gdd".
 #       We may use any sheet/probe_id in this excel file.  "cumulative_gdd" is identical for each sheet/probe_id.
 #       The index_col is "date".
-# 2.    We will import the excel file at ./data/binned_kcp_data.xlsx
+# 2.    We will import the excel file at `./data/binned_kcp_data.xlsx`
 #       We need the sheet "day_frequency".
 #       The columns in "day_frequency" are: "season_day", "calendar_day", "day_averaged_kcp".
 #       The index_col in "day_frequency" is:  "datetimestamp".
 # 3.    "cumulative_gdd" is to become our new x-axis.
-#       "day_averaged_kcp" is to become our y-axis.
+#       "day_averaged_kcp" is to become our new y-axis.
 #       The common denominator between these two features is "season_day".
 # ----------------------------------------------------------------------------------------------------------------------
 processed_df = pd.read_excel("./data/processed_probe_data.xlsx", header=0, index_col=0,

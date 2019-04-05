@@ -23,6 +23,7 @@ with open("data/probe_ids.txt", "r") as f2:
     probe_ids = f2.readlines()
 probe_ids = [x.strip() for x in probe_ids]
 
+# Create a folder for each probe-id in the `figures` parent folder.
 for p in probe_ids:
     if not os.path.exists("./figures/{}/".format(p)):
         os.makedirs("./figures/{}/".format(p))
@@ -30,6 +31,7 @@ for p in probe_ids:
 processed_eg_df = pd.read_excel("./data/processed_probe_data.xlsx", sheet_name=0, header=0, index_col=0, squeeze=True,
                                 parse_dates=True)
 
+# Extract the starting year of the crop data, and also declare the starting-date for the crop data.
 with open("./data/starting_year.txt", "r") as f:
     starting_year = int(f.readline().rstrip())
 start_date = datetime.datetime(year=starting_year, month=BEGINNING_MONTH, day=1)
@@ -60,10 +62,6 @@ num_rows = int(math.ceil(len(probe_ids) / num_cols))
 # ----------------------------------------------------------------------------------------------------------------------
 # Define all the helper functions
 # ----------------------------------------------------------------------------------------------------------------------
-# Extract dates and kcp values from tuple
-# Sort according to datetime
-# Return sorted dates and associated kcp values that also got sorted in the process
-# Note that wrapping has already occurred previously by calling cleaning_operations.get_final_dates(df) in `main.py`
 def get_dates_and_kcp(dataframe, probe_id):
     sub_df = dataframe.loc[(probe_id, ), ["kcp"]]
     sub_df["days"] = sub_df.index - start_date
@@ -101,7 +99,7 @@ api_xticks = get_labels(begin=api_start_date, terminate=api_end_date, freq="QS")
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Define the vline date marking the beginning of a new season in the figures.
-# A new season is just 1 year apart.
+# A new season is just 1 year apart from the previous season (obviously).
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 vline_dates = []
 for d in processed_eg_df.index:

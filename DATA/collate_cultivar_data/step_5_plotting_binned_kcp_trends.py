@@ -8,7 +8,7 @@ pd.set_option('display.max_columns', 6)
 # ----------------------------------------------------------------------------------------------------------------------
 # Load the necessary data
 # ----------------------------------------------------------------------------------------------------------------------
-#   1.  kcp_trend_vs_datetime is the data associated with the best polynomial fit
+#   1.  kcp_trend_vs_datetime is the data associated with the best WMA trendline
 #   2.  kcp_vs_days --> cleaned probe data
 #   3.  kcp_vs_day_df --> kcp as a function of day of the year/season
 #   4.  kcp_vs_week_df --> kcp as a function of week of the year/season

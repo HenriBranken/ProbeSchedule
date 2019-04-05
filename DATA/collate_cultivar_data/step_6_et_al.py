@@ -36,6 +36,7 @@ with open("./data/probe_ids.txt", "r") as f2:
     probe_ids = f2.readlines()
 probe_ids = [x.strip() for x in probe_ids]
 
+# Make a directory for each probe in the `figures` parent directory.
 for p in probe_ids:
     if not os.path.exists("./figures/{}/".format(p)):
         os.makedirs("./figures/{}/".format(p))
@@ -43,6 +44,7 @@ for p in probe_ids:
 processed_eg_df = pd.read_excel("./data/processed_probe_data.xlsx", sheet_name=0, header=0, index_col=0, squeeze=True,
                                 parse_dates=True)
 
+# Get the starting year of the crop data
 with open("./data/starting_year.txt", "r") as f:
     starting_year = int(f.readline().rstrip())
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
