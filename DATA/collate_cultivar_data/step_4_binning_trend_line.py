@@ -10,15 +10,15 @@ pd.set_option('display.max_columns', 6)
 # The cleaned_kcp_df is a pandas DataFrame containing the cleaned kcp (scatter-plot) data
 # ----------------------------------------------------------------------------------------------------------------------
 # Extract the data associated with the weighted moving average generated in `step_3_weighted_moving_average.py`
-kcp_vs_days_df = pd.read_excel("./data/WMA_kcp_trend_vs_datetime.xlsx", header=0, names=["WMA_kcp_trend"],
+kcp_vs_days_df = pd.read_excel("./data/Smoothed_kcp_trend_vs_datetime.xlsx", header=0, names=["Smoothed_kcp_trend"],
                                index_col=0, parse_dates=True)
 datetimestamp = kcp_vs_days_df.index
-kcp_trend = kcp_vs_days_df["WMA_kcp_trend"].values
+kcp_trend = kcp_vs_days_df["Smoothed_kcp_trend"].values
 
 # Get the starting year
 with open("./data/starting_year.txt", "r") as f:
     starting_year = int(f.readline().rstrip())
-starting_week = datetimestamp[0].isocalendar()[1]  # the starting calendar week
+starting_week = datetimestamp[0].isocalendar()[1]  # the starting CALENDAR week
 starting_date = datetimestamp[0]
 
 # The scatter plot of cleaned kcp as a function of datetime

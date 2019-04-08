@@ -8,10 +8,11 @@ from cleaning_operations import BEGINNING_MONTH
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Define important "constants".
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# Create a list of all the Probe-IDs that are going to be used
-probe_ids = [370, 371, 372, 384, 391, 392, 891]
-# probe_ids = [370, 371]
-probe_ids = ["P-{:.0f}".format(number) for number in probe_ids]
+# Create a list, `probe_ids`, of all the probe-ids that are going to be used
+with open("./data/probe_ids.txt", "r") as f:
+    probe_ids = f.readlines()
+    probe_ids = [x.rstrip() for x in probe_ids]
+print(probe_ids)
 
 if not os.path.exists("./data"):
     os.makedirs("./data")
@@ -22,7 +23,7 @@ if not os.path.exists("./data"):
 # Define some helper functions
 # ----------------------------------------------------------------------------------------------------------------------
 def load_probe_data(probe_name):
-    dataframe = pd.read_excel("../Golden_Delicious_daily_data.xlsx", sheet_name=probe_name,
+    dataframe = pd.read_excel("../cultivar_data_unique.xlsx", sheet_name=probe_name,
                               index_col=0, parse_dates=True)
     new_columns = []
     for c in dataframe.columns:

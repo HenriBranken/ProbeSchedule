@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 # 1. `n_neighbours` is the width of the Gaussian used in generating the weighted moving average.
 # 2. `delta_x` is the step size to be used when generating a list of x values.
 # ----------------------------------------------------------------------------------------------------------------------
-n_neighbours = 2
+n_neighbours = 1
 delta_x = 1
 # ----------------------------------------------------------------------------------------------------------------------
 
@@ -85,7 +85,7 @@ kcp_vs_gdd_df["delta_kcp"].fillna(method="ffill", inplace=True)
 
 # 3. Extract the beginning and end flat kcp portions.
 beginning_flat_kcp = kcp_vs_gdd_df["daily_trend_kcp"].values[0]
-end_flat_kcp = kcp_vs_gdd_df["daily_trend_kcp"].values[-1]
+# end_flat_kcp = kcp_vs_gdd_df["daily_trend_kcp"].values[-1]
 
 # 4. Define x_raw and y_raw.
 independent_var = kcp_vs_gdd_df["smoothed_cumul_gdd"].values
@@ -104,7 +104,7 @@ x_smoothed = np.insert(x_smoothed, 0, values=x_prepend)
 y_smoothed = np.insert(y_smoothed, 0, values=y_prepend)
 
 # 7. Determine the goodness of the fit.
-r_squared = get_r_squared(independent_var, dependent_var, x_smoothed, y_smoothed)
+r_squared = get_r_squared(x_raw=independent_var, y_raw=dependent_var, x_fit=x_smoothed, y_fit=y_smoothed)
 print("The goodness of the fit is: {:.4f}.".format(r_squared))
 # ======================================================================================================================
 

@@ -11,10 +11,11 @@ from scipy.signal import argrelextrema
 # ----------------------------------------------------------------------------------------------------------------------
 # Declare important constants
 # ----------------------------------------------------------------------------------------------------------------------
-n_neighbours_list = list(np.arange(start=1, stop=25+1, step=1))  # i.e. the width of the Gaussian in the gaussian
+n_neighbours_list = list(np.arange(start=1, stop=30+1, step=1))  # i.e. the width of the Gaussian in the gaussian
 # helper function.
 delta_x = 1  # the step-size of the trendline
 x_limits = [0, 365]
+pol_degree = 4
 # ----------------------------------------------------------------------------------------------------------------------
 
 
@@ -106,9 +107,9 @@ def weighted_moving_average(x, y, step_size=1.0, width=10, x_lims=None):
 
 def get_r_squared(x_raw, y_raw, x_fit, y_fit):
     indices = []
+    y_proxies = []
     for x in x_raw:
         indices.append(find_nearest_index(x_fit, x))
-    y_proxies = []
     for j in indices:
         y_proxies.append(y_fit[j])
     y_bar = np.mean(y_raw)
@@ -134,6 +135,52 @@ def get_prized_index(n_bumps_list):
         print("There is not an index where n_bumps == 1.")
         sys.exit(1)
 # ======================================================================================================================
+
+
+# ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+# Define polynomial helper functions.
+# These helper functions come into play when the Weighted Moving Average approach fails and gives a ZeroDivisionError.
+# As a result, we cannot use the WMA approach, but perform a polynomial fit.
+# ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+def polynomial_fit(x, y, step_size=1.0, degree=pol_degree, x_lims=None):
+    if x_lims:
+        x_min, x_max = x_lims[0], x_lims[1]
+    else:
+        x_min, x_max = math.floor(min(x)), math.ceil(max(x))
+    num = int((x_max - x_min) // step_size + 1)
+    bin_coords = np.linspace(start=x_min, stop=x_max, num=num, endpoint=True)
+    coeffs = np.polyfit(x, y, degree)  # Get the coefficients of the polynomial fit to the scatter plot.
+    pol = np.poly1d(coeffs)  # Create a poly1d object from the coefficients of the polynomial.
+    bin_avgs = pol(bin_coords)
+    return bin_coords, bin_avgs
+
+
+def simplify_trend(fitted_trend_values):
+    """
+    We only want the polynomial trend to have 1 extreme point: the local maximum.  Local minima are not allowed.
+    Therefore, when moving away from the local maximum (in either the left or right direction), if a local minimum is
+    found that "wings up" as you further move away from the local maximum, then points beyond that local minimum are
+    manipulated to remain constant, and thus run parallel to the x-axis.  These can be easily identified from the graph
+    as flat portions at the left and/or right edges running parallel to the x-axis.
+    :param fitted_trend_values:  The polynomial trend values fitted to the stacked scatter plot.  These trend values
+    have also already been processed once by the `rectify_trend` function.
+    :return:  Return a trend line where portions "winging up" from local minima have been flattened out.  Therefore we
+    return a simplified version of the polynomial fit where oscillations have been flattened out.
+    """
+    loc_maxima_index = argrelextrema(fitted_trend_values, np.greater)[0]
+    loc_minima_indices = argrelextrema(fitted_trend_values, np.less)[0]
+    if len(loc_minima_indices) >= 1:
+        number_of_minima = len(loc_minima_indices)
+        for j in range(number_of_minima):
+            minima_index = loc_minima_indices[j]
+            if minima_index < loc_maxima_index[0]:
+                fitted_trend_values[0: minima_index] = fitted_trend_values[minima_index]
+            else:
+                fitted_trend_values[minima_index:] = fitted_trend_values[minima_index]
+        return fitted_trend_values
+    else:
+        return fitted_trend_values
+# ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -165,35 +212,52 @@ saved_trend_lines = []  # this will store all the various trend lines.
 r_squared_stats = []
 num_bumps = []
 
-for n_neighbours in n_neighbours_list:
-    x_smoothed, y_smoothed = weighted_moving_average(x=independent_var, y=dependent_var, step_size=delta_x,
-                                                     width=n_neighbours, x_lims=x_limits)
+try:
+    mode = "WMA"
+    for n_neighbours in n_neighbours_list:
+        x_smoothed, y_smoothed = weighted_moving_average(x=independent_var, y=dependent_var, step_size=delta_x,
+                                                         width=n_neighbours, x_lims=x_limits)
+        y_smoothed = rectify_trend(fitted_trend_values=y_smoothed)
+        saved_trend_lines.append(zip(x_smoothed, y_smoothed))
+        r_squared_stats.append(get_r_squared(x_raw=independent_var, y_raw=dependent_var, x_fit=x_smoothed,
+                                             y_fit=y_smoothed))
+        num_bumps.append(get_n_local_extrema(y_smoothed))
+    prized_index = get_prized_index(num_bumps)
+    trend_line = saved_trend_lines[prized_index]
+    unpack = [list(t) for t in zip(*trend_line)]
+    x_smoothed, y_smoothed = unpack[0], unpack[1]
+
+    with open("./data/prized_index.txt", "w") as f:
+        f.write("{:.0f}".format(prized_index))
+    with open("./data/prized_n_neighbours.txt", "w") as f:
+        f.write("{:.0f}".format(n_neighbours_list[prized_index]))
+except ZeroDivisionError:
+    print("{:.>80}".format("Cannot perform Exponentially-Weighted-Moving-Average."))
+    print("{:.>80}".format("Proceeding with Polynomial Fit."))
+    mode = "Polynomial-fit"
+    x_smoothed, y_smoothed = polynomial_fit(x=independent_var, y=dependent_var, step_size=delta_x, degree=pol_degree,
+                                            x_lims=x_limits)
     y_smoothed = rectify_trend(fitted_trend_values=y_smoothed)
-    saved_trend_lines.append(zip(x_smoothed, y_smoothed))
+    y_smoothed = simplify_trend(fitted_trend_values=y_smoothed)
     r_squared_stats.append(get_r_squared(x_raw=independent_var, y_raw=dependent_var, x_fit=x_smoothed,
                                          y_fit=y_smoothed))
-    num_bumps.append(get_n_local_extrema(y_smoothed))
-prized_index = get_prized_index(num_bumps)
-trend_line = saved_trend_lines[prized_index]
-unpack = [list(t) for t in zip(*trend_line)]
-x_smoothed, y_smoothed = unpack[0], unpack[1]
 
 _, ax = plt.subplots(figsize=(10, 5))
 ax.set_xlabel("Number of days into the Season")
 ax.set_ylabel("$k_{cp}$")
-ax.set_title("$k_{cp}$ versus number of days into the season")
+ax.set_title("Smoothed $k_{cp}$ versus number of days into the season")
 ax.grid(True)
 ax.set_xlim(left=x_limits[0], right=x_limits[1])
 ax.set_ylim(bottom=0.0, top=KCP_MAX)
 major_xticks = np.arange(start=x_limits[0], stop=x_limits[1], step=30, dtype=np.int64)
 ax.set_xticks(major_xticks)
-ax.plot(x_smoothed, y_smoothed, alpha=0.70, label="n_neighbours = {}.".format(n_neighbours_list[prized_index]))
+ax.plot(x_smoothed, y_smoothed, alpha=0.70, label=mode)
 ax.scatter(independent_var, dependent_var, c="magenta", marker=".", edgecolors="black", alpha=0.5,
            label="Cleaned Probe Data")
 ax.scatter(cco_df["days"].values, cco_df["cco"].values, c="yellow", marker=".", alpha=0.5, label="Reference $k_{cp}$")
 ax.legend()
 plt.tight_layout()
-plt.savefig("./figures/WMA_kcp_versus_days.png")
+plt.savefig("./figures/Smoothed_kcp_versus_days.png")
 plt.cla()
 plt.clf()
 plt.close()
@@ -216,14 +280,14 @@ major_xticks = pd.date_range(start=datetime.datetime(year=starting_year, month=B
 ax.set_xticks(major_xticks)
 ax.set_xlabel("Date (Month of the Season)")
 ax.set_ylabel("$k_{cp}$")
-ax.set_title("$k_{cp}$ versus Month of the Season")
+ax.set_title("Smoothed $k_{cp}$ versus Month of the Season")
 ax.grid(True)
 ax.set_xlim(left=datetime.datetime(year=starting_year, month=BEGINNING_MONTH, day=1),
             right=datetime.datetime(year=starting_year+1, month=BEGINNING_MONTH, day=1))
 ax.xaxis.set_major_formatter(mdates.DateFormatter('%b/%d'))  # Month/01
 ax.set_ylim(bottom=0.0, top=KCP_MAX)
 
-ax.plot(datetime_linspaced, y_smoothed, alpha=0.70, label="n_neighbours = {}.".format(n_neighbours_list[prized_index]))
+ax.plot(datetime_linspaced, y_smoothed, alpha=0.70, label=mode)
 
 ax.scatter(datetime_clouded, dependent_var, c="magenta", marker=".", edgecolors="black", alpha=0.5,
            label="Cleaned Probe Data")
@@ -231,7 +295,7 @@ ax.scatter(cco_df.index, cco_df["cco"].values, c="yellow", marker=".", alpha=0.3
 ax.legend()
 fig.autofmt_xdate()  # rotate and align the tick labels so they look better
 plt.tight_layout()
-plt.savefig("./figures/WMA_kcp_versus_month.png")
+plt.savefig("./figures/Smoothed_kcp_versus_month.png")
 plt.cla()
 plt.clf()
 plt.close()
@@ -242,29 +306,31 @@ plt.close()
 # Write the r-squared statistics to file
 # Each line in the file corresponds to the n_neighbours hyperparameter, and the associated R^2 statistic.
 # ----------------------------------------------------------------------------------------------------------------------
-with open("./data/statistics_trend_lines.txt", "w") as f:
-    f.write("n_neighbours | statistic\n")
-    for i, nn in enumerate(n_neighbours_list):
-        f.write("{:.0f} | {:.7f}\n".format(nn, r_squared_stats[i]))
+if mode == "WMA":
+    with open("./data/statistics_wma_trend_lines.txt", "w") as f:
+        f.write("n_neighbours | r_squared_statistic\n")
+        for i, nn in enumerate(n_neighbours_list):
+            f.write("{:.0f} | {:.7f}\n".format(nn, r_squared_stats[i]))
+else:
+    with open("./data/statistics_polynomial_fit.txt", "w") as f:
+        f.write("highest_order | r_squared_statistic\n")
+        f.write("{:.0f} | {:.7f}\n".format(pol_degree, r_squared_stats[0]))
 # ----------------------------------------------------------------------------------------------------------------------
 
 
 # ======================================================================================================================
-# Save prized_index
-# Save prized number of neighbours (corresponding to prized_index)
-# Save the data related to the best-fitting trend line
+# Save the `mode`.
+# Save the data related to the best-fitting trend line.
+# Save the sorted data of the cleaned kcp data.
 # ======================================================================================================================
-with open("./data/prized_index.txt", "w") as f:
-    f.write("{:.0f}".format(prized_index))
+with open("./data/mode.txt", "w") as f:
+    f.write(mode)
 
-with open("./data/prized_n_neighbours.txt", "w") as f:
-    f.write("{:.0f}".format(n_neighbours_list[prized_index]))
+df = pd.DataFrame(data={"datetimeStamp": datetime_linspaced, "Smoothed_kcp_trend": y_smoothed},
+                  index=datetime_linspaced, columns=["Smoothed_kcp_trend"], copy=True)
 
-df = pd.DataFrame(data={"datetimeStamp": datetime_linspaced,
-                        "WMA_kcp_trend": y_smoothed},
-                  index=datetime_linspaced, columns=["WMA_kcp_trend"], copy=True)
-df.to_excel("./data/WMA_kcp_trend_vs_datetime.xlsx", float_format="%.7f", columns=["WMA_kcp_trend"], header=True,
-            index=True, index_label="datetimeStamp")
+df.to_excel("./data/Smoothed_kcp_trend_vs_datetime.xlsx", float_format="%.7f", columns=["Smoothed_kcp_trend"],
+            header=True, index=True, index_label="datetimeStamp")
 
 # Save the (sorted) data of the cleaned kcp data to an Excel file
 cleaned_df.to_excel("data/kcp_vs_days.xlsx", sheet_name="sheet_1", header=True, index=True, index_label=True,

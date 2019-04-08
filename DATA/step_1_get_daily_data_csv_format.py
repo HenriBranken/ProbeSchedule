@@ -7,7 +7,10 @@
 import requests
 import json
 import operator
-
+import numpy as np
+import datetime
+from datetime import timedelta
+import os
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Important parameters used in the extraction process.
 # Parameters involved are:
@@ -16,9 +19,37 @@ import operator
 #       Later in the code, we loop over `devices` to extract the individual probe data.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 start_date = '2017-01-01'
-end_date = '2019-04-18'
+yesterday = datetime.datetime.today() - timedelta(days=1)
+end_date = yesterday.strftime("%Y-%m-%d")  # get yesterday's date
 devices = [370, 371, 372, 384, 391, 392, 891]
+T_base = 10.0  # Base Temperature in Degrees Celcius
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Remove the old *_daily_data.csv files
+# ----------------------------------------------------------------------------------------------------------------------
+directory = "./"
+files = os.listdir(directory)
+for file in files:
+    if file.endswith("_daily_data.csv"):
+        os.remove(os.path.join(directory, file))
+        print("Removed the file named: {}.".format(file))
+# ----------------------------------------------------------------------------------------------------------------------
+
+
+# ======================================================================================================================
+# Create a simple .txt file containing the probe_ids.  One line per probe_id.
+# This .txt file lives at `./collate_cultivar_data/data/probe_ids.txt`
+# ======================================================================================================================
+# First ensure that the directory exists.  If not, then create the directory with os.makedirs.
+if not os.path.exists("./collate_cultivar_data/data"):
+    os.makedirs("collate_cultivar_data/data")
+
+with open("./collate_cultivar_data/data/probe_ids.txt", "w") as f:
+    f.write("\n".join(("P-{:s}".format(str(device_number))) for device_number in devices))
+# ======================================================================================================================
+
 
 headers = {'content-type': 'application/json'}
 url = 'http://api.probeschedule.com/data_api/v3/token'
@@ -33,6 +64,7 @@ token = token['data']['token']
 data = {}
 headers = {'authorization': 'Bearer ' + token}
 
+
 for device in devices:
     print("Currently busy with probe {}...\n".format(device))
     url = "https://app.probeschedule.com/data_api/v3/custom/heat_units/P-"+str(device)+'/'+start_date+'/'+end_date
@@ -42,8 +74,19 @@ for device in devices:
 
     daily_data = {}
 
-    for reading_date, value in response['data'].items():
-        daily_data[reading_date] = {"heat_units": value}
+    for reading_date, nested_dict in response['data'].items():
+        temps_list = nested_dict["temps"]
+        temps_list = [np.float(t) for t in temps_list]
+        T_min = np.min(temps_list)
+        T_max = np.max(temps_list)
+        T_24hour_avg = round(np.average(temps_list), 4)
+        heat_units_raw = round((T_min + T_max)/2.0 - T_base, 4)
+        heat_units = heat_units_raw if heat_units_raw >= 0 else float(0)
+        # print(type(T_min), type(T_max), type(T_24hour_avg), type(heat_units))
+        daily_data[reading_date] = {"heat_units": heat_units,
+                                    "T_min": T_min,
+                                    "T_max": T_max,
+                                    "T_24hour_avg": T_24hour_avg}
 
     url = "https://app.probeschedule.com/data_api/v3/custom/wb/P-"+str(device)+'/'+start_date+'/'+end_date
 
@@ -52,14 +95,17 @@ for device in devices:
 
     for reading_date, values in response['data'].items():
         if reading_date not in daily_data:
-            daily_data[reading_date] = {"heat_units": 0}  # basically padding empty heat unit entries to dictionary
+            daily_data[reading_date] = {"heat_units": np.nan,
+                                        "T_min": np.nan,
+                                        "T_max": np.nan,
+                                        "T_24hour_avg": np.nan}
             for k, v in values.items():
                 daily_data[reading_date][k] = v
         else:
             for k, v in values.items():
                 daily_data[reading_date][k] = v
 
-    # I want to find a date that contains data for all the other 21 variables so that I can extract ALL the column
+    # I want to find a date that contains data for all the other variables so that I can extract ALL the column
     # headings
     n_keys_dict = {}
     for key, value in daily_data.items():
@@ -70,7 +116,7 @@ for device in devices:
     sorted_n_keys = sorted(n_keys_dict.items(), key=operator.itemgetter(1), reverse=True)
     magic_date = sorted_n_keys[0][0]
 
-    # Now that we finally have all the data stored in the daily_data dictionary, we can write it output file:
+    # Now that we finally have all the data stored in the daily_data dictionary, we can write it to an output file:
     f = open("P-"+str(device)+"_daily_data.csv", "w")
     f.write("date")
     for k, v in daily_data[magic_date].items():

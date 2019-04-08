@@ -22,6 +22,7 @@ inner_index = list(cleaned_multi_df.index.get_level_values("datetimeStamp").uniq
 with open("data/probe_ids.txt", "r") as f2:
     probe_ids = f2.readlines()
 probe_ids = [x.strip() for x in probe_ids]
+num_probes = len(probe_ids)
 
 # Create a folder for each probe-id in the `figures` parent folder.
 for p in probe_ids:
@@ -36,12 +37,13 @@ with open("./data/starting_year.txt", "r") as f:
     starting_year = int(f.readline().rstrip())
 start_date = datetime.datetime(year=starting_year, month=BEGINNING_MONTH, day=1)
 
-WMA_kcp_trend_vs_datetime_df = pd.read_excel("./data/WMA_kcp_trend_vs_datetime.xlsx", sheet_name=0, index_col=0,
-                                             squeeze=False, parse_dates=True)
-WMA_kcp_trend_vs_datetime_df["days"] = WMA_kcp_trend_vs_datetime_df.index - start_date
-WMA_kcp_trend_vs_datetime_df["days"] = WMA_kcp_trend_vs_datetime_df["days"].dt.days
-x_WMA, y_WMA = WMA_kcp_trend_vs_datetime_df["days"].values, WMA_kcp_trend_vs_datetime_df["WMA_kcp_trend"].values
-x_WMA_dates = WMA_kcp_trend_vs_datetime_df.index.values
+Smoothed_kcp_trend_vs_datetime_df = pd.read_excel("./data/Smoothed_kcp_trend_vs_datetime.xlsx", sheet_name=0,
+                                                  index_col=0, squeeze=False, parse_dates=True)
+Smoothed_kcp_trend_vs_datetime_df["days"] = Smoothed_kcp_trend_vs_datetime_df.index - start_date
+Smoothed_kcp_trend_vs_datetime_df["days"] = Smoothed_kcp_trend_vs_datetime_df["days"].dt.days
+x_smoothed = Smoothed_kcp_trend_vs_datetime_df["days"].values
+y_smoothed = Smoothed_kcp_trend_vs_datetime_df["Smoothed_kcp_trend"].values
+x_smoothed_dates = Smoothed_kcp_trend_vs_datetime_df.index.values
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
@@ -128,11 +130,11 @@ for idx, ax in enumerate(axs):
     ax.set_ylim(bottom=0.0, top=KCP_MAX)
     ax.grid(True)
     dates, days, kcp = get_dates_and_kcp(dataframe=cleaned_multi_df, probe_id=probe_ids[idx])
-    r_squared = get_r_squared(x_raw=days, y_raw=kcp, x_fit=x_WMA, y_fit=y_WMA)
+    r_squared = get_r_squared(x_raw=days, y_raw=kcp, x_fit=x_smoothed, y_fit=y_smoothed)
     # print("r^2 = {:.4f}.".format(r_squared))
     ax.scatter(dates, kcp, marker=meta[0], color=meta[1], s=20, edgecolors="black", linewidth=1, alpha=0.5,
                label=probe_ids[idx])
-    ax.plot(x_WMA_dates, y_WMA, linewidth=1.5, alpha=0.75, label="WMA trend")
+    ax.plot(x_smoothed_dates, y_smoothed, linewidth=1.5, alpha=0.75, label="Smoothed")
     ax.tick_params(which="major", bottom=True, labelbottom=True, colors="black", labelcolor="black",
                    labelsize="small", axis="x")
     ax.set_xticks(season_xticks)
@@ -143,7 +145,7 @@ for idx, ax in enumerate(axs):
         tick.set_visible(True)
     ax.legend(prop={"size": 6}, loc=6)
     ax.annotate(s="$R^2$ = {:.3f}".format(r_squared), xycoords="axes fraction", xy=(0.01, 0.87), fontsize=9)
-    if idx == 6:
+    if idx == (num_probes - 1):
         break
 for idx in [0, 2, 4, 6]:
     axs[idx].set_ylabel("$k_{cp}$")
@@ -187,10 +189,10 @@ for idx, ax in enumerate(axs):
     for tick in ax.get_xticklabels():
         tick.set_visible(True)
     ax.legend(prop={"size": 6})
-    if idx == 6:
+    if idx == (num_probes - 1):
         break
 for idx in [0, 2, 4, 6]:
-    axs[idx].set_ylabel("Irrigation $\mathrm{[mm]}$")
+    axs[idx].set_ylabel("Irrigation")
 for idx in [5, 6]:
     axs[idx].set_xlabel("Date")
 
@@ -233,10 +235,10 @@ for idx, ax in enumerate(axs):
     for tick in ax.get_xticklabels():
         tick.set_visible(True)
     ax.legend(prop={"size": 6})
-    if idx == 6:
+    if idx == (num_probes - 1):
         break
 for idx in [0, 2, 4, 6]:
-    axs[idx].set_ylabel("Profile $\mathrm{[mm]}$")
+    axs[idx].set_ylabel("Profile")
 for idx in [5, 6]:
     axs[idx].set_xlabel("Date")
 

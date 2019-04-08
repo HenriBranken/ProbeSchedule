@@ -1,19 +1,21 @@
 import pandas as pd
+import os
 
 
 # ======================================================================================================================
 # Declare "constants"
 # ======================================================================================================================
-probe_numbers = [370, 371, 372, 384, 391, 392, 891]  # Ouplaas, Kromfontein.
-probe_ids = ["P-"+str(num) for num in probe_numbers]
+with open("./collate_cultivar_data/data/probe_ids.txt", "r") as f:
+    probe_ids = [p.rstrip() for p in list(f)]
+print(probe_ids)
 # ======================================================================================================================
 
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Import the necessary data
 # ----------------------------------------------------------------------------------------------------------------------
-# `../Golden_Delicious_daily_data.xlsx` is the raw data as extracted from an API call.
-processed_dict = pd.read_excel("../Golden_Delicious_daily_data.xlsx", sheet_name=None)
+# `../cultivar_data.xlsx` is the raw data as extracted from an API call.
+processed_dict = pd.read_excel("./cultivar_data.xlsx", sheet_name=None)
 
 dfs = []  # A list to be populated with the probe dataframes.  Each dataframe corresponds to an individual probe.
 for probe_id in processed_dict.keys():
@@ -80,3 +82,50 @@ print("\nProbes that are redundant, and thus need to be removed:")
 print(probes_to_be_popped)
 print("-" * 80)
 # ======================================================================================================================
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Write to two different .txt files the probe-id(s) that:
+# 1. need to be discarded from any future use whatsoever (i.e. the probe_ids that are redundant).
+# 2. need to be kept (i.e. any NON-redundant probe_id).
+# ----------------------------------------------------------------------------------------------------------------------
+# Create the directory `./collate_cultivar_data` if it does not already exist.
+if not os.path.exists("./collate_cultivar_data/data"):
+    os.makedirs("collate_cultivar_data/data")
+
+# The probe(s) to be discarded are written to `./data/probes_to_be_discarded.txt`.
+with open("./collate_cultivar_data/data/probes_to_be_discarded.txt", "w") as f:
+    f.write("\n".join(("{:s}".format(p)) for p in probes_to_be_popped))
+
+# Generate the new list of probes that need to be kept.  This list is written to `./data/probe_ids.txt`.
+# Use list comprehension to get all the probes that do not belong to `probes_to_be_popped`.  (Note the use of `not in`)
+new_probe_ids = [p for p in probe_ids if p not in probes_to_be_popped]
+with open("./collate_cultivar_data/data/probe_ids.txt", "w") as f:
+    f.write("\n".join(("{:s}".format(p)) for p in new_probe_ids))
+# ----------------------------------------------------------------------------------------------------------------------
+
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Create a new Excel file that does not contain duplicate probe datasets.
+# Each sheet corresponds to a unique probe dataset.  Collectively, there are no duplicates in the probe-set.
+# Store the Excel-file at `../cultivar_daily_data_unique.xlsx`, where `..` is the `DATA` directory.
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Delete key from dictionary using the del keyword:
+for p in probes_to_be_popped:
+    del processed_dict[p]
+
+# Remove the old `./cultivar_data_unique.xlsx` file
+if os.path.exists("./cultivar_data_unique.xlsx"):
+    os.remove("./cultivar_data_unique.xlsx")
+
+# Instantiate a new Excel-File object at `./cultivar_data_unique.xlsx`
+writer = pd.ExcelWriter("./cultivar_data_unique.xlsx", engine="xlsxwriter")
+
+# Populate the Excel file with different sheets.  One sheet per probe.  The sheet name is equal to the probe_id.
+for p in new_probe_ids:
+    sub_df = processed_dict[p]
+    sub_df.drop(axis=1, columns=["probe_id"], inplace=True)
+    sub_df.set_index(keys="date", drop=True, append=False, inplace=True)
+    sub_df.to_excel(writer, sheet_name=p, header=True, index=True, index_label=["date"])
+writer.save()
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

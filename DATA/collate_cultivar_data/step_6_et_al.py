@@ -47,6 +47,10 @@ processed_eg_df = pd.read_excel("./data/processed_probe_data.xlsx", sheet_name=0
 # Get the starting year of the crop data
 with open("./data/starting_year.txt", "r") as f:
     starting_year = int(f.readline().rstrip())
+
+# Get the mode of the fitting procedure used in `step_3_smoothed_version.py`.
+with open("./data/mode.txt", "r") as f:
+    mode = f.readline().rstrip()
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
@@ -85,8 +89,8 @@ for d in eg_df.index:
     if (d.month == BEGINNING_MONTH) and (d.day == 1):
         new_season_date = datetime.datetime(year=d.year, month=d.month, day=d.day)
         vline_dates.append(new_season_date)
-
 vline_date = vline_dates[0]
+
 beginning_datetime = datetime.datetime(year=starting_year, month=BEGINNING_MONTH, day=1)
 end_datetime = datetime.datetime(year=starting_year + 1, month=BEGINNING_MONTH, day=1)
 api_start_date, api_end_date = min(processed_eg_df.index), max(processed_eg_df.index)

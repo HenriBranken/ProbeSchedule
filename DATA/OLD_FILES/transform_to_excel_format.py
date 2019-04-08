@@ -57,6 +57,7 @@ with pd.ExcelWriter('Golden_Delicious_daily_data_new.xlsx', date_format="yyyy-mm
 
 
 """
+THIS IS REDUNDANT.
 # ----------------------------------------------------------------------------------------------------------------------
 # Now secondly, let us work with the Probe Measurements (azm, soil moisture, and soil temperature)
 # ----------------------------------------------------------------------------------------------------------------------

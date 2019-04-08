@@ -10,10 +10,11 @@ import sys
 ETO_MAX = 12
 KCP_MAX = 0.8
 BEGINNING_MONTH = 7  # i.e. beginning of July.
-SUSP_LOW_VAL = 0.50
-SUSP_HIGH_VAL = 1.50
 ETCP_MAX = ETO_MAX * KCP_MAX
 DAY = datetime.timedelta(days=1)
+ETCP_PERC_DEVIATION = 0.50  # The smaller the value, the more strict/drastic the flagging becomes.
+SUSP_LOW_VAL = 1 - ETCP_PERC_DEVIATION
+SUSP_HIGH_VAL = 1 + ETCP_PERC_DEVIATION
 
 # The following events are "irredeemable".  "irredeemable" is associated with a `binary_value` of 1.
 RAIN_DESC = "Rain perturbing etcp"
@@ -35,7 +36,7 @@ UNREDEEMABLE = [RAIN_DESC, SIMUL_DESC, IRR_DESC, NULL_PROFILE_DESC, DATA_BLIP_DE
                 EXCEEDING_NORMAL_UPTAKE_DESC, BAD_KCP_DESC, ETO_BAD_DESC, ETC_BAD_DESC]
 
 # The following events are "redeemable".  "redeemable" is associated with a `binary_value` of 0.
-HU_BAD_DESC = "Heat Units stuck or faulty"
+HU_BAD_DESC = "Faulty/Missing Heat Units"
 IMPUTED_ETO = "Imputed eto"
 REDEEMABLE = [HU_BAD_DESC, IMPUTED_ETO]
 
@@ -294,9 +295,7 @@ def flag_suspicious_and_missing_profile_events(df):
 
 #   7.a.
 def flag_spurious_heat_units(df):
-    interim_df = pd.DataFrame(data={"hu_diff1": df["heat_units"].diff(periods=1),
-                                    "heat_units": df["heat_units"]}, index=df.index)
-    condition = (interim_df["hu_diff1"] == 0)
+    condition = (df["heat_units"] == np.nan)
     bad_hu_days = df[condition].index
     flagger(bad_dates=bad_hu_days, brief_desc=HU_BAD_DESC, df=df, bin_value=0, affected_cols=["heat_units"],
             set_to_nan=True)
@@ -312,7 +311,6 @@ def interpolate_missing_heat_units(df, method="nearest"):
     """
     df["interpolated_hu"] = df["heat_units"].copy(deep=True)
     df.loc[:, "interpolated_hu"].interpolate(method=method, axis=0, inplace=True)
-    df.loc[:, "interpolated_hu"].fillna(value=0.0, inplace=True)
     return df
 
 
@@ -323,15 +321,15 @@ def cumulative_gdd(df):
     for datestamp in df.index:
         if (datestamp.month == BEGINNING_MONTH) and (datestamp.day == 1):
             season_candidates.append(datestamp)
-            df.loc[datestamp, ["cumulative_gdd"]] = 0.0
+            df.loc[datestamp, "cumulative_gdd"] = 0.0
         elif (datestamp.month == BEGINNING_MONTH) and (datestamp.day == 2):
-            df.loc[datestamp, ["cumulative_gdd"]] = 0.0 + df.loc[datestamp, "interpolated_hu"]
+            df.loc[datestamp, "cumulative_gdd"] = 0.0 + df.loc[datestamp, "interpolated_hu"]
         else:
             try:
-                df.loc[datestamp, ["cumulative_gdd"]] = df.loc[(datestamp - DAY), "cumulative_gdd"] + \
+                df.loc[datestamp, "cumulative_gdd"] = df.loc[(datestamp - DAY), "cumulative_gdd"] + \
                                                         df.loc[datestamp, "interpolated_hu"]
             except KeyError:  # we cannot go 1 day back into the past; we are at start_date.  Use h.u. of start_date
-                df.loc[datestamp, ["cumulative_gdd"]] = df.loc[datestamp, "interpolated_hu"]
+                df.loc[datestamp, "cumulative_gdd"] = df.loc[datestamp, "interpolated_hu"]
 
     first_season_date = min(season_candidates)
     condition = df.index < first_season_date
@@ -348,17 +346,17 @@ def flag_unwanted_etcp(df):
             set_to_nan=True)
     reporter(df=df, brief_desc=ETCP_POS_DESC)
 
-    # condition = (df["etc"].multiply(-1*SUSP_LOW_VAL, fill_value=np.nan) < df["etcp"]) & (df["etcp"] < 0)
-    # susp_low_etcp_dates = df[condition].index
-    # flagger(bad_dates=susp_low_etcp_dates, brief_desc=ETCP_SUSP_LOW_DESC, df=df, bin_value=1,
-    #         affected_cols=["etcp"], set_to_nan=True)
-    # reporter(df=df, brief_desc=ETCP_SUSP_LOW_DESC)
-    #
-    # condition = (df["etcp"] < df["etc"].multiply(-1*SUSP_HIGH_VAL, fill_value=np.nan)) & (df["etcp"] < 0)
-    # susp_high_etcp_dates = df[condition].index
-    # flagger(bad_dates=susp_high_etcp_dates, brief_desc=ETCP_SUSP_HIGH_DESC, df=df, bin_value=1,
-    #         affected_cols=["etcp"], set_to_nan=True)
-    # reporter(df=df, brief_desc=ETCP_SUSP_HIGH_DESC)
+    condition = (df["etc"].multiply(-1*SUSP_LOW_VAL, fill_value=np.nan) < df["etcp"]) & (df["etcp"] < 0)
+    susp_low_etcp_dates = df[condition].index
+    flagger(bad_dates=susp_low_etcp_dates, brief_desc=ETCP_SUSP_LOW_DESC, df=df, bin_value=1,
+            affected_cols=["etcp"], set_to_nan=True)
+    reporter(df=df, brief_desc=ETCP_SUSP_LOW_DESC)
+
+    condition = (df["etcp"] < df["etc"].multiply(-1*SUSP_HIGH_VAL, fill_value=np.nan)) & (df["etcp"] < 0)
+    susp_high_etcp_dates = df[condition].index
+    flagger(bad_dates=susp_high_etcp_dates, brief_desc=ETCP_SUSP_HIGH_DESC, df=df, bin_value=1,
+            affected_cols=["etcp"], set_to_nan=True)
+    reporter(df=df, brief_desc=ETCP_SUSP_HIGH_DESC)
 
     # To simplify the remaining programming, multiply the `etcp` column with -1 so that we henceforth only work with
     # positive values.

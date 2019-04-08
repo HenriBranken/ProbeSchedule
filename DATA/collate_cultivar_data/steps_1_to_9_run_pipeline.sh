@@ -12,9 +12,10 @@ if [[ "${response}" = y ]]
 then
     rm -rfv data/*
     rm -rfv figures/*
-    python3 step_1_perform_cleaning.py
+    python3 step_1a_perform_cleaning.py
+    python3 step_1b_write_report.py
     python3 step_2_overlay_compare.py
-    python3 step_3_get_trends_from_stacked_data.py
+    python3 step_3_smoothed_version.py
     python3 step_4_binning_trend_line.py
     python3 step_5_plotting_binned_kcp_trends.py
     python3 step_6_et_al.py

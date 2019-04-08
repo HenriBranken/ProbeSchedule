@@ -8,21 +8,18 @@ pd.set_option('display.max_columns', 6)
 # ----------------------------------------------------------------------------------------------------------------------
 # Load the necessary data
 # ----------------------------------------------------------------------------------------------------------------------
-#   1.  kcp_trend_vs_datetime is the data associated with the best WMA trendline
+#   1.  kcp_trend_vs_datetime is the data associated with the smoothed version
 #   2.  kcp_vs_days --> cleaned probe data
 #   3.  kcp_vs_day_df --> kcp as a function of day of the year/season
 #   4.  kcp_vs_week_df --> kcp as a function of week of the year/season
 #   5.  kcp_vs_month_df --> kcp as a function of month of the year/season
 #   6.  probe_ids --> List of probe-ids used in the analysis
 # ----------------------------------------------------------------------------------------------------------------------
-# Extract the data associated with the weighted moving average generated in `step_3_weighted_moving_average.py`
-kcp_vs_days_df = pd.read_excel("./data/WMA_kcp_trend_vs_datetime.xlsx", header=0, names=["WMA_kcp_trend"],
+# Extract the data associated with the smoothed average generated in `step_3_smoothed_version.py`
+kcp_vs_days_df = pd.read_excel("./data/Smoothed_kcp_trend_vs_datetime.xlsx", header=0, names=["Smoothed_kcp_trend"],
                                index_col=0, parse_dates=True)
 base_datetimestamp = kcp_vs_days_df.index
-base_daily_kcp = kcp_vs_days_df["WMA_kcp_trend"].values
-
-# base_datetimestamp = kcp_trend_vs_datetime[:, 0]
-# base_daily_kcp = kcp_trend_vs_datetime[:, 1]
+base_daily_kcp = kcp_vs_days_df["Smoothed_kcp_trend"].values
 
 with open("./data/starting_year.txt", "r") as f:
     starting_year = int(f.readline().rstrip())
@@ -47,17 +44,21 @@ probe_ids = [x.rstrip() for x in probe_ids]
 
 cco_df = pd.read_excel("./data/reference_crop_coeff.xlsx", sheet_name=0, header=0, index_col=0,
                        parse_dates=True)
+
+with open("./data/mode.txt", "r") as f:
+    mode = f.readline().rstrip()
 # ----------------------------------------------------------------------------------------------------------------------
 
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Code block in which we extract the lowest possible n_neighbours associated with one local maximum in the trend line.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-with open("./data/prized_index.txt", "r") as f:
-    prized_index = int(f.readline().rstrip())
+if mode == "WMA":
+    with open("./data/prized_index.txt", "r") as f:
+        prized_index = int(f.readline().rstrip())
 
-with open("./data/prized_n_neighbours.txt", "r") as f:
-    prized_n_neighbours = int(f.readline().rstrip())
+    with open("./data/prized_n_neighbours.txt", "r") as f:
+        prized_n_neighbours = int(f.readline().rstrip())
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
@@ -88,12 +89,11 @@ for d in base_datetimestamp:
 fig, ax = plt.subplots(figsize=(10, 5))
 ax.scatter(kcp_vs_days.index, kcp_vs_days["kcp"], c="magenta", marker=".", edgecolors="black", alpha=0.5,
            label="Cleaned Probe Data")
-ax.plot(base_datetimestamp, base_daily_kcp, linewidth=2, alpha=1.0,
-        label="n_neighbours = {}".format(prized_n_neighbours))
+ax.plot(base_datetimestamp, base_daily_kcp, linewidth=2, alpha=1.0, label=mode)
 ax.plot(base_datetimestamp, repeated_weekly_kcp_vs_day, linewidth=2, label="Weekly-binned $k_{cp}$", alpha=0.55)
 ax.plot(base_datetimestamp, repeated_monthly_kcp_vs_day, linewidth=2, label="Monthly-binned $k_{cp}$", alpha=0.55)
 ax.scatter(cco_df.index, cco_df["cco"].values, c="yellow", marker=".", alpha=0.5, label="Reference $k_{cp}$")
-ax.set_xlabel("Date (Month of the Year)")
+ax.set_xlabel("Date (Month of the Year/Season)")
 ax.set_ylabel("$k_{cp}$")
 ax.set_title("Different binning strategies for $k_{cp}$ as a function of time")
 ax.set_xlim(left=base_datetimestamp[0], right=base_datetimestamp[-1])

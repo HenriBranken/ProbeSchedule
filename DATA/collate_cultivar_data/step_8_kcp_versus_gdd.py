@@ -20,6 +20,7 @@ meta = next(metacycle)
 
 with open("./data/starting_year.txt", "r") as f:
     starting_year = int(f.readline().rstrip())
+CULTIVAR = "Golden Delicious Apples"
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
@@ -107,7 +108,6 @@ stamp_season_dict = dict(zip(kcp_trend_df.index, kcp_trend_df["season_day"].valu
 processed_df["season_day"] = processed_df["wrapped_dates"].map(stamp_season_dict, na_action="ignore")
 processed_df.dropna(subset=["cumulative_gdd"], inplace=True)
 processed_df.sort_values(by=["season_day"], ascending=True, inplace=True)
-processed_df.drop_duplicates(subset=["season_day", "cumulative_gdd"], inplace=True)
 
 x_vals, y_vals = processed_df["season_day"].values, processed_df["cumulative_gdd"].values
 
@@ -138,7 +138,7 @@ smoothed_cumul_gdd_df = pd.DataFrame(data=processed_df[["season_day", "smoothed_
                                      index=processed_df["wrapped_dates"], copy=True)
 smoothed_cumul_gdd_df.drop_duplicates(inplace=True)
 smoothed_cumul_gdd_df.to_excel("./data/smoothed_cumul_gdd_vs_season_day.xlsx", header=True, index=True,
-                               index_label="wrapped_date", verbose=True)
+                               index_label="wrapped_date", verbose=True, float_format="%.7f")
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
@@ -161,7 +161,7 @@ x_plt = smoothed_cumul_gdd_df["smoothed_cumul_gdd"].values
 y_plt = smoothed_cumul_gdd_df["daily_trend_kcp"].values
 
 _, ax = plt.subplots(figsize=(10, 5))
-ax.plot(x_plt, y_plt, label="Golden Delicious Apples")
+ax.plot(x_plt, y_plt, label=CULTIVAR)
 ax.set_xlabel("(Smoothed) Cumulative GDD")
 ax.set_ylabel("$k_{cp}$")
 ax.set_ylim(bottom=0)
