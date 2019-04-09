@@ -1,2 +1,2 @@
 highest_order | r_squared_statistic
-4 | 0.6993171
+4 | 0.5967776

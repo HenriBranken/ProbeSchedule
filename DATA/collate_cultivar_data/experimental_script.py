@@ -1,19 +1,18 @@
-import matplotlib.pyplot as plt
 import numpy as np
 
-n = 5
 
-x = np.arange(n)
-y = np.sin(np.linspace(-3, 3, n))
-xlabels = ['Ticklabel %i' % i for i in range(n)]
+class NoProperWMATrend(Exception):
+    pass
 
-fig, axs = plt.subplots(1, 3, figsize=(12, 3))
 
-ha = ['right', 'center', 'left']
+def get_prized_index(n_bumps_list):
+    print(n_bumps_list)
+    some_list = np.where(np.asarray(n_bumps_list) == 1)[0]
+    if len(some_list) > 0:
+        return some_list[-1]
+    else:
+        raise NoProperWMATrend("No index at which n_extrema = 1.")
 
-for n, ax in enumerate(axs):
-    ax.plot(x, y, 'o-')
-    ax.set_title(ha[n])
-    ax.set_xticks(x)
-    ax.set_xticklabels(xlabels, rotation=40, ha=ha[n])
-plt.show()
+
+num_bumps = []
+prized_index = get_prized_index(num_bumps)

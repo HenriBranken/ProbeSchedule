@@ -132,7 +132,7 @@ def get_prized_index(n_bumps_list):
     if len(some_list) > 0:
         return some_list[0]
     else:
-        print("There is not an index where n_bumps == 1.")
+        print("There is not an index where n_bumps == 1.\nExiting the script.")
         sys.exit(1)
 # ======================================================================================================================
 

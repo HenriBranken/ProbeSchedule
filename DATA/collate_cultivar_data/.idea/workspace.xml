@@ -2,18 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="49ef9e0d-250f-43a7-a4f1-33f52ead0df1" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/data/.~lock.binned_kcp_data.xlsx#" beforeDir="false" afterPath="$PROJECT_DIR$/data/.~lock.binned_kcp_data.xlsx#" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/Smoothed_kcp_trend_vs_datetime.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/Smoothed_kcp_trend_vs_datetime.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/fit_of_kcp_vs_cumulative_gdd.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/fit_of_kcp_vs_cumulative_gdd.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/binned_kcp_data.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/binned_kcp_data.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/kcp_vs_days.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/kcp_vs_days.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/heat_units_comparison.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/kcp_versus_gdd_smoothed.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/kcp_versus_gdd_smoothed.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/original_trend_vs_latest_trend.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/original_trend_vs_latest_trend.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/remove_outliers_henri_method.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/remove_outliers_henri_method.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/remove_outliers_jacobus_method.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/remove_outliers_jacobus_method.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screen_outliers_henri.py" beforeDir="false" afterPath="$PROJECT_DIR$/screen_outliers_henri.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screen_outliers_jacobus.py" beforeDir="false" afterPath="$PROJECT_DIR$/screen_outliers_jacobus.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/step_6_et_al.py" beforeDir="false" afterPath="$PROJECT_DIR$/step_6_et_al.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/step_9_fit_kcp_vs_gdd.py" beforeDir="false" afterPath="$PROJECT_DIR$/step_9_fit_kcp_vs_gdd.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/statistics_polynomial_fit.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/statistics_polynomial_fit.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/experimental_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/experimental_script.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/step_3_smoothed_version.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -23,35 +18,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/screen_outliers_henri.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="460">
-              <caret line="311" column="46" lean-forward="true" selection-start-line="304" selection-start-column="8" selection-end-line="311" selection-end-column="46" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/screen_outliers_jacobus.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="44">
-              <caret line="64" column="42" lean-forward="true" selection-start-line="64" selection-start-column="42" selection-end-line="64" selection-end-column="42" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/step_3_smoothed_version.py">
+        <entry file="file://$PROJECT_DIR$/screen_outliers_jacobus_new.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="97">
-              <caret line="227" column="49" lean-forward="true" selection-start-line="227" selection-start-column="49" selection-end-line="227" selection-end-column="49" />
+            <state relative-caret-position="440">
+              <caret line="163" column="79" lean-forward="true" selection-start-line="163" selection-start-column="79" selection-end-line="163" selection-end-column="79" />
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/step_3b_smoothed_version.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="437">
+              <caret line="220" selection-start-line="220" selection-end-line="220" selection-end-column="29" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -70,7 +53,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>ax3</find>
       <find>ETO_STUCK_DESC</find>
       <find>ETC_STUCK_DESC</find>
       <find>HU_ZERO_DESC</find>
@@ -100,6 +82,7 @@
       <find>create_xy_df</find>
       <find>get_xs_and_ys</find>
       <find>WMA</find>
+      <find>The value</find>
     </findStrings>
     <replaceStrings>
       <replace>kcp_vs_calendar_month</replace>
@@ -160,15 +143,19 @@
         <option value="$PROJECT_DIR$/step_1_perform_cleaning.py" />
         <option value="$PROJECT_DIR$/step_3_weighted_moving_average.py" />
         <option value="$PROJECT_DIR$/cleaning_operations.py" />
-        <option value="$PROJECT_DIR$/step_3_smoothed_version.py" />
         <option value="$PROJECT_DIR$/step_4_binning_trend_line.py" />
         <option value="$PROJECT_DIR$/step_5_plotting_binned_kcp_trends.py" />
         <option value="$PROJECT_DIR$/step_7_figure_arrays.py" />
         <option value="$PROJECT_DIR$/step_8_kcp_versus_gdd.py" />
         <option value="$PROJECT_DIR$/step_9_fit_kcp_vs_gdd.py" />
         <option value="$PROJECT_DIR$/step_6_et_al.py" />
-        <option value="$PROJECT_DIR$/screen_outliers_henri.py" />
         <option value="$PROJECT_DIR$/screen_outliers_jacobus.py" />
+        <option value="$PROJECT_DIR$/step_3_smoothed_version.py" />
+        <option value="$PROJECT_DIR$/experimental_script.py" />
+        <option value="$PROJECT_DIR$/step_3b_smoothed_version.py" />
+        <option value="$PROJECT_DIR$/screen_outliers_henri.py" />
+        <option value="$PROJECT_DIR$/screen_outliers_henri_new.py" />
+        <option value="$PROJECT_DIR$/screen_outliers_jacobus_new.py" />
       </list>
     </option>
   </component>
@@ -216,8 +203,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.screen_outliers_jacobus">
-    <configuration name="screen_outliers_henri" type="PythonConfigurationType" factoryName="Python" temporary="true">
+  <component name="RunManager" selected="Python.screen_outliers_jacobus_new">
+    <configuration name="experimental_script" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="collate_cultivar_data" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -229,7 +216,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/screen_outliers_henri.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/experimental_script.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -238,7 +225,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="screen_outliers_jacobus" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="screen_outliers_henri_new" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="collate_cultivar_data" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -250,7 +237,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/screen_outliers_jacobus.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/screen_outliers_henri_new.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -259,7 +246,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="step_6_et_al" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="screen_outliers_jacobus_new" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="collate_cultivar_data" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -271,7 +258,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/step_6_et_al.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/screen_outliers_jacobus_new.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -280,7 +267,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="step_8_kcp_versus_gdd" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="step_3_smoothed_version" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="collate_cultivar_data" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -292,7 +279,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/step_8_kcp_versus_gdd.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/step_3_smoothed_version.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -301,7 +288,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="step_9_fit_kcp_vs_gdd" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="step_3b_smoothed_version" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="collate_cultivar_data" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -313,7 +300,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/step_9_fit_kcp_vs_gdd.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/step_3b_smoothed_version.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -324,11 +311,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.screen_outliers_jacobus" />
-        <item itemvalue="Python.screen_outliers_henri" />
-        <item itemvalue="Python.step_6_et_al" />
-        <item itemvalue="Python.step_9_fit_kcp_vs_gdd" />
-        <item itemvalue="Python.step_8_kcp_versus_gdd" />
+        <item itemvalue="Python.screen_outliers_jacobus_new" />
+        <item itemvalue="Python.screen_outliers_henri_new" />
+        <item itemvalue="Python.experimental_script" />
+        <item itemvalue="Python.step_3b_smoothed_version" />
+        <item itemvalue="Python.step_3_smoothed_version" />
       </list>
     </recent_temporary>
   </component>
@@ -358,7 +345,7 @@
     <frame x="0" y="-2" width="1920" height="1082" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18133895" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17079599" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -411,16 +398,6 @@
           <caret line="35" lean-forward="true" selection-start-line="35" selection-end-line="35" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/experimental_script.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -560,16 +537,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/screen_outliers_henri.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="460">
-          <caret line="311" column="46" lean-forward="true" selection-start-line="304" selection-start-column="8" selection-end-line="311" selection-end-column="46" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/screen_outliers_jacobus.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="44">
@@ -582,10 +549,53 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/step_3_smoothed_version.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="97">
-          <caret line="227" column="49" lean-forward="true" selection-start-line="227" selection-start-column="49" selection-end-line="227" selection-end-column="49" />
+        <state relative-caret-position="299">
+          <caret line="13" column="42" selection-start-line="13" selection-start-column="42" selection-end-line="13" selection-end-column="42" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/experimental_script.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/screen_outliers_henri.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="22" column="105" lean-forward="true" selection-start-line="22" selection-start-column="105" selection-end-line="22" selection-end-column="105" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/step_3b_smoothed_version.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="220" selection-start-line="220" selection-end-line="220" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/screen_outliers_henri_new.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="347" column="20" selection-start-line="347" selection-start-column="11" selection-end-line="347" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/screen_outliers_jacobus_new.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="440">
+          <caret line="163" column="79" lean-forward="true" selection-start-line="163" selection-start-column="79" selection-end-line="163" selection-end-column="79" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
