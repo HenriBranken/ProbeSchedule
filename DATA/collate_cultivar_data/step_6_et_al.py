@@ -19,6 +19,7 @@ marker_list = ["o", ">", "<", "s", "P", "*", "X", "D"]
 color_list = ["red", "gold", "seagreen", "lightseagreen", "royalblue", "darkorchid", "plum", "burlywood"]
 zipped_meta = [(m, c) for m, c in zip(marker_list, color_list)]
 zipped_meta = cycle(zipped_meta)
+t_base = 10.0
 # ======================================================================================================================
 
 
@@ -303,47 +304,67 @@ plt.close()
 # ======================================================================================================================
 
 
-# ----------------------------------------------------------------------------------------------------------------------
-# Compare original heat_units versus the interpolated_hu
-# ----------------------------------------------------------------------------------------------------------------------
-fig, ax = plt.subplots(nrows=2, ncols=1)
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Make a plot of all the temperature curves:
+# 1. T_min
+# 2. T_max
+# 3. T_24hour_avg
+# 4. (T_min + T_max)/2.0
+# 5. hline of T_base (which is 10 degrees Celsius for Apples).
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+t_min = processed_eg_df["T_min"].values
+t_max = processed_eg_df["T_max"].values
+t_24h_avg = processed_eg_df["T_24hour_avg"].values
+t_avg = (t_min + t_max)/2.0
+date_stamp = processed_eg_df.index
+
+fig, axs = plt.subplots(nrows=2, ncols=1, figsize=(15, 7.5))
 fig.autofmt_xdate()
-fig.suptitle("Comparison between base Heat Units and interpolated Heat Units")
+axs = axs.flatten()
+plt.subplots_adjust(hspace=0.35)
 
-color = "red"
-ax[0].bar(processed_eg_df.index, processed_eg_df["heat_units"], color=color, label="Base Heat Units", alpha=0.5)
+axs[0].set_ylabel("Temperature, [Celsius]")
+axs[0].grid(True)
+axs[0].set_title("Average Temperature versus Date")
+axs[0].plot(date_stamp, t_avg, color="forestgreen", label="0.5*(T_min + T_max)", lw=1)
+axs[0].fill_between(date_stamp, 10, t_avg, where=t_avg <= 10, facecolor="powderblue", interpolate=True,
+                    label="Heat Units = 0")
+axs[0].fill_between(date_stamp, 10, t_avg, where=t_avg >= 10, facecolor="lightcoral", interpolate=True,
+                    label="Heat Units > 0")
+axs[0].axhline(y=10, color="black", label="Base Temperature", lw=2.5, ls="--")
 for v in vline_dates:
-    ax[0].axvline(x=v, linestyle="--", linewidth=2, color="magenta", alpha=0.5)
-ax[0].plot([], [], linestyle="--", linewidth=2, color="magenta", alpha=0.5, label="New Season")
-ax[0].tick_params(which="major", bottom=True, labelbottom=True, colors="black", labelcolor="black",
-                  labelsize="small", axis="x")
-ax[0].set_xticks(api_xticks)
-ax[0].set_xticklabels(api_xticks, rotation=40, ha="right")
-ax[0].xaxis.set_major_formatter(mdates.DateFormatter('%Y/%b'))
-ax[0].set_xlim(left=api_start_date, right=api_end_date)
-for tick in ax[0].get_xticklabels():
+    axs[0].axvline(x=v, color="magenta", ls="--", lw=2.5, alpha=0.5)
+axs[0].plot([], [], color="magenta", ls="--", lw=2.5, alpha=0.7, label="New Season")
+axs[0].tick_params(which="major", bottom=True, labelbottom=True, colors="black", labelcolor="black",
+                   labelsize="small", axis="x")
+for tick in axs[0].get_xticklabels():
     tick.set_visible(True)
-ax[0].set_ylabel("Heat Units")
-ax[0].legend(prop={"size": 8})
+axs[0].set_xticks(api_xticks)
+axs[0].set_xticklabels(api_xticks, rotation=40, ha="right")
+axs[0].xaxis.set_major_formatter(mdates.DateFormatter('%Y/%b'))
+axs[0].set_xlim(left=api_start_date, right=api_end_date)
+axs[0].legend()
 
-color = "green"
-ax[1].bar(processed_eg_df.index, processed_eg_df["interpolated_hu"], color=color, label="Interpolated H.U.", alpha=0.5)
+axs[1].bar(processed_eg_df.index, processed_eg_df["interpolated_hu"], color="darkgoldenrod", label="Heat Units",
+           alpha=0.5)
 for v in vline_dates:
-    ax[1].axvline(x=v, linestyle="--", linewidth=2, color="magenta", alpha=0.5)
-ax[1].plot([], [], linestyle="--", linewidth=2, color="magenta", alpha=0.5, label="New Season")
-ax[1].tick_params(which="major", bottom=True, labelbottom=True, colors="black", labelcolor="black",
-                  labelsize="small", axis="x")
-ax[1].set_xticks(api_xticks)
-ax[1].set_xticklabels(api_xticks, rotation=40, ha="right")
-ax[1].xaxis.set_major_formatter(mdates.DateFormatter('%Y/%b'))
-ax[1].set_xlim(left=api_start_date, right=api_end_date)
-for tick in ax[1].get_xticklabels():
+    axs[1].axvline(x=v, linestyle="--", linewidth=2.5, color="magenta", alpha=0.5)
+axs[1].plot([], [], linestyle="--", linewidth=2.5, color="magenta", alpha=0.5, label="New Season")
+axs[1].tick_params(which="major", bottom=True, labelbottom=True, colors="black", labelcolor="black",
+                   labelsize="small", axis="x")
+axs[1].grid(True)
+axs[1].set_xticks(api_xticks)
+axs[1].set_xticklabels(api_xticks, rotation=40, ha="right")
+axs[1].xaxis.set_major_formatter(mdates.DateFormatter('%Y/%b'))
+axs[1].set_xlim(left=api_start_date, right=api_end_date)
+for tick in axs[1].get_xticklabels():
     tick.set_visible(True)
-ax[1].set_ylabel("Heat Units")
-ax[1].set_xlabel("Date")
-ax[1].legend(prop={"size": 8})
+axs[1].set_ylabel("Heat Units")
+axs[1].set_xlabel("Date")
+axs[1].set_title("Heat Units versus Date")
+axs[1].legend()
 
-plt.tight_layout(rect=[0, 0.03, 1, 0.95])
-plt.savefig("./figures/heat_units_comparison.png")
+plt.tight_layout()
+plt.savefig("./figures/temp_and_heat_units.png")
 plt.close()
-# ----------------------------------------------------------------------------------------------------------------------
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

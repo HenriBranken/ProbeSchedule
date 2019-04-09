@@ -34,21 +34,12 @@ def find_nearest_index(model_array, raw_value):
     return idx
 
 
-def gaussian(x, amp=1, mean=0, sigma=10):
-    return amp*np.exp(-(x - mean)**2 / (2*sigma**2))
-
-
-def weighted_moving_average(x, y, step_size=1.0, width=10):
-    x_min, x_max = math.floor(min(x)), math.ceil(max(x))
-    num = int((x_max - x_min) // step_size + 1)
-    bin_coords = np.linspace(start=x_min, stop=x_max, num=num, endpoint=True)
-    bin_avgs = np.zeros(len(bin_coords))
-
-    for index in range(len(bin_coords)):
-        weights = gaussian(x=x, mean=bin_coords[index], sigma=width)
-        bin_avgs[index] = np.average(y, weights=weights)
-
-    return bin_coords, bin_avgs
+def interpolation_1d(x, y, step_size=1.0):
+    x_min, x_max = math.floor(x[0]), math.ceil(x[-1])
+    num = int((x_max - x_min)/step_size + 1)
+    x_linspaced = np.linspace(start=x_min, stop=x_max, num=num, endpoint=True)
+    y_fit = np.interp(x_linspaced, x, y)
+    return x_linspaced, y_fit
 
 
 def get_r_squared(x_raw, y_raw, x_fit, y_fit):
@@ -92,8 +83,7 @@ independent_var = kcp_vs_gdd_df["smoothed_cumul_gdd"].values
 dependent_var = kcp_vs_gdd_df["daily_trend_kcp"].values
 
 # 5. Get a fit to x_raw and y_raw.
-x_smoothed, y_smoothed = weighted_moving_average(x=independent_var, y=dependent_var, step_size=delta_x,
-                                                 width=n_neighbours)
+x_smoothed, y_smoothed = interpolation_1d(x=independent_var, y=dependent_var, step_size=delta_x)
 x_begin = x_smoothed[0]
 
 # 6. Pad x_smoothed with values in the range 0 <= x_val < x_smoothed[0].  This ensures x_smoothed starts at 0.
@@ -121,7 +111,7 @@ print("The goodness of the fit is: {:.4f}.".format(r_squared))
 # 1 & 2.  Make plots of empirical and fitted data.
 fig, ax = plt.subplots(figsize=(10, 5))
 ax.scatter(x=independent_var, y=dependent_var, c="blue", alpha=0.3, edgecolors="black", label="Emperical")
-ax.plot(x_smoothed, y_smoothed, color="indianred", linewidth=2.5, alpha=1.0, label="Weighted Moving Average")
+ax.plot(x_smoothed, y_smoothed, color="indianred", linewidth=2.5, alpha=1.0, label="1D Interpolation")
 ax.grid()
 ax.set_xlabel("Smoothed Cumulative GDD")
 ax.set_ylabel("Crop Coefficient, $k_{cp}$")
