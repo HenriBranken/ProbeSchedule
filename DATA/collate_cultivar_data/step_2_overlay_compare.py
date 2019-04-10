@@ -37,9 +37,8 @@ inner_index = list(cleaned_multi_df.index.get_level_values("datetimeStamp").uniq
 
 # 2.
 # Get a list of all the Probe-IDs involved for the cultivar
-with open("./data/probe_ids.txt", "r") as f2:
-    probe_ids = f2.readlines()
-probe_ids = [x.strip() for x in probe_ids]
+with open("../probe_ids.txt", "r") as f2:
+    probe_ids = [x.rstrip() for x in f2.readlines()]
 
 # 3.
 # Load the Reference Crop Coefficients stored at `./data/reference_crop_coeff.xlsx`

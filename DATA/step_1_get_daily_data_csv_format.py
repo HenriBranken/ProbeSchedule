@@ -40,13 +40,9 @@ for file in files:
 
 # ======================================================================================================================
 # Create a simple .txt file containing the probe_ids.  One line per probe_id.
-# This .txt file lives at `./collate_cultivar_data/data/probe_ids.txt`
+# This .txt file lives at `./probe_ids.txt`
 # ======================================================================================================================
-# First ensure that the directory exists.  If not, then create the directory with os.makedirs.
-if not os.path.exists("./collate_cultivar_data/data"):
-    os.makedirs("collate_cultivar_data/data")
-
-with open("./collate_cultivar_data/data/probe_ids.txt", "w") as f:
+with open("./probe_ids.txt", "w") as f:
     f.write("\n".join(("P-{:s}".format(str(device_number))) for device_number in devices))
 # ======================================================================================================================
 
@@ -82,7 +78,6 @@ for device in devices:
         T_24hour_avg = round(np.average(temps_list), 4)
         heat_units_raw = round((T_min + T_max)/2.0 - T_base, 4)
         heat_units = heat_units_raw if heat_units_raw >= 0 else float(0)
-        # print(type(T_min), type(T_max), type(T_24hour_avg), type(heat_units))
         daily_data[reading_date] = {"heat_units": heat_units,
                                     "T_min": T_min,
                                     "T_max": T_max,

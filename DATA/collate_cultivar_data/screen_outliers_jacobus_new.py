@@ -16,7 +16,7 @@ pd.options.mode.chained_assignment = None  # default='warn'
 n_neighbours_list = list(np.arange(start=30, stop=1-1, step=-1))
 delta_x = 1
 x_limits = [0, 365]
-n_iterations = 5
+n_iterations = 3
 marker_list = ["o", ">", "<", "s", "P", "*", "X", "D"]
 color_list = ["red", "gold", "seagreen", "lightseagreen", "royalblue", "darkorchid", "plum", "burlywood"]
 pol_degree = 4  # It is not recommended to go above 4 because then the oscillations start to grow wildly out of control.
@@ -30,13 +30,12 @@ class NoProperWMATrend(Exception):
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Import all the necessary data
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# 0.
 # Extract the starting year.  The year of the most "historic/past" sample.
 with open("./data/starting_year.txt", "r") as f:
     starting_year = int(f.readline().rstrip())
 start_date = datetime.datetime(year=starting_year, month=BEGINNING_MONTH, day=1)
 
-# 1.
+
 # Load the cleaned (scatterplot) data of kcp versus datetimeStamp from `./data/stacked_cleaned_data_for_overlay.xlsx`
 # that was saved in `step_1_perform_cleaning.py`.
 # We are interested in the `datetimeStamp` index, and the newly created `days` column.
@@ -52,7 +51,7 @@ scatter_df["days"] = scatter_df["days"].dt.days
 x_scatter = scatter_df["days"].values
 y_scatter = scatter_df["kcp"].values
 
-# 2.
+
 # Import the (first/beginning) kcp vs datetimestamp smoothed trend from `binned_kcp_data.xlsx`.  We need to import the
 # sheet `day_frequency` from `binned_kcp_data.xlsx`.  We are interested in the `season_day` column, and the
 # `day_averaged_kcp` column.
@@ -61,18 +60,20 @@ smoothed_kcp_vs_date_df = pd.read_excel("./data/binned_kcp_data.xlsx", sheet_nam
 x_smoothed = smoothed_kcp_vs_date_df["season_day"].values
 y_smoothed = smoothed_kcp_vs_date_df["day_averaged_kcp"].values
 
-# 3.
+
 # Instantiate a pandas DataFrame containing the reference crop coefficient values.
 cco_df = pd.read_excel("./data/reference_crop_coeff.xlsx", sheet_name=0, header=0, index_col=0,
                        parse_dates=True)
 cco_df["days"] = cco_df.index - datetime.datetime(year=starting_year, month=BEGINNING_MONTH, day=1)
 cco_df["days"] = cco_df["days"].dt.days  # we use the dt.days attribute
 
-# 4.
+
 # Load all the probes
-with open("./data/probe_ids.txt", "r") as f2:
+with open("../probe_ids.txt", "r") as f2:
     probe_ids = [x.rstrip() for x in f2.readlines()]
 
+
+# Determine the mode that was used in `step_3_smoothed_version.py`.
 with open("./data/mode.txt", "r") as f:
     mode = f.readline().rstrip()  # mode is either "Polynomial-fit" or "WMA"
 
@@ -255,62 +256,73 @@ xy_smoothed_df = create_xy_df(x_vals=x_smoothed, y_vals=y_smoothed, iteration=in
 
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# Data Munging.  In the for-loop we iteratively remove bad probes
+# Data Munging.  In the for-loop we iteratively remove "bad" probes
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 r_squared_stat_list = [r_squared_stat]  # how good the trend fits the scatter plot
 xy_scatter_dfs = [xy_scatter_df]
 xy_smoothed_dfs = [xy_smoothed_df]
 removed_probes = []
 
+# assert that the number of flagging iterations is less than the number of probes.
+assert len(probe_ids) > n_iterations, "Number of iterations is greater than the number of probes.\n" \
+                                      "Decrease n_iterations such that n_iterations < len(probe_ids)."
+
+q = 0
 for i in range(n_iterations):
-    probes_r_squared = []
-    for p in probe_ids:
-        probe_df = extract_probe_df(multi_index_df=probe_set_df, probe=p)
-        val = get_r_squared(x_raw=probe_df["days"].values, y_raw=probe_df["kcp"].values,
-                            x_fit=x_smoothed, y_fit=y_smoothed)
-        probes_r_squared.append(val)
-    min_arg_index = np.where(probes_r_squared == min(probes_r_squared))[0][0]
-    removed_probes.append(probe_ids.pop(min_arg_index))
+    try:
+        probes_r_squared = []
+        for p in probe_ids:
+            probe_df = extract_probe_df(multi_index_df=probe_set_df, probe=p)
+            val = get_r_squared(x_raw=probe_df["days"].values, y_raw=probe_df["kcp"].values,
+                                x_fit=x_smoothed, y_fit=y_smoothed)
+            probes_r_squared.append(val)
+        min_arg_index = np.where(probes_r_squared == min(probes_r_squared))[0][0]
+        removed_probes.append(probe_ids.pop(min_arg_index))
 
-    x_scatter, y_scatter = collapse_dataframe(multi_index_df=probe_set_df, tbr_probe_list=removed_probes)
-    xy_scatter_dfs.append(create_xy_df(x_vals=x_scatter, y_vals=y_scatter, iteration=int(i + 1), status="scatter"))
+        x_scatter, y_scatter = collapse_dataframe(multi_index_df=probe_set_df, tbr_probe_list=removed_probes)
+        xy_scatter_dfs.append(create_xy_df(x_vals=x_scatter, y_vals=y_scatter, iteration=int(i + 1), status="scatter"))
 
-    if mode == "WMA":
-        saved_trend_lines = []  # this will store all the various trend lines associated with different n_neighbours
-        num_bumps = []
-        for n_neighbours in n_neighbours_list:
+        if mode == "WMA":
+            saved_trend_lines = []  # this will store all the various trend lines associated with different n_neighbours
+            num_bumps = []
+            for n_neighbours in n_neighbours_list:
+                try:
+                    x_smoothed, y_smoothed = weighted_moving_average(x=x_scatter, y=y_scatter, step_size=delta_x,
+                                                                     width=n_neighbours, x_lims=x_limits)
+                    y_smoothed = rectify_trend(fitted_trend_values=y_smoothed)
+                    saved_trend_lines.append(zip(x_smoothed, y_smoothed))
+                    num_bumps.append(get_n_local_extrema(y_smoothed))
+                except ZeroDivisionError:
+                    break  # exit the for-loop.  We have reached the point where n_neighbours is too small.
             try:
-                x_smoothed, y_smoothed = weighted_moving_average(x=x_scatter, y=y_scatter, step_size=delta_x,
-                                                                 width=n_neighbours, x_lims=x_limits)
+                prized_index = get_prized_index(num_bumps)
+                trend_line = saved_trend_lines[prized_index]
+                unpack = [list(t) for t in zip(*trend_line)]
+                x_smoothed, y_smoothed = unpack[0], unpack[1]
+            except NoProperWMATrend as e:
+                print(e)
+                print("{:.>80}".format("Cannot perform Exponentially-Weighted-Moving-Average."))
+                print("{:.>80}".format("Proceeding with Polynomial Fit."))
+                mode = "Polynomial-fit"  # Switch over to "Polynomial-fit" mode.  No longer using "WMA" mode.
+                x_smoothed, y_smoothed = polynomial_fit(x=x_scatter, y=y_scatter, step_size=delta_x, degree=pol_degree,
+                                                        x_lims=x_limits)
                 y_smoothed = rectify_trend(fitted_trend_values=y_smoothed)
-                saved_trend_lines.append(zip(x_smoothed, y_smoothed))
-                num_bumps.append(get_n_local_extrema(y_smoothed))
-            except ZeroDivisionError:
-                break  # exit the for-loop.  We have reached the point where n_neighbours is too small.
-        try:
-            prized_index = get_prized_index(num_bumps)
-            trend_line = saved_trend_lines[prized_index]
-            unpack = [list(t) for t in zip(*trend_line)]
-            x_smoothed, y_smoothed = unpack[0], unpack[1]
-        except NoProperWMATrend as e:
-            print(e)
-            print("{:.>80}".format("Cannot perform Exponentially-Weighted-Moving-Average."))
-            print("{:.>80}".format("Proceeding with Polynomial Fit."))
-            mode = "Polynomial-fit"  # Switch over to "Polynomial-fit" mode.  No longer using "WMA" mode.
+                y_smoothed = simplify_trend(fitted_trend_values=y_smoothed)
+        else:  # i.e. we know for sure that mode is "Polynomial-fit".
             x_smoothed, y_smoothed = polynomial_fit(x=x_scatter, y=y_scatter, step_size=delta_x, degree=pol_degree,
                                                     x_lims=x_limits)
             y_smoothed = rectify_trend(fitted_trend_values=y_smoothed)
             y_smoothed = simplify_trend(fitted_trend_values=y_smoothed)
-    else:  # i.e. we know for sure that mode is "Polynomial-fit".
-        x_smoothed, y_smoothed = polynomial_fit(x=x_scatter, y=y_scatter, step_size=delta_x, degree=pol_degree,
-                                                x_lims=x_limits)
-        y_smoothed = rectify_trend(fitted_trend_values=y_smoothed)
-        y_smoothed = simplify_trend(fitted_trend_values=y_smoothed)
 
-    xy_smoothed_dfs.append(create_xy_df(x_vals=x_smoothed, y_vals=y_smoothed, iteration=int(i + 1),
-                                        status="smoothed"))
-    r_squared_stat = get_r_squared(x_raw=x_scatter, y_raw=y_scatter, x_fit=x_smoothed, y_fit=y_smoothed)
-    r_squared_stat_list.append(r_squared_stat)
+        xy_smoothed_dfs.append(create_xy_df(x_vals=x_smoothed, y_vals=y_smoothed, iteration=int(i + 1),
+                                            status="smoothed"))
+        r_squared_stat = get_r_squared(x_raw=x_scatter, y_raw=y_scatter, x_fit=x_smoothed, y_fit=y_smoothed)
+        r_squared_stat_list.append(r_squared_stat)
+        q += 1
+    except IndexError:
+        break
+print(q)
+n_iterations = q  # we re-assign n_iterations
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -356,14 +368,16 @@ for i, ax in enumerate(axs):
     for tick in ax.get_xticklabels():
         tick.set_visible(True)
     ax.legend(prop={"size": 6}, loc=6)
-    ax.annotate(s="$R^2$ = {:.3f}\nIteration {}".format(r_squared_stat_list[i], i), xycoords="axes fraction",
-                xy=(0.01, 0.87), fontsize=9)
+    ax.annotate(s="$R^2$ = {:.3f}\n"
+                  "Iteration {}\n"
+                  "{} removed in next iteration".format(r_squared_stat_list[i], i, removed_probes[i]),
+                xycoords="axes fraction", xy=(0.01, 0.87), fontsize=9)
     if i == n_iterations:
         break
-for idx in [0, 2, 4]:
-    axs[idx].set_ylabel("$k_{cp}$")
-for idx in [4, 5]:
-    axs[idx].set_xlabel("Days")
+# for idx in [0, 2, 4]:
+#     axs[idx].set_ylabel("$k_{cp}$")
+# for idx in [4, 5]:
+#     axs[idx].set_xlabel("Days")
 plt.tight_layout(rect=[0, 0.03, 1, 0.95])
 plt.savefig("./figures/remove_outliers_jacobus_method.png")
 plt.close()

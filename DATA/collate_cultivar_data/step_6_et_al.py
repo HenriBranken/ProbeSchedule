@@ -33,9 +33,8 @@ outer_index = list(cleaned_multi_df.index.get_level_values("probe_id").unique())
 inner_index = list(cleaned_multi_df.index.get_level_values("datetimeStamp").unique())
 
 # Get a list of all the Probe-IDs involved for the cultivar
-with open("./data/probe_ids.txt", "r") as f2:
-    probe_ids = f2.readlines()
-probe_ids = [x.strip() for x in probe_ids]
+with open("../probe_ids.txt", "r") as f2:
+    probe_ids = [x.rstrip() for x in f2.readlines()]
 
 # Make a directory for each probe in the `figures` parent directory.
 for p in probe_ids:
@@ -102,6 +101,7 @@ api_xticks = get_labels(begin=api_start_date, terminate=api_end_date, freq="QS")
 # ======================================================================================================================
 # Plot the cleaned probe data for each probe on a separate figure.
 # ======================================================================================================================
+print("Plotting cleaned probe data for each probe on a separate set of axes.")
 if not os.path.exists("./figures"):
     os.makedirs("figures")
 
@@ -134,6 +134,7 @@ for i, p in enumerate(outer_index):
 #   1.  Data Blips --> DATA_BLIP_DESC
 #   2.  Large Dips --> LARGE_PROFILE_DIP_DESC
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+print("Plotting Profile Readings for each probe on a separate set of axes.")
 for p in probe_ids:
     df = pd.read_excel("./data/processed_probe_data.xlsx", sheet_name="{}".format(p), header=0, index_col=0,
                        squeeze=True, parse_dates=True)
@@ -170,6 +171,7 @@ for p in probe_ids:
 # ======================================================================================================================
 # For each probe, make a plot of the irrigation.
 # ======================================================================================================================
+print("Plot the irrigation for each probe on a separate set of axes.")
 for p in probe_ids:
     df = pd.read_excel("./data/processed_probe_data.xlsx", sheet_name="{}".format(p), header=0, index_col=0,
                        squeeze=True, parse_dates=True)
@@ -200,6 +202,7 @@ for p in probe_ids:
 # Plot the Rain events versus the Date.  They are identical for the different probes on a farm.
 # Therefore only one probe_id is needed.
 # ----------------------------------------------------------------------------------------------------------------------
+print("Plot the Rain events.")
 p = probe_ids[0]
 df = pd.read_excel("./data/processed_probe_data.xlsx", sheet_name="{}".format(p), header=0, index_col=0,
                    squeeze=True, parse_dates=True)
@@ -230,6 +233,7 @@ plt.close()
 # EvapoTranspiration versus Date.
 # Only 1 graph is sufficient, therefore we only use 1 probeID.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+print("Plot the evapotranspiration data.")
 interim_df = pd.DataFrame(data={"eto": df["eto"], "etc": df["etc"], "description": df["description"]}, index=df.index,
                           copy=True)
 interim_df.index.name = "datetimeStamp"
@@ -263,6 +267,7 @@ plt.close()
 # Only 1 graph is sufficient, therefore we only use 1 probeID.
 # For this graph we use the gdd_cumulative function(s) helper function defined above.
 # ======================================================================================================================
+print("Plot Heat Units and GDD data.")
 fig = plt.figure()
 fig.set_size_inches(10, 5)
 
@@ -306,12 +311,10 @@ plt.close()
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Make a plot of all the temperature curves:
-# 1. T_min
-# 2. T_max
-# 3. T_24hour_avg
-# 4. (T_min + T_max)/2.0
-# 5. hline of T_base (which is 10 degrees Celsius for Apples).
+# 1. (T_min + T_max)/2.0
+# 2. hline of T_base (which is 10 degrees Celsius for Apples).
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+print("Plot temperature and heat-units data.")
 t_min = processed_eg_df["T_min"].values
 t_max = processed_eg_df["T_max"].values
 t_24h_avg = processed_eg_df["T_24hour_avg"].values

@@ -20,10 +20,12 @@ then
     python3 step_5_plotting_binned_kcp_trends.py
     python3 step_6_et_al.py
     python3 step_7_figure_arrays.py
-    python3 step_8_kcp_versus_gdd.py
-    python3 step_9_fit_kcp_vs_gdd.py
+    python3 step_8a_tailor_for_weekly_bins.py
+    python3 step_8b_kcp_versus_gdd.py
+    python3 step_8c_fit_kcp_vs_gdd.py
+    python3 screen_outliers_henri_new.py
+    python3 screen_outliers_jacobus_new.py
 else
-    echo "User decided against executing run_pipeline.sh"
+    echo "User decided against executing run_pipeline.sh..."
     sleep 3s
 fi
-

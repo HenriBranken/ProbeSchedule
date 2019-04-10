@@ -44,11 +44,14 @@ def reporter(file_to_write_to, dataframe, brief_desc, probe=None):
 
 
 def conclusion(file_to_write_to, dataframe, probe=None):
-    if not probe:
+    if not probe:  # if concluding for the entire set
         n_tot_entries = len(dataframe.index)
         n_affected = dataframe["binary_value"].sum()
         n_useful = n_tot_entries - n_affected
         calc = 100 - n_affected / n_tot_entries * 100
+        if calc < 10.0:
+            print("The quality of your data is not very good (only {:.1f}% are useful).\n"
+                  "Consider getting a different set of probes.".format(calc))
 
         conc_string = "| Only {:.2f}% of data, that is {}/{} samples, " \
                       "are useful for the probe SET.".format(calc, n_useful, n_tot_entries)
@@ -91,7 +94,7 @@ multi_df = df.set_index(["probe_id", "date"])
 
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# Some examples/demos on how to extract information from a MultiIndex DataFrame.
+# Some demos on how to extract information from a MultiIndex DataFrame.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # How to print a very specific sample from the MultiIndex DataFrame.
 # print(df2.loc[("P-392", "2018-02-05"), ["heat_units"]])

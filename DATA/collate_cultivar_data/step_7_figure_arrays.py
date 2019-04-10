@@ -19,9 +19,8 @@ outer_index = list(cleaned_multi_df.index.get_level_values("probe_id").unique())
 inner_index = list(cleaned_multi_df.index.get_level_values("datetimeStamp").unique())
 
 # Get a list of all the Probe-IDs involved for the cultivar
-with open("data/probe_ids.txt", "r") as f2:
-    probe_ids = f2.readlines()
-probe_ids = [x.strip() for x in probe_ids]
+with open("../probe_ids.txt", "r") as f2:
+    probe_ids = [x.rstrip() for x in f2.readlines()]
 num_probes = len(probe_ids)
 
 # Create a folder for each probe-id in the `figures` parent folder.

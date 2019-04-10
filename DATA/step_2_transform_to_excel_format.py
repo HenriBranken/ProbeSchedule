@@ -8,7 +8,7 @@ import os
 #   1.  path_to_probe_ids --> .txt File containing the 1 probe_id per line.
 #   2.  probe_ids --> A list of strings containing the probe ids.
 # ======================================================================================================================
-path_to_probe_ids = "./collate_cultivar_data/data/probe_ids.txt"
+path_to_probe_ids = "./probe_ids.txt"
 with open(path_to_probe_ids, "r") as f:
     probe_ids = f.readlines()
     probe_ids = [x.rstrip("\n") for x in probe_ids]

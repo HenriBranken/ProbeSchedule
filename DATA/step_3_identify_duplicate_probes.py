@@ -5,7 +5,7 @@ import os
 # ======================================================================================================================
 # Declare "constants"
 # ======================================================================================================================
-with open("./collate_cultivar_data/data/probe_ids.txt", "r") as f:
+with open("./probe_ids.txt", "r") as f:
     probe_ids = [p.rstrip() for p in list(f)]
 print(probe_ids)
 # ======================================================================================================================
@@ -48,7 +48,7 @@ def get_sub_df(multi_dataframe, label):
 # Do the data manipulation to see if any sub-DataFrames are equal to one another
 # ======================================================================================================================
 # Populate list with probe DataFrames
-probe_dfs = [get_sub_df(multi_dataframe=multi_df, label=p) for p in probe_ids]
+probe_dfs = [get_sub_df(multi_dataframe=multi_df, label=p) for p in probe_ids]  # list comprehension
 
 master_list_of_duplicates = []
 for i, p in enumerate(probe_ids):
@@ -89,18 +89,14 @@ print("-" * 80)
 # 1. need to be discarded from any future use whatsoever (i.e. the probe_ids that are redundant).
 # 2. need to be kept (i.e. any NON-redundant probe_id).
 # ----------------------------------------------------------------------------------------------------------------------
-# Create the directory `./collate_cultivar_data` if it does not already exist.
-if not os.path.exists("./collate_cultivar_data/data"):
-    os.makedirs("collate_cultivar_data/data")
-
-# The probe(s) to be discarded are written to `./data/probes_to_be_discarded.txt`.
-with open("./collate_cultivar_data/data/probes_to_be_discarded.txt", "w") as f:
+# The probe(s) to be discarded are written to `./probes_to_be_discarded.txt`.
+with open("./probes_to_be_discarded.txt", "w") as f:
     f.write("\n".join(("{:s}".format(p)) for p in probes_to_be_popped))
 
 # Generate the new list of probes that need to be kept.  This list is written to `./data/probe_ids.txt`.
 # Use list comprehension to get all the probes that do not belong to `probes_to_be_popped`.  (Note the use of `not in`)
 new_probe_ids = [p for p in probe_ids if p not in probes_to_be_popped]
-with open("./collate_cultivar_data/data/probe_ids.txt", "w") as f:
+with open("./probe_ids.txt", "w") as f:
     f.write("\n".join(("{:s}".format(p)) for p in new_probe_ids))
 # ----------------------------------------------------------------------------------------------------------------------
 

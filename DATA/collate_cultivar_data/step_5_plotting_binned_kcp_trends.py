@@ -38,9 +38,8 @@ kcp_vs_month_df = pd.read_excel("data/binned_kcp_data.xlsx", sheet_name="month_f
                                 names=["season_month", "calendar_month", "monthly_averaged_kcp"], index_col=0,
                                 squeeze=True, parse_dates=True)
 
-with open("./data/probe_ids.txt", "r") as f:
-    probe_ids = f.readlines()
-probe_ids = [x.rstrip() for x in probe_ids]
+with open("../probe_ids.txt", "r") as f:
+    probe_ids = [x.rstrip() for x in f.readlines()]
 
 cco_df = pd.read_excel("./data/reference_crop_coeff.xlsx", sheet_name=0, header=0, index_col=0,
                        parse_dates=True)

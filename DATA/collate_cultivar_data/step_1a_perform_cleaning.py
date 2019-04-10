@@ -9,13 +9,15 @@ from cleaning_operations import BEGINNING_MONTH
 # Define important "constants".
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Create a list, `probe_ids`, of all the probe-ids that are going to be used
-with open("./data/probe_ids.txt", "r") as f:
+with open("../probe_ids.txt", "r") as f:
     probe_ids = f.readlines()
     probe_ids = [x.rstrip() for x in probe_ids]
 print(probe_ids)
 
 if not os.path.exists("./data"):
-    os.makedirs("./data")
+    os.makedirs("data")
+if not os.path.exists("./figures"):
+    os.makedirs("figures")
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
@@ -35,7 +37,7 @@ def load_probe_data(probe_name):
 
 
 def initialize_flagging_columns(dataframe):
-    dataframe["binary_value"] = 0.0
+    dataframe["binary_value"] = 0
     dataframe["description"] = str()
     return dataframe
 # ----------------------------------------------------------------------------------------------------------------------
