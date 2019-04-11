@@ -2,248 +2,40 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="49ef9e0d-250f-43a7-a4f1-33f52ead0df1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/step_8a_tailor_for_weekly_bins.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../P-370_daily_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../P-370_daily_data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../P-371_daily_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../P-371_daily_data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../P-372_daily_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../P-372_daily_data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../P-384_daily_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../P-384_daily_data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../P-391_daily_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../P-391_daily_data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../P-392_daily_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../P-392_daily_data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../P-891_daily_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../P-891_daily_data.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cleaning_operations.py" beforeDir="false" afterPath="$PROJECT_DIR$/cleaning_operations.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/.~lock.binned_kcp_data.xlsx#" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/.~lock.projected_weekly_data.xlsx#" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/data/Smoothed_kcp_trend_vs_datetime.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/Smoothed_kcp_trend_vs_datetime.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/binned_kcp_data.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/binned_kcp_data.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/cleaned_data_for_overlay.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/cleaned_data_for_overlay.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data_report.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/data_report.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data_report_gracious.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data_report_missing_susp_flagging.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data_report_strict.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data_report_very_gracious.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/data/fit_of_kcp_vs_cumulative_gdd.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/fit_of_kcp_vs_cumulative_gdd.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/kcp_vs_days.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/kcp_vs_days.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/kcp_vs_smoothed_cumul_gdd.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/kcp_vs_smoothed_cumul_gdd.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/mode.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/mode.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/prized_index.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/prized_index.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/prized_n_neighbours.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/prized_n_neighbours.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/probe_ids.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/probes_to_be_discarded.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/data/processed_probe_data.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed_probe_data.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/projected_data.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/projected_weekly_data.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/projected_weekly_data.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/reference_crop_coeff.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/reference_crop_coeff.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/smoothed_cumul_gdd_vs_season_day.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/smoothed_cumul_gdd_vs_season_day.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/stacked_cleaned_data_for_overlay.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/stacked_cleaned_data_for_overlay.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/statistics_polynomial_fit.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/GDD_heat_units_vs_time.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/GDD_heat_units_vs_time.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-370/cleaned_probe_data.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-370/cleaned_probe_data.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-370/irrigation.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-370/irrigation.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-371/cleaned_probe_data.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-371/cleaned_probe_data.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-371/irrigation.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-371/irrigation.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-372/cleaned_probe_data.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-372/cleaned_probe_data.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-372/irrigation.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-372/irrigation.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-384/cleaned_probe_data.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-384/cleaned_probe_data.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-384/irrigation.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-384/irrigation.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-384/profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-384/profile.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-391/cleaned_probe_data.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-391/cleaned_probe_data.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-391/irrigation.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-391/irrigation.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-392/cleaned_probe_data.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-392/cleaned_probe_data.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-392/irrigation.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-392/irrigation.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-891/cleaned_probe_data.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-891/cleaned_probe_data.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-891/irrigation.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-891/irrigation.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-891/profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-891/profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/statistics_wma_trend_lines.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/figures/Smoothed_kcp_versus_days.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/Smoothed_kcp_versus_days.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/figures/Smoothed_kcp_versus_month.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/Smoothed_kcp_versus_month.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/array_irrigation.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/array_irrigation.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/figures/array_kcp.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/array_kcp.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/array_profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/array_profile.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/et.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/et.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/figures/etcp_versus_date.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/etcp_versus_date.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/figures/kcp_binning_strategies.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/kcp_binning_strategies.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/figures/kcp_versus_GDD.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/kcp_versus_GDD.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/figures/kcp_versus_gdd_smoothed.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/kcp_versus_gdd_smoothed.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/original_trend_vs_latest_trend.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/original_trend_vs_latest_trend.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/overlay.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/overlay.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/rain.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/rain.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/figures/original_trend_vs_latest_trend.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/figures/remove_outliers_henri_method.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/remove_outliers_henri_method.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/figures/remove_outliers_jacobus_method.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/remove_outliers_jacobus_method.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/smoothed_cumul_GDD.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/smoothed_cumul_GDD.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/figures/temp_and_heat_units.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/temp_and_heat_units.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screen_outliers_jacobus_new.py" beforeDir="false" afterPath="$PROJECT_DIR$/screen_outliers_jacobus_new.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/step_1a_perform_cleaning.py" beforeDir="false" afterPath="$PROJECT_DIR$/step_1a_perform_cleaning.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/step_1b_write_report.py" beforeDir="false" afterPath="$PROJECT_DIR$/step_1b_write_report.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screen_outliers_henri_new.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/screen_outliers_jacobus_new.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/step_2_overlay_compare.py" beforeDir="false" afterPath="$PROJECT_DIR$/step_2_overlay_compare.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/step_3b_smoothed_version.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/step_5_plotting_binned_kcp_trends.py" beforeDir="false" afterPath="$PROJECT_DIR$/step_5_plotting_binned_kcp_trends.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/step_3_smoothed_version.py" beforeDir="false" afterPath="$PROJECT_DIR$/step_3_smoothed_version.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/step_6_et_al.py" beforeDir="false" afterPath="$PROJECT_DIR$/step_6_et_al.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/step_7_figure_arrays.py" beforeDir="false" afterPath="$PROJECT_DIR$/step_7_figure_arrays.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/step_8_kcp_versus_gdd.py" beforeDir="false" afterPath="$PROJECT_DIR$/step_8b_kcp_versus_gdd.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/step_9_fit_kcp_vs_gdd.py" beforeDir="false" afterPath="$PROJECT_DIR$/step_8c_fit_kcp_vs_gdd.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/steps_1_to_9_run_pipeline.sh" beforeDir="false" afterPath="$PROJECT_DIR$/steps_1_to_9_run_pipeline.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tailor_for_weekly_bins.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/.idea/collate_cultivar_data.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/.idea/dictionaries/henri.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/GDD_versus_time.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/alternative.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/cleaning_operations.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/data/WMA_kcp_trend_vs_datetime.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/data/binned_kcp_data.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/data/cleaned_data_for_overlay.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/data/data_report.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/data/fit_of_kcp_vs_cumulative_gdd.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/data/kcp_vs_days.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/data/kcp_vs_smoothed_cumul_gdd.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/data/prized_index.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/data/prized_n_neighbours.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/data/probe_ids.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/data/processed_probe_data.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/data/reference_crop_coeff.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/data/smoothed_cumul_gdd_vs_season_day.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/data/stacked_cleaned_data_for_overlay.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/data/starting_year.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/data/statistics_trend_lines.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/experimental.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/extract_unperturbed_dates_from_azm_data.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/GDD_heat_units_vs_time.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/P-370/cleaned_probe_data.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/P-370/irrigation.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/P-370/profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/P-371/cleaned_probe_data.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/P-371/irrigation.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/P-371/profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/P-372/cleaned_probe_data.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/P-372/irrigation.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/P-372/profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/P-384/cleaned_probe_data.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/P-384/irrigation.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/P-384/profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/P-391/cleaned_probe_data.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/P-391/irrigation.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/P-391/profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/P-392/cleaned_probe_data.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/P-392/irrigation.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/P-392/profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/P-891/cleaned_probe_data.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/P-891/irrigation.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/P-891/profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/WMA_kcp_versus_days.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/WMA_kcp_versus_month.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/array_irrigation.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/array_kcp.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/array_profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/et.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/etcp_versus_date.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/heat_units_comparison.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/kcp_binning_strategies.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/kcp_versus_GDD.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/kcp_versus_gdd_smoothed.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/overlay.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/rain.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/figures/smoothed_cumul_GDD.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/koue_bokkeveld_longterm_eto.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/master_data.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/step_1_perform_cleaning.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/step_2_overlay_compare.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/step_3_get_trends_from_stacked_data.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/step_3_weighted_moving_average.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/step_4_binning_trend_line.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/step_5_plotting_binned_kcp_trends.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/step_6_et_al.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/step_7_figure_arrays.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/step_8_kcp_versus_gdd.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/step_9_fit_kcp_vs_gdd.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/step_9_fit_kcp_vs_gdd_old.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/steps_1_to_9_run_pipeline.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_experimental/write_report.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/.idea/collate_cultivar_data.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/.idea/dictionaries/henri.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/GDD_versus_time.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/alternative.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/cleaning_operations.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/data/WMA_kcp_trend_vs_datetime.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/data/binned_kcp_data.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/data/cleaned_data_for_overlay.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/data/data_report.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/data/fit_of_kcp_vs_cumulative_gdd.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/data/kcp_vs_days.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/data/kcp_vs_smoothed_cumul_gdd.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/data/prized_index.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/data/prized_n_neighbours.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/data/probe_ids.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/data/processed_probe_data.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/data/reference_crop_coeff.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/data/smoothed_cumul_gdd_vs_season_day.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/data/stacked_cleaned_data_for_overlay.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/data/starting_year.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/data/statistics_trend_lines.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/experimental.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/extract_unperturbed_dates_from_azm_data.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/GDD_heat_units_vs_time.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/P-370/cleaned_probe_data.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/P-370/irrigation.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/P-370/profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/P-371/cleaned_probe_data.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/P-371/irrigation.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/P-371/profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/P-372/cleaned_probe_data.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/P-372/irrigation.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/P-372/profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/P-384/cleaned_probe_data.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/P-384/irrigation.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/P-384/profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/P-391/cleaned_probe_data.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/P-391/irrigation.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/P-391/profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/P-392/cleaned_probe_data.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/P-392/irrigation.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/P-392/profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/P-891/cleaned_probe_data.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/P-891/irrigation.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/P-891/profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/WMA_kcp_versus_days.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/WMA_kcp_versus_month.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/array_irrigation.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/array_kcp.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/array_profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/et.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/etcp_versus_date.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/heat_units_comparison.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/kcp_binning_strategies.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/kcp_versus_GDD.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/kcp_versus_gdd_smoothed.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/overlay.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/rain.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/figures/smoothed_cumul_GDD.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/koue_bokkeveld_longterm_eto.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/master_data.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/step_1_perform_cleaning.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/step_2_overlay_compare.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/step_3_get_trends_from_stacked_data.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/step_3_weighted_moving_average.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/step_4_binning_trend_line.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/step_5_plotting_binned_kcp_trends.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/step_6_et_al.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/step_7_figure_arrays.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/step_8_kcp_versus_gdd.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/step_9_fit_kcp_vs_gdd.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/step_9_fit_kcp_vs_gdd_old.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/steps_1_to_9_run_pipeline.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data_reality/write_report.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../cultivar_data.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/../cultivar_data.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../cultivar_data_unique.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/../cultivar_data_unique.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../step_1_get_daily_data_csv_format.py" beforeDir="false" afterPath="$PROJECT_DIR$/../step_1_get_daily_data_csv_format.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../step_2_transform_to_excel_format.py" beforeDir="false" afterPath="$PROJECT_DIR$/../step_2_transform_to_excel_format.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../step_3_identify_duplicate_probes.py" beforeDir="false" afterPath="$PROJECT_DIR$/../step_3_identify_duplicate_probes.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -254,33 +46,33 @@
   <component name="FileEditorManager">
     <leaf>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/screen_outliers_henri_new.py">
+        <entry file="file://$PROJECT_DIR$/steps_1_to_9_run_pipeline.sh">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret lean-forward="true" />
+              <caret line="31" selection-start-line="31" selection-end-line="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/step_6_et_al.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-8">
+              <caret line="324" column="59" selection-start-line="324" selection-start-column="59" selection-end-line="324" selection-end-column="59" />
               <folding>
-                <element signature="e#0#19#0" expanded="true" />
+                <element signature="e#0#9#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/steps_1_to_9_run_pipeline.sh">
+        <entry file="file://$PROJECT_DIR$/cleaning_operations.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="598">
-              <caret line="26" column="42" lean-forward="true" selection-start-line="26" selection-start-column="42" selection-end-line="26" selection-end-column="42" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/screen_outliers_jacobus_new.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-6617">
-              <caret line="77" column="76" lean-forward="true" selection-start-line="77" selection-start-column="76" selection-end-line="77" selection-end-column="76" />
+            <state relative-caret-position="208">
+              <caret line="327" column="16" selection-start-line="327" selection-start-column="16" selection-end-line="327" selection-end-column="16" />
               <folding>
-                <element signature="e#0#19#0" expanded="true" />
+                <element signature="e#0#18#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -297,7 +89,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>LUX_DESC</find>
       <find>get_starting</find>
       <find>starting_year</find>
       <find>get_starting_year()</find>
@@ -327,6 +118,7 @@
       <find>repeated_df</find>
       <find>repeated_kcp</find>
       <find>s_week</find>
+      <find>ax</find>
     </findStrings>
     <replaceStrings>
       <replace>kcp_vs_calendar_month</replace>
@@ -350,6 +142,7 @@
       <replace>projected_df</replace>
       <replace>projected_kcp</replace>
       <replace>sweek</replace>
+      <replace>axs</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -388,25 +181,26 @@
         <option value="$PROJECT_DIR$/step_1_perform_cleaning.py" />
         <option value="$PROJECT_DIR$/step_3_weighted_moving_average.py" />
         <option value="$PROJECT_DIR$/step_4_binning_trend_line.py" />
-        <option value="$PROJECT_DIR$/screen_outliers_jacobus.py" />
         <option value="$PROJECT_DIR$/experimental_script.py" />
         <option value="$PROJECT_DIR$/step_3b_smoothed_version.py" />
         <option value="$PROJECT_DIR$/screen_outliers_henri.py" />
-        <option value="$PROJECT_DIR$/screen_outliers_henri_new.py" />
         <option value="$PROJECT_DIR$/step_1b_write_report.py" />
         <option value="$PROJECT_DIR$/tailor_for_weekly_bins.py" />
         <option value="$PROJECT_DIR$/tailor_for_weekly_bins_new.py" />
         <option value="$PROJECT_DIR$/step_8_kcp_versus_gdd.py" />
         <option value="$PROJECT_DIR$/step_9_fit_kcp_vs_gdd.py" />
         <option value="$PROJECT_DIR$/cleaning_operations.py" />
-        <option value="$PROJECT_DIR$/steps_1_to_9_run_pipeline.sh" />
         <option value="$PROJECT_DIR$/step_1a_perform_cleaning.py" />
-        <option value="$PROJECT_DIR$/step_2_overlay_compare.py" />
-        <option value="$PROJECT_DIR$/step_3_smoothed_version.py" />
         <option value="$PROJECT_DIR$/step_5_plotting_binned_kcp_trends.py" />
-        <option value="$PROJECT_DIR$/step_6_et_al.py" />
+        <option value="$PROJECT_DIR$/screen_outliers_henri_new.py" />
+        <option value="$PROJECT_DIR$/step_3_smoothed_version.py" />
         <option value="$PROJECT_DIR$/step_7_figure_arrays.py" />
+        <option value="$PROJECT_DIR$/step_2_overlay_compare.py" />
         <option value="$PROJECT_DIR$/screen_outliers_jacobus_new.py" />
+        <option value="$PROJECT_DIR$/step_8b_kcp_versus_gdd.py" />
+        <option value="$PROJECT_DIR$/steps_1_to_9_run_pipeline.sh" />
+        <option value="$PROJECT_DIR$/screen_outliers_jacobus.py" />
+        <option value="$PROJECT_DIR$/step_6_et_al.py" />
       </list>
     </option>
   </component>
@@ -440,7 +234,7 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -454,7 +248,28 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.step_3_smoothed_version">
+  <component name="RunManager" selected="Python.step_6_et_al">
+    <configuration name="screen_outliers_jacobus" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="collate_cultivar_data" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/screen_outliers_jacobus.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="screen_outliers_jacobus_new" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="collate_cultivar_data" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -468,27 +283,6 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/screen_outliers_jacobus_new.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="step_3_smoothed_version" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="collate_cultivar_data" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/step_3_smoothed_version.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -518,7 +312,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="step_8_kcp_versus_gdd" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="step_8b_kcp_versus_gdd" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="collate_cultivar_data" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -539,7 +333,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="step_9_fit_kcp_vs_gdd" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="step_8c_fit_kcp_vs_gdd" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="collate_cultivar_data" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -562,11 +356,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.step_3_smoothed_version" />
         <item itemvalue="Python.step_6_et_al" />
+        <item itemvalue="Python.screen_outliers_jacobus" />
+        <item itemvalue="Python.step_8c_fit_kcp_vs_gdd" />
+        <item itemvalue="Python.step_8b_kcp_versus_gdd" />
         <item itemvalue="Python.screen_outliers_jacobus_new" />
-        <item itemvalue="Python.step_9_fit_kcp_vs_gdd" />
-        <item itemvalue="Python.step_8_kcp_versus_gdd" />
       </list>
     </recent_temporary>
   </component>
@@ -596,12 +390,12 @@
     <frame x="0" y="-2" width="1920" height="1082" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16447021" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15919873" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.29066107" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.29066107" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39957035" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -684,7 +478,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/screen_outliers_jacobus.py" />
     <entry file="file://$PROJECT_DIR$/experimental_script.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -692,16 +485,6 @@
     <entry file="file://$PROJECT_DIR$/step_3b_smoothed_version.py" />
     <entry file="file://$PROJECT_DIR$/tailor_for_weekly_bins (copy).py" />
     <entry file="file://$PROJECT_DIR$/tailor_for_weekly_bins_new.py" />
-    <entry file="file://$PROJECT_DIR$/cleaning_operations.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="855">
-          <caret line="327" column="16" selection-start-line="327" selection-start-column="16" selection-end-line="327" selection-end-column="16" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/step_1a_perform_cleaning.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="897">
@@ -722,29 +505,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/step_2_overlay_compare.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2135">
-          <caret line="40" column="52" lean-forward="true" selection-start-line="40" selection-start-column="52" selection-end-line="40" selection-end-column="52" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/step_3_smoothed_version.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-6644">
-          <caret line="18" column="52" selection-start-line="18" selection-start-column="52" selection-end-line="18" selection-end-column="52" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/step_4_binning_trend_line.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3194">
+        <state relative-caret-position="-805">
           <caret line="15" column="36" selection-start-line="15" selection-start-column="36" selection-end-line="15" selection-end-column="36" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
@@ -762,30 +525,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/step_6_et_al.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-7265">
-          <caret line="36" column="52" selection-start-line="36" selection-start-column="52" selection-end-line="36" selection-end-column="52" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/step_8a_tailor_for_weekly_bins.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1311">
+        <state relative-caret-position="26">
           <caret line="75" lean-forward="true" selection-start-line="75" selection-end-line="75" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/step_8b_kcp_versus_gdd.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1173">
-          <caret line="24" column="28" selection-start-line="24" selection-start-column="28" selection-end-line="24" selection-end-column="28" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>
@@ -794,17 +537,38 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/step_7_figure_arrays.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4114">
-          <caret line="23" selection-start-line="23" selection-end-line="23" />
+        <state relative-caret-position="417">
+          <caret line="49" column="33" lean-forward="true" selection-start-line="49" selection-start-column="33" selection-end-line="49" selection-end-column="33" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/step_2_overlay_compare.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="143" column="40" selection-start-line="143" selection-start-column="40" selection-end-line="143" selection-end-column="40" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/step_3_smoothed_version.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2093">
+          <caret line="8" column="38" lean-forward="true" selection-start-line="8" selection-start-column="38" selection-end-line="8" selection-end-column="38" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/screen_outliers_jacobus_new.py" />
     <entry file="file://$PROJECT_DIR$/step_8c_fit_kcp_vs_gdd.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-66">
+        <state relative-caret-position="2415">
           <caret line="105" column="37" selection-start-line="105" selection-start-column="37" selection-end-line="105" selection-end-column="37" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
@@ -812,20 +576,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/screen_outliers_henri_new.py">
+    <entry file="file://$PROJECT_DIR$/step_8b_kcp_versus_gdd.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret lean-forward="true" />
+        <state relative-caret-position="552">
+          <caret line="24" column="28" selection-start-line="24" selection-start-column="28" selection-end-line="24" selection-end-column="28" />
           <folding>
-            <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#0#31#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/screen_outliers_jacobus_new.py">
+    <entry file="file://$PROJECT_DIR$/screen_outliers_henri_new.py" />
+    <entry file="file://$PROJECT_DIR$/screen_outliers_jacobus.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-6617">
-          <caret line="77" column="76" lean-forward="true" selection-start-line="77" selection-start-column="76" selection-end-line="77" selection-end-column="76" />
+        <state relative-caret-position="256">
+          <caret line="416" column="69" lean-forward="true" selection-start-line="416" selection-start-column="69" selection-end-line="416" selection-end-column="69" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
@@ -834,8 +599,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/steps_1_to_9_run_pipeline.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="598">
-          <caret line="26" column="42" lean-forward="true" selection-start-line="26" selection-start-column="42" selection-end-line="26" selection-end-column="42" />
+        <state>
+          <caret line="31" selection-start-line="31" selection-end-line="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/step_6_et_al.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-8">
+          <caret line="324" column="59" selection-start-line="324" selection-start-column="59" selection-end-line="324" selection-end-column="59" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cleaning_operations.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="327" column="16" selection-start-line="327" selection-start-column="16" selection-end-line="327" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

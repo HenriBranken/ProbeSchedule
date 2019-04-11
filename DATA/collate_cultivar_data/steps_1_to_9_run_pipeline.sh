@@ -23,8 +23,8 @@ then
     python3 step_8a_tailor_for_weekly_bins.py
     python3 step_8b_kcp_versus_gdd.py
     python3 step_8c_fit_kcp_vs_gdd.py
-    python3 screen_outliers_henri_new.py
-    python3 screen_outliers_jacobus_new.py
+    python3 screen_outliers_henri.py
+    python3 screen_outliers_jacobus.py
 else
     echo "User decided against executing run_pipeline.sh..."
     sleep 3s

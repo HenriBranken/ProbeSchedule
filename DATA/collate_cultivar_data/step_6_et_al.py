@@ -313,6 +313,7 @@ plt.close()
 # Make a plot of all the temperature curves:
 # 1. (T_min + T_max)/2.0
 # 2. hline of T_base (which is 10 degrees Celsius for Apples).
+# 3. Heat Units.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 print("Plot temperature and heat-units data.")
 t_min = processed_eg_df["T_min"].values
@@ -321,7 +322,7 @@ t_24h_avg = processed_eg_df["T_24hour_avg"].values
 t_avg = (t_min + t_max)/2.0
 date_stamp = processed_eg_df.index
 
-fig, axs = plt.subplots(nrows=2, ncols=1, figsize=(15, 7.5))
+fig, axs = plt.subplots(nrows=2, ncols=1, figsize=(10, 7.07))
 fig.autofmt_xdate()
 axs = axs.flatten()
 plt.subplots_adjust(hspace=0.35)
@@ -348,11 +349,16 @@ axs[0].xaxis.set_major_formatter(mdates.DateFormatter('%Y/%b'))
 axs[0].set_xlim(left=api_start_date, right=api_end_date)
 axs[0].legend()
 
-axs[1].bar(processed_eg_df.index, processed_eg_df["interpolated_hu"], color="darkgoldenrod", label="Heat Units",
-           alpha=0.5)
+condition = processed_eg_df["heat_units"] == 0
+zero_hu_dates = processed_eg_df[condition].index
+axs[1].bar(processed_eg_df.index, processed_eg_df["interpolated_hu"], color="lightcoral", label="Heat Units",
+           alpha=1.0)
 for v in vline_dates:
     axs[1].axvline(x=v, linestyle="--", linewidth=2.5, color="magenta", alpha=0.5)
+for zero_hu_date in zero_hu_dates:
+    axs[1].axvline(x=zero_hu_date, linestyle="-", linewidth=1, color="powderblue", alpha=1.0)
 axs[1].plot([], [], linestyle="--", linewidth=2.5, color="magenta", alpha=0.5, label="New Season")
+axs[1].plot([], [], linestyle="-", linewidth=1, color="powderblue", alpha=1.0, label="ZERO Heat Units")
 axs[1].tick_params(which="major", bottom=True, labelbottom=True, colors="black", labelcolor="black",
                    labelsize="small", axis="x")
 axs[1].grid(True)
