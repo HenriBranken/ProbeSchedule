@@ -5,9 +5,9 @@ import datetime
 from cleaning_operations import BEGINNING_MONTH
 
 
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Define important "constants".
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Create a list, `probe_ids`, of all the probe-ids that are going to be used
 with open("../probe_ids.txt", "r") as f:
     probe_ids = f.readlines()
@@ -18,15 +18,16 @@ if not os.path.exists("./data"):
     os.makedirs("data")
 if not os.path.exists("./figures"):
     os.makedirs("figures")
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-# ----------------------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # Define some helper functions
-# ----------------------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 def load_probe_data(probe_name):
-    dataframe = pd.read_excel("../cultivar_data_unique.xlsx", sheet_name=probe_name,
-                              index_col=0, parse_dates=True)
+    dataframe = pd.read_excel("../cultivar_data_unique.xlsx",
+                              sheet_name=probe_name, index_col=0,
+                              parse_dates=True)
     new_columns = []
     for c in dataframe.columns:
         if '0' in c:
@@ -40,39 +41,44 @@ def initialize_flagging_columns(dataframe):
     dataframe["binary_value"] = 0
     dataframe["description"] = str()
     return dataframe
-# ----------------------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 
-# ======================================================================================================================
+# =============================================================================
 # Perform cleaning (flagging) operations on all the Probe Data.
-# ======================================================================================================================
+# =============================================================================
 # The order of the cleaning and data crunching operations are as follows:
-#   1.      Load daily probe data from Excel Sheet.
-#   2.      Create and Initialize 2 flagging-related columns in the DataFrame: "binary_value" and "description".
-#   3.      Drop redundant columns; drop data columns that are of no use in the data crunching pipeline.
-#   4.      Flag dates for which `eto` values are stuck (faulty weather-station data).
-#   5.      Impute Koue-Bokkeveld (a.k.a. kbv) `eto` data onto stuck `eto` data described in the previous line.
-#   6.      Flag raining events for which the rain exceeds 2 millimeters.
-#   7.      Flag irrigation events.
-#   8.      Flag events in which data were simulated.
-#   9.      Flag dates in which data blips and data dips were observed for the `profile` measurements.
-#   10.a    Flag events in which the heat units are equal to zero.
-#   10.b    Interpolate missing heat_units; i.e. dates for which heat_units = np.nan = NaN.
-#   10.c    Get the cumulative Growing Degree Days (GDD)
-#   11.     Flag events in which `etcp` is known to be faulty/contaminated.
-#   12.     Flag samples in which the calculated `kcp` values deviate by more than 50% from the accepted norm.
-#   13.     Extract the dates and associated `kcp` values for which `binary_value == 0`.
-#   14.     Append the cleaned dates and `kcp` values to the growing list `data_to_plot`.
-#   15.     Save all the data and metadata of all the cleaning and crunching operations to an Excel sheet.
-#           One Excel sheet represents ONE probe-id.
-#           A set of Excel spreadsheets represents a set of probe-id's on a farm / farm-block / region / etc...
-#   16.     Once all the sheets have been populated, save and close the .xlsx file.
-#           Also save .xlsx containing cleaned kcp data of all the probes.
-# ======================================================================================================================
-writer = pd.ExcelWriter("./data/processed_probe_data.xlsx", engine="xlsxwriter")
-writer_2 = pd.ExcelWriter("./data/cleaned_data_for_overlay.xlsx", engine="xlsxwriter")
+# 1.   Load daily probe data from Excel Sheet.
+# 2.   Create and Initialize 2 flagging-related columns in the DataFrame.
+# 3.   Drop redundant columns.
+# 4.   Flag dates for which `eto` values are stuck.
+# 5.   Impute Koue-Bokkeveld (a.k.a. kbv) `eto` data onto stuck `eto` data.
+# 6.   Flag raining events for which the rain exceeds 2 millimeters.
+# 7.   Flag irrigation events.
+# 8.   Flag events in which data were simulated.
+# 9.   Flag dates in which data blips and data dips were observed.
+# 10.a Flag events in which the heat units are equal to zero.
+# 10.b Interpolate missing heat_units.
+# 10.c Get the cumulative Growing Degree Days (GDD)
+# 11.  Flag events in which `etcp` is known to be faulty/contaminated.
+# 12.  Flag samples in which the calculated `kcp` values deviate by more than
+#      50% from the accepted norm.
+# 13.  Extract the dates and associated `kcp` values for which
+#      `binary_value == 0`.
+# 14.  Append the cleaned dates and `kcp` values to the growing list
+#      `data_to_plot`.
+# 15.  Save all the data and metadata of all the cleaning and crunching
+#      operations to an Excel sheet.  One Excel sheet represents ONE probe-id.
+#      A set of Excel spreadsheets represents a set of probe-id's.
+# 16.  Once all the sheets have been populated, save and close the .xlsx file.
+#      Also save .xlsx containing cleaned kcp data of all the probes.
+# =============================================================================
+writer = pd.ExcelWriter("./data/processed_probe_data.xlsx",
+                        engine="xlsxwriter")
+writer_2 = pd.ExcelWriter("./data/cleaned_data_for_overlay.xlsx",
+                          engine="xlsxwriter")
 # Create a for loop iterating over all the different probe datasets
-# In each iteration, perform all the necessary flagging/cleaning/data crunching.
+# In each iteration, perform all the necessary flagging.
 for probe_id in probe_ids:
     print("\n")
     print("*" * 80)
@@ -83,19 +89,19 @@ for probe_id in probe_ids:
     df = load_probe_data(probe_name=probe_id)
 
     # 2.
-    # Create and Initialize 2 flagging-related columns in the DataFrame: "binary_value" and "description".
+    # Create and Initialize 2 flagging-related columns in the DataFrame.
     df = initialize_flagging_columns(dataframe=df)
 
     # 3.
-    # Drop redundant columns; drop data columns that are of no use in the data crunching pipeline.
+    # Drop redundant columns.
     df = cleaning_operations.drop_redundant_columns(df=df)
 
     # 4.
-    # Flag dates for which `eto` values are stuck (faulty weather-station data).
+    # Flag dates for which `eto` values are stuck.
     bad_eto_days, df = cleaning_operations.flag_spurious_et(df=df)
 
     # 5.
-    # Impute Koue-Bokkeveld (a.k.a. kbv) `eto` data onto stuck `eto` data described in the previous line.
+    # Impute Koue-Bokkeveld (a.k.a. kbv) `eto` data onto stuck `eto` data.
     df = cleaning_operations.impute_kbv_data(df, bad_eto_days)
 
     # 6.
@@ -111,7 +117,7 @@ for probe_id in probe_ids:
     df = cleaning_operations.flag_simulated_events(df)
 
     # 9.
-    # Flag dates in which data blips and data dips were observed for the `profile` measurements.
+    # Flag dates in which data blips and data dips were observed.
     df = cleaning_operations.flag_suspicious_and_missing_profile_events(df)
 
     # 10.a
@@ -120,7 +126,8 @@ for probe_id in probe_ids:
 
     # 10.b
     # Interpolate missing heat units
-    df = cleaning_operations.interpolate_missing_heat_units(df, method="nearest")
+    df = cleaning_operations.interpolate_missing_heat_units(df,
+                                                            method="nearest")
 
     # 10.c
     # Get the cumulative Growing Degree Days
@@ -135,48 +142,50 @@ for probe_id in probe_ids:
     df = cleaning_operations.flag_unwanted_etcp(df)
 
     # 12.
-    # Flag samples in which the calculated `kcp` values deviate by more than 50% from the accepted norm.
+    # Flag samples in which the calculated `kcp` values deviate by more than
+    # 50% from the accepted norm.
     df = cleaning_operations.flag_unwanted_kcp(df)
 
     # 13.
-    # Extract the dates and associated `kcp` values for which `binary_value == 0`.
-    starting_year, new_dates, useful_dates = cleaning_operations.get_final_dates(df)
+    # Extract the dates and associated `kcp` values for which
+    # `binary_value == 0`.
+    by_3_tuple = cleaning_operations.get_final_dates(df)
+    starting_year, new_dates, useful_dates = by_3_tuple
     kcp_values = df.loc[useful_dates, "kcp"].values
 
     # 14.
-    # Append the cleaned dates and `kcp` values to the growing list `data_to_plot`.
-    df_2 = pd.DataFrame(data={"kcp": kcp_values}, index=new_dates, columns=["kcp"], copy=True)
-    df_2.to_excel(writer_2, sheet_name=probe_id, index_label="datetimeStamp", float_format="%.7f")
+    # Append the cleaned dates and `kcp` values to `data_to_plot`.
+    df_2 = pd.DataFrame(data={"kcp": kcp_values}, index=new_dates,
+                        columns=["kcp"], copy=True)
+    df_2.to_excel(writer_2, sheet_name=probe_id, index_label="datetimeStamp",
+                  float_format="%.7f")
 
     # 15.
-    # Save all the data and metadata of all the cleaning and crunching operations to an Excel sheet.
+    # Save all the data and metadata.
     df.to_excel(writer, sheet_name=probe_id)
 
 # 16.
 # Once all the sheets have been populated, save and close the .xlsx files.
 writer.save()  # `./data/processed_probe_data.xlsx`
 writer_2.save()  # `./data/cleaned_data_for_overlay.xlsx`
-# ======================================================================================================================
-# The columns in `./data/processed_probe_data.xlsx` are:
-# ======================================================================================================================
-# date, heat_units, rain, total_irrig, etc, eto, etcp, profile, cco, original_unit_system, binary_value, description,
-# kcp
-# ======================================================================================================================
 
 
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Save all the cleaned data to file.
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # The code below can be summarised as follows:
-# 1. Stack the cleaned data, from `./data/cleaned_data_for_overlay.xlsx`, together into one MultiIndex DataFrame.
+# 1. Stack the cleaned data, from `./data/cleaned_data_for_overlay.xlsx`,
+#    together into one MultiIndex DataFrame.
 # 2. Populate a .txt file containing all the names of the probeIDs:
 #    This is saved at `./data/probe_ids.txt`
-# 3. Save dataframe containing reference crop coefficient data to an excel spreadsheet.
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# 3. Save dataframe containing reference crop coefficient data to an excel
+#    spreadsheet.
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # 1.
 # Stack the cleaned data together into one MultiIndex DataFrame.
 # Outer level index is "probe_id", and inner level index is "datetimeStamp".
-cleaned_dict = pd.read_excel("./data/cleaned_data_for_overlay.xlsx", sheet_name=None, header=0, parse_dates=True,
+cleaned_dict = pd.read_excel("./data/cleaned_data_for_overlay.xlsx",
+                             sheet_name=None, header=0, parse_dates=True,
                              index_col=0)
 dfs = []  # A list to be populated with the dataframes.
 for probe_id in cleaned_dict.keys():
@@ -185,30 +194,37 @@ for probe_id in cleaned_dict.keys():
     dfs.append(temp_df)
 stacked_df = pd.concat(dfs)
 stacked_multi_df = stacked_df.set_index(["probe_id", stacked_df.index])
-stacked_multi_df.to_excel("./data/stacked_cleaned_data_for_overlay.xlsx", float_format="%.7f", columns=["kcp"],
-                          header=True, index=True)
+stacked_multi_df.to_excel("./data/stacked_cleaned_data_for_overlay.xlsx",
+                          float_format="%.7f", columns=["kcp"], header=True,
+                          index=True)
 
 # 2.
-# Populate a .txt file containing all the probe-ids (in the format of 'P-{some_number}').
+# Populate a .txt file containing all the probe-ids.
 # There is exactly one ProbeID per line in the .txt file.
 with open("./data/probe_ids.txt", "w", encoding="utf-8") as f2:
     f2.write("\n".join(probe_ids))
 
 # 3.
 # Extract and save reference "cco" data
-processed_df = pd.read_excel("./data/processed_probe_data.xlsx", sheet_name="{}".format(probe_ids[0]), header=0,
+processed_df = pd.read_excel("./data/processed_probe_data.xlsx",
+                             sheet_name="{}".format(probe_ids[0]), header=0,
                              index_col=0, squeeze=True, parse_dates=True)
 starting_year = processed_df.index[0].year
 cco_df = processed_df["cco"].to_frame()
-cco_df["wrapped_date"] = datetime.datetime(year=starting_year, month=BEGINNING_MONTH, day=1)
+cco_df["wrapped_date"] = datetime.datetime(year=starting_year,
+                                           month=BEGINNING_MONTH, day=1)
 for i, d in enumerate(cco_df.index):
     if BEGINNING_MONTH <= d.month <= 12:
-        manipulated_date = datetime.datetime(year=starting_year, month=d.month, day=d.day)
+        manipulated_date = datetime.datetime(year=starting_year, month=d.month,
+                                             day=d.day)
         cco_df.loc[d, "wrapped_date"] = manipulated_date
     else:
-        cco_df.loc[d, "wrapped_date"] = datetime.datetime(year=starting_year + 1, month=d.month, day=d.day)
+        cco_df.loc[d, "wrapped_date"] = datetime.datetime(year=starting_year+1,
+                                                          month=d.month,
+                                                          day=d.day)
 cco_df.set_index(keys="wrapped_date", inplace=True)
 cco_df = cco_df[~cco_df.index.duplicated(keep="first")]
 cco_df.sort_index(ascending=True, inplace=True)
-cco_df.to_excel("./data/reference_crop_coeff.xlsx", sheet_name="sheet_1", header=True, index=True)
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cco_df.to_excel("./data/reference_crop_coeff.xlsx", sheet_name="sheet_1",
+                header=True, index=True)
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -22,6 +22,37 @@ color_list = ["red", "gold", "seagreen", "lightseagreen", "royalblue",
 # =============================================================================
 
 
+# -----------------------------------------------------------------------------
+# Define some helper functions
+# -----------------------------------------------------------------------------
+def create_new_generation_xy_scatter(dataframe, threshold):
+    dataframe["to_be_removed"] = dataframe["dev"] >= threshold
+    dataframe = dataframe[~dataframe["to_be_removed"]]
+    dataframe.sort_values(by="x", axis=0, ascending=True, inplace=True)
+    return dataframe["x"].values, dataframe["y"].values
+
+
+def get_offsets_from_trendline(x_raw, y_raw, x_fit, y_fit):
+    offsets = []
+    indices = []
+    for x in x_raw:
+        indices.append(h.find_nearest_index(x_fit, x))
+    y_proxies = []
+    for idx in indices:
+        y_proxies.append(y_fit[idx])
+    for j in range(len(y_raw)):
+        offsets.append(np.abs(y_raw[j] - y_proxies[j]))
+    return offsets
+
+
+def create_interim_df(x_raw, y_raw, dev):
+    dataframe = pd.DataFrame({"x": x_raw, "y": y_raw, "dev": dev}, copy=True)
+    dataframe.index.name = "i"
+    dataframe.sort_values(by="dev", axis=0, ascending=False, inplace=True)
+    return dataframe
+# -----------------------------------------------------------------------------
+
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Import all the necessary data
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -106,16 +137,14 @@ xy_scatter_dfs = [xy_scatter_df]
 xy_smoothed_dfs = [xy_smoothed_df]
 
 for i in range(n_iterations):
-    deviations = h.get_offsets_from_trendline(x_raw=x_scatter,
-                                              y_raw=y_scatter,
-                                              x_fit=x_smoothed,
-                                              y_fit=y_smoothed)
-    interim_df = h.create_interim_df(x_raw=x_scatter,
-                                     y_raw=y_scatter, dev=deviations)
+    deviations = get_offsets_from_trendline(x_raw=x_scatter, y_raw=y_scatter,
+                                            x_fit=x_smoothed, y_fit=y_smoothed)
+    interim_df = create_interim_df(x_raw=x_scatter, y_raw=y_scatter,
+                                   dev=deviations)
     values = np.quantile(interim_df["dev"].values, q=quantile)
     x_scatter, y_scatter = \
-        h.create_new_generation_xy_scatter(dataframe=interim_df,
-                                           threshold=values)
+        create_new_generation_xy_scatter(dataframe=interim_df,
+                                         threshold=values)
     xy_scatter_dfs.append(h.create_xy_df(x_vals=x_scatter, y_vals=y_scatter,
                                          iteration=int(i + 1),
                                          status="scatter"))
@@ -219,8 +248,8 @@ for i, ax in enumerate(axs):
     for tick in ax.get_xticklabels():
         tick.set_visible(True)
     ax.legend(prop={"size": 6}, loc=6)
-    ax.annotate(s="$R^2$ = {:.3f}\nIteration {}".format(r_squared_stat_list[i],
-                                                        i),
+    ax.annotate(s="$R^2$ = {:.3f}\n"
+                  "Iteration {}".format(r_squared_stat_list[i], i),
                 xycoords="axes fraction",
                 xy=(0.01, 0.87), fontsize=9)
 for m in [0, 2, 4]:

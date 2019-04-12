@@ -1,7 +1,9 @@
 import numpy as np
 import math
 from scipy.signal import argrelextrema
-import pandas as pd
+# import pandas as pd
+from cleaning_operations import BEGINNING_MONTH
+import datetime
 
 
 class NoProperWMATrend(Exception):
@@ -95,47 +97,6 @@ def get_prized_index(n_bumps_list):
         raise NoProperWMATrend("No index at which the number of extrema is 1.")
 
 
-def create_xy_df(x_vals, y_vals, iteration, status):
-    if status == "scatter":
-        dataframe = pd.DataFrame(data={"x_scatter": x_vals,
-                                       "y_scatter": y_vals,
-                                       "iteration": iteration},
-                                 copy=True)
-        dataframe.index.name = "i"
-    else:
-        dataframe = pd.DataFrame(data={"x_smoothed": x_vals,
-                                       "y_smoothed": y_vals,
-                                       "iteration": iteration},
-                                 copy=True)
-        dataframe.index.name = "i"
-    return dataframe
-
-
-def get_xs_and_ys(dataframe, iteration, status="scatter"):
-    x_var, y_var = "x_" + status, "y_" + status
-    sub_df = dataframe.loc[(iteration, ), [x_var, y_var]]
-    return sub_df[x_var].values, sub_df[y_var].values
-
-
-def collapse_dataframe(multi_index_df, tbr_probe_list, start_date):
-    df = multi_index_df.copy(deep=True)
-    for pr in tbr_probe_list:
-        df.drop(index=pr, level=0, inplace=True)
-    df.index = df.index.droplevel(0)
-    df.sort_index(axis=0, level="datetimeStamp", ascending=True, inplace=True)
-    df["days"] = df.index - start_date
-    df["days"] = df["days"].dt.days
-    return df["days"].values, df["kcp"].values
-
-
-def extract_probe_df(multi_index_df, probe, start_date):
-    df = multi_index_df.loc[(probe, ), ["kcp"]]
-    df["days"] = df.index - start_date
-    df["days"] = df["days"].dt.days
-    df.sort_values("days", ascending=True, inplace=True)
-    return df[["days", "kcp"]]
-
-
 def get_final_polynomial_fit(x_raw, y_raw, step_size=1.0, degree=pol_degree,
                              x_lims=None):
     if x_lims:
@@ -170,28 +131,38 @@ def simplify_trend(fitted_trend_values):
         return fitted_trend_values
 
 
-def get_offsets_from_trendline(x_raw, y_raw, x_fit, y_fit):
-    offsets = []
-    indices = []
-    for x in x_raw:
-        indices.append(find_nearest_index(x_fit, x))
-    y_proxies = []
-    for idx in indices:
-        y_proxies.append(y_fit[idx])
-    for j in range(len(y_raw)):
-        offsets.append(np.abs(y_raw[j] - y_proxies[j]))
-    return offsets
+def date_wrapper(date_iterable, starting_year):
+    new_dates = []
+    for datum in date_iterable:
+        extract_month = datum.month
+        if BEGINNING_MONTH <= extract_month <= 12:
+            new_dates.append(datetime.datetime(year=starting_year,
+                                               month=extract_month,
+                                               day=datum.day))
+        else:
+            new_dates.append(datetime.datetime(year=starting_year + 1,
+                                               month=extract_month,
+                                               day=datum.day))
+    return new_dates
 
 
-def create_interim_df(x_raw, y_raw, dev):
-    dataframe = pd.DataFrame({"x": x_raw, "y": y_raw, "dev": dev}, copy=True)
-    dataframe.index.name = "i"
-    dataframe.sort_values(by="dev", axis=0, ascending=False, inplace=True)
+def create_xy_df(x_vals, y_vals, iteration, status):
+    if status == "scatter":
+        dataframe = pd.DataFrame(data={"x_scatter": x_vals,
+                                       "y_scatter": y_vals,
+                                       "iteration": iteration},
+                                 copy=True)
+        dataframe.index.name = "i"
+    else:
+        dataframe = pd.DataFrame(data={"x_smoothed": x_vals,
+                                       "y_smoothed": y_vals,
+                                       "iteration": iteration},
+                                 copy=True)
+        dataframe.index.name = "i"
     return dataframe
 
 
-def create_new_generation_xy_scatter(dataframe, threshold):
-    dataframe["to_be_removed"] = dataframe["dev"] >= threshold
-    dataframe = dataframe[~dataframe["to_be_removed"]]
-    dataframe.sort_values(by="x", axis=0, ascending=True, inplace=True)
-    return dataframe["x"].values, dataframe["y"].values
+def get_xs_and_ys(dataframe, iteration, status="scatter"):
+    x_var, y_var = "x_" + status, "y_" + status
+    sub_df = dataframe.loc[(iteration, ), [x_var, y_var]]
+    return sub_df[x_var].values, sub_df[y_var].values

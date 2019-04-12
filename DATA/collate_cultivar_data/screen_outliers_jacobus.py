@@ -20,6 +20,30 @@ color_list = ["red", "gold", "seagreen", "lightseagreen", "royalblue",
 # =============================================================================
 
 
+# -----------------------------------------------------------------------------
+# Define some helper functions
+# -----------------------------------------------------------------------------
+def collapse_dataframe(multi_index_df, tbr_probe_list, starting_date):
+    df = multi_index_df.copy(deep=True)
+    for pr in tbr_probe_list:
+        df.drop(index=pr, level=0, inplace=True)
+    df.index = df.index.droplevel(0)
+    df.sort_index(axis=0, level="datetimeStamp", ascending=True, inplace=True)
+    df["days"] = df.index - starting_date
+    df["days"] = df["days"].dt.days
+    return df["days"].values, df["kcp"].values
+
+
+def extract_probe_df(multi_index_df, probe, starting_date):
+    df = multi_index_df.loc[(probe, ), ["kcp"]]
+    df["days"] = df.index - starting_date
+    df["days"] = df["days"].dt.days
+    df.sort_values("days", ascending=True, inplace=True)
+    return df[["days", "kcp"]]
+
+# -----------------------------------------------------------------------------
+
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Import all the necessary data
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -114,8 +138,8 @@ for i in range(n_iterations):
     try:
         probes_r_squared = []
         for p in probe_ids:
-            probe_df = h.extract_probe_df(multi_index_df=probe_set_df, probe=p,
-                                          start_date=start_date)
+            probe_df = extract_probe_df(multi_index_df=probe_set_df, probe=p,
+                                        starting_date=start_date)
             val = h.get_r_squared(x_raw=probe_df["days"].values,
                                   y_raw=probe_df["kcp"].values,
                                   x_fit=x_smoothed, y_fit=y_smoothed)
@@ -124,9 +148,9 @@ for i in range(n_iterations):
         max_arg_index = max_arg_index[0]
         removed_probes.append(probe_ids.pop(max_arg_index))
 
-        some_tuple = h.collapse_dataframe(multi_index_df=probe_set_df,
-                                          tbr_probe_list=removed_probes,
-                                          start_date=start_date)
+        some_tuple = collapse_dataframe(multi_index_df=probe_set_df,
+                                        tbr_probe_list=removed_probes,
+                                        starting_date=start_date)
         x_scatter, y_scatter = some_tuple
         xy_scatter_dfs.append(h.create_xy_df(x_vals=x_scatter,
                                              y_vals=y_scatter,
@@ -289,8 +313,8 @@ y_smoothed_old = xy_smoothed_dfs[0]["y_smoothed"].values
 probes_r_squared = []
 probes_r_squared_old = []
 for p in probe_ids:
-    probe_df = h.extract_probe_df(multi_index_df=probe_set_df, probe=p,
-                                  start_date=start_date)
+    probe_df = extract_probe_df(multi_index_df=probe_set_df, probe=p,
+                                starting_date=start_date)
     probes_r_squared.append(h.get_r_squared(x_raw=probe_df["days"].values,
                                             y_raw=probe_df["kcp"].values,
                                             x_fit=x_smoothed,
@@ -313,8 +337,8 @@ for i, p in enumerate(probe_ids):
     meta = next(zipped_meta)
     axs[i].set_ylim(bottom=0.0, top=KCP_MAX)
     axs[i].grid(True)
-    probe_df = h.extract_probe_df(multi_index_df=probe_set_df, probe=p,
-                                  start_date=start_date)
+    probe_df = extract_probe_df(multi_index_df=probe_set_df, probe=p,
+                                starting_date=start_date)
     x_scatter, y_scatter = probe_df["days"].values, probe_df["kcp"].values
     axs[i].scatter(x_scatter, y_scatter, marker=meta[0], color=meta[1], s=20,
                    edgecolors="black", linewidth=1, alpha=0.5, label=p)
