@@ -32,7 +32,7 @@ zipped_meta = cycle([(m, c) for m, c in zip(marker_list, color_list)])
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # 1.
 # Load the cleaned data garnered in `step_1_perform_cleaning.py`.
-cleaned_multi_df = pd.read_excel("/data/stacked_cleaned_data_for_overlay.xlsx",
+cleaned_multi_df = pd.read_excel("data/stacked_cleaned_data_for_overlay.xlsx",
                                  header=0, index_col=[0, 1], parse_dates=True)
 outer_index = cleaned_multi_df.index.get_level_values("probe_id").unique()
 outer_index = list(outer_index)

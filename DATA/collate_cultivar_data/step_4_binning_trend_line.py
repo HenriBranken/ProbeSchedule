@@ -118,7 +118,7 @@ kcp_vs_season_week = np.array(kcp_vs_season_week)
 
 dict_for_df = {"season_week": kcp_vs_season_week[:, 0].astype(int),
                "weekly_averaged_kcp": kcp_vs_season_week[:, 1]}
-kcp_vs_week_df = pd.DataFrame(data={dict_for_df})
+kcp_vs_week_df = pd.DataFrame(data=dict_for_df)
 to_be_assigned = kcp_vs_week_df["season_week"].map(calendar_week_mapper)
 kcp_vs_week_df["calendar_week"] = to_be_assigned
 kcp_vs_week_df.sort_values(by="season_week", axis=0, ascending=True,

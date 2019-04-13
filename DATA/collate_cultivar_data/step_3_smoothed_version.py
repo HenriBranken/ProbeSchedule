@@ -188,11 +188,13 @@ linspaced_x = list(np.arange(start=x_limits[0], stop=x_limits[1]+1, step=1))
 
 datetime_linspaced = []
 for i in linspaced_x:
-    datetime_linspaced.append(starting_date + datetime.timedelta(days=i))
+    days = float(i)
+    datetime_linspaced.append(starting_date + datetime.timedelta(days=days))
 
 datetime_clouded = []
 for i in independent_var:
-    datetime_clouded.append(starting_date + datetime.timedelta(days=i))
+    days = float(i)
+    datetime_clouded.append(starting_date + datetime.timedelta(days=days))
 
 fig, ax = plt.subplots(figsize=(10, 5))
 major_xticks = pd.date_range(start=datetime.datetime(year=starting_year,

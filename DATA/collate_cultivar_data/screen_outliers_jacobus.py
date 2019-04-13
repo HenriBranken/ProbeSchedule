@@ -290,7 +290,10 @@ plt.close()
 # Re-normalise `probe_ids`.
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 consecutive_differences = np.diff(r_squared_stat_list)
-idx_first_pos_value = np.where(consecutive_differences > 0)[0][0]
+if (consecutive_differences <= 0).all():
+    idx_first_pos_value = np.where(consecutive_differences <= 0)[0][-1]
+else:
+    idx_first_pos_value = np.where(consecutive_differences > 0)[0][0]
 # incidentally equal to the number of "bad" probes
 length_of_bad_probes = len(removed_probes)
 while length_of_bad_probes != idx_first_pos_value:
