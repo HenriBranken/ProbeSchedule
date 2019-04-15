@@ -6,7 +6,7 @@ from cleaning_operations import KCP_MAX
 import pandas as pd
 from cleaning_operations import description_dict
 import math
-import helper_functions as h
+import helper_functions as hf
 import helper_meta_data as hm
 import helper_data as hd
 
@@ -15,7 +15,6 @@ import helper_data as hd
 # Import all the necessary data
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Load the cleaned data garnered in `step_1_perform_cleaning.py`.
-fn = "./data/stacked_cleaned_data_for_overlay.xlsx"
 cleaned_multi_df = hd.cleaned_multi_df.copy(deep=True)
 outer_index = hd.outer_index[:]
 inner_index = hd.inner_index[:]
@@ -29,9 +28,7 @@ for p in probe_ids:
     if not os.path.exists("./figures/{}/".format(p)):
         os.makedirs("./figures/{}/".format(p))
 
-processed_eg_df = pd.read_excel("./data/processed_probe_data.xlsx",
-                                sheet_name=0, header=0, index_col=0,
-                                squeeze=True, parse_dates=True)
+processed_eg_df = hd.processed_eg_df.copy(deep=True)
 
 # Extract the starting_year and starting_date
 starting_year = hm.starting_year
@@ -39,13 +36,13 @@ season_start_date = hm.season_start_date
 season_end_date = hm.season_end_date
 
 
-fn = "./data/Smoothed_kcp_trend_vs_datetime.xlsx"
+fn = "./data/smoothed_kcp_trend_vs_datetime.xlsx"
 skcp_vs_dt_df = pd.read_excel(fn, sheet_name=0, index_col=0, squeeze=False,
                               parse_dates=True)
 skcp_vs_dt_df["days"] = skcp_vs_dt_df.index - season_start_date
 skcp_vs_dt_df["days"] = skcp_vs_dt_df["days"].dt.days
 x_smoothed = skcp_vs_dt_df["days"].values
-y_smoothed = skcp_vs_dt_df["Smoothed_kcp_trend"].values
+y_smoothed = skcp_vs_dt_df["smoothed_kcp_trend"].values
 x_smoothed_dates = skcp_vs_dt_df.index.values
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -93,11 +90,11 @@ for idx, ax in enumerate(axs):
     meta = next(marker_color_meta)
     ax.set_ylim(bottom=0.0, top=KCP_MAX)
     ax.grid(True)
-    dates, kcp = h.get_dates_and_kcp(dataframe=cleaned_multi_df,
-                                     probe_id=probe_ids[idx])
+    dates, kcp = hf.get_dates_and_kcp(dataframe=cleaned_multi_df,
+                                      probe_id=probe_ids[idx])
     days = pd.Series(dates - season_start_date).dt.days.values
-    r_squared = h.get_r_squared(x_raw=days, y_raw=kcp, x_fit=x_smoothed,
-                                y_fit=y_smoothed)
+    r_squared = hf.get_r_squared(x_raw=days, y_raw=kcp, x_fit=x_smoothed,
+                                 y_fit=y_smoothed)
     ax.scatter(dates, kcp, marker=meta[0], color=meta[1], s=20,
                edgecolors="black", linewidth=1, alpha=0.5,
                label=probe_ids[idx])

@@ -5,7 +5,7 @@ import calendar
 # -----------------------------------------------------------------------------
 
 
-with open("../api_dates.txt", "r") as f:
+with open("./data/api_dates.txt", "r") as f:
     api_start_date = f.readline().rstrip()
     api_end_date = f.readline().rstrip()
 api_start_date = datetime.datetime.strptime(api_start_date, "%Y-%m-%d")
@@ -15,15 +15,15 @@ api_end_date = datetime.datetime.strptime(api_end_date, "%Y-%m-%d")
 pol_degree = 4
 
 
-with open("../base_temperature.txt", "r") as f:
+with open("./data/base_temperature.txt", "r") as f:
     temperature_base = float(f.readline())
 
 
-with open("../probe_ids.txt", "r") as f:
+with open("./data/probe_ids.txt", "r") as f:
     probe_ids = [x.rstrip() for x in list(f)]
 
 
-with open("../starting_year.txt") as f:
+with open("./data/starting_year.txt") as f:
     starting_year = int(f.readline().rstrip())
 
 
@@ -59,3 +59,6 @@ CULTIVAR = "Golden Delicious Apples"
 
 
 WEEKLY_BINNED_VERSION = True
+
+
+mode = "WMA"

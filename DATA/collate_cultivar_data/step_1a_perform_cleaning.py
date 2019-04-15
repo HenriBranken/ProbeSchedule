@@ -3,19 +3,14 @@ import cleaning_operations
 import os
 import datetime
 from cleaning_operations import BEGINNING_MONTH
+import helper_meta_data as hm
 
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Define important "constants".
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Create a list, `probe_ids`, of all the probe-ids that are going to be used
-with open("../probe_ids.txt", "r") as f:
-    probe_ids = f.readlines()
-    probe_ids = [x.rstrip() for x in probe_ids]
-print(probe_ids)
-
-if not os.path.exists("./data"):
-    os.makedirs("data")
+probe_ids = hm.probe_ids
 if not os.path.exists("./figures"):
     os.makedirs("figures")
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -25,7 +20,7 @@ if not os.path.exists("./figures"):
 # Define some helper functions
 # -----------------------------------------------------------------------------
 def load_probe_data(probe_name):
-    dataframe = pd.read_excel("../cultivar_data_unique.xlsx",
+    dataframe = pd.read_excel("./data/cultivar_data_unique.xlsx",
                               sheet_name=probe_name, index_col=0,
                               parse_dates=True)
     new_columns = []

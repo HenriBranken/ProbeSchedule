@@ -4,7 +4,7 @@ import matplotlib.dates as mdates
 import datetime
 import pandas as pd
 from cleaning_operations import KCP_MAX
-import helper_functions as h
+import helper_functions as hf
 import helper_meta_data as hm
 
 
@@ -14,7 +14,7 @@ import helper_meta_data as hm
 n_neighbours_list = hm.n_neighbours_list
 delta_x = hm.delta_x
 x_limits = hm.x_limits
-mode = "WMA"  # The `default` at which we start out.
+mode = hm.mode  # The `default` at which we start out.
 # -----------------------------------------------------------------------------
 
 
@@ -75,24 +75,24 @@ num_bumps = []
 tracker = 0
 for n_neighbours in n_neighbours_list:
     try:
-        x_smoothed, y_smoothed = h.weighted_moving_average(x=independent_var,
-                                                           y=dependent_var,
-                                                           step_size=delta_x,
-                                                           width=n_neighbours,
-                                                           x_lims=x_limits,
-                                                           append_=True)
+        x_smoothed, y_smoothed = hf.weighted_moving_average(x=independent_var,
+                                                            y=dependent_var,
+                                                            step_size=delta_x,
+                                                            width=n_neighbours,
+                                                            x_lims=x_limits,
+                                                            append_=True)
         saved_trend_lines.append(zip(x_smoothed, y_smoothed))
-        r_squared_stats.append(h.get_r_squared(x_raw=independent_var,
-                                               y_raw=dependent_var,
-                                               x_fit=x_smoothed,
-                                               y_fit=y_smoothed))
-        num_bumps.append(h.get_n_local_extrema(y_smoothed))
+        r_squared_stats.append(hf.get_r_squared(x_raw=independent_var,
+                                                y_raw=dependent_var,
+                                                x_fit=x_smoothed,
+                                                y_fit=y_smoothed))
+        num_bumps.append(hf.get_n_local_extrema(y_smoothed))
         tracker += 1
     except ZeroDivisionError:
         n_neighbours_list = n_neighbours_list[:tracker]  # truncate
         break  # exit the for-loop.
 try:
-    prized_index = h.get_prized_index(num_bumps)
+    prized_index = hf.get_prized_index(num_bumps)
     trend_line = saved_trend_lines[prized_index]
     unpack = [list(t) for t in zip(*trend_line)]
     x_smoothed, y_smoothed = unpack[0], unpack[1]
@@ -100,53 +100,54 @@ try:
         f.write("{:.0f}".format(prized_index))
     with open("./data/prized_n_neighbours.txt", "w") as f:
         f.write("{:.0f}".format(n_neighbours_list[prized_index]))
-except h.NoProperWMATrend as e:
+except hf.NoProperWMATrend as e:
     print(e)
     print("{:.>80}".format("Cannot perform WMA."))
     print("{:.>80}".format("Proceeding with Polynomial Fit."))
     r_squared_stats = []
     mode = "Polynomial-fit"  # Switch over to the new mode.
-    x_smoothed, y_smoothed = h.get_final_polynomial_fit(x_raw=independent_var,
-                                                        y_raw=dependent_var,
-                                                        step_size=delta_x,
-                                                        degree=h.pol_degree,
-                                                        x_lims=x_limits)
-    r_squared_stats.append(h.get_r_squared(x_raw=independent_var,
-                                           y_raw=dependent_var,
-                                           x_fit=x_smoothed,
-                                           y_fit=y_smoothed))
+    x_smoothed, y_smoothed = hf.get_final_polynomial_fit(x_raw=independent_var,
+                                                         y_raw=dependent_var,
+                                                         step_size=delta_x,
+                                                         degree=hf.pol_degree,
+                                                         x_lims=x_limits)
+    r_squared_stats.append(hf.get_r_squared(x_raw=independent_var,
+                                            y_raw=dependent_var,
+                                            x_fit=x_smoothed,
+                                            y_fit=y_smoothed))
 
 # We need to safe-check the reasonableness of the WMA trendline if mode is
 # still equal to "WMA".
 if mode == "WMA":
     print("We are still in \"WMA\" mode.")
-    r_squared_check = h.get_r_squared(x_raw=independent_var,
-                                      y_raw=dependent_var,
-                                      x_fit=x_smoothed, y_fit=y_smoothed)
+    r_squared_check = hf.get_r_squared(x_raw=independent_var,
+                                       y_raw=dependent_var,
+                                       x_fit=x_smoothed, y_fit=y_smoothed)
     print("r_squared_check = {:.4f}.".format(r_squared_check))
 
-    x_pol, y_pol = h.get_final_polynomial_fit(x_raw=independent_var,
-                                              y_raw=dependent_var,
-                                              step_size=delta_x,
-                                              degree=h.pol_degree,
-                                              x_lims=x_limits)
-    r_squared_pol = h.get_r_squared(x_raw=independent_var, y_raw=dependent_var,
-                                    x_fit=x_pol, y_fit=y_pol)
+    x_pol, y_pol = hf.get_final_polynomial_fit(x_raw=independent_var,
+                                               y_raw=dependent_var,
+                                               step_size=delta_x,
+                                               degree=hf.pol_degree,
+                                               x_lims=x_limits)
+    r_squared_pol = hf.get_r_squared(x_raw=independent_var,
+                                     y_raw=dependent_var,
+                                     x_fit=x_pol, y_fit=y_pol)
     print("r_squared_pol = {:.4f}.".format(r_squared_pol))
     if r_squared_check > r_squared_pol:
         mode = "Polynomial-fit"
         print("We have switched over to \"Polynomial-fit\" mode.")
         r_squared_stats = []
-        some_tup = h.get_final_polynomial_fit(x_raw=independent_var,
-                                              y_raw=dependent_var,
-                                              step_size=delta_x,
-                                              degree=h.pol_degree,
-                                              x_lims=x_limits)
-        x_smoothed, y_smoothed = some_tup
-        r_squared_stats.append(h.get_r_squared(x_raw=independent_var,
+        some_tup = hf.get_final_polynomial_fit(x_raw=independent_var,
                                                y_raw=dependent_var,
-                                               x_fit=x_smoothed,
-                                               y_fit=y_smoothed))
+                                               step_size=delta_x,
+                                               degree=hf.pol_degree,
+                                               x_lims=x_limits)
+        x_smoothed, y_smoothed = some_tup
+        r_squared_stats.append(hf.get_r_squared(x_raw=independent_var,
+                                                y_raw=dependent_var,
+                                                x_fit=x_smoothed,
+                                                y_fit=y_smoothed))
 
 
 _, ax = plt.subplots(figsize=(10, 5))
@@ -212,7 +213,7 @@ ax.scatter(cco_df.index, cco_df["cco"].values, c="yellow", marker=".",
 ax.legend()
 fig.autofmt_xdate()  # rotate and align the tick labels so they look better
 plt.tight_layout()
-plt.savefig("./figures/Smoothed_kcp_versus_month.png")
+plt.savefig("./figures/Smoothed_kcp_versus_monthf.png")
 plt.cla()
 plt.clf()
 plt.close()
@@ -231,7 +232,7 @@ if mode == "WMA":
 else:
     with open("./data/statistics_polynomial_fit.txt", "w") as f:
         f.write("highest_order | r_squared_statistic\n")
-        f.write("{:.0f} | {:.7f}\n".format(h.pol_degree, r_squared_stats[0]))
+        f.write("{:.0f} | {:.7f}\n".format(hf.pol_degree, r_squared_stats[0]))
 # -----------------------------------------------------------------------------
 
 

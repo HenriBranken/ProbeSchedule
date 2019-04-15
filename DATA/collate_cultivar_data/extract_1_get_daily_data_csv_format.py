@@ -36,7 +36,9 @@ starting_year = datetime.datetime.strptime(start_date, "%Y-%m-%d").year
 # -----------------------------------------------------------------------------
 # Remove the old `*_daily_data.csv` files
 # -----------------------------------------------------------------------------
-directory = "./"
+if not os.path.exists("./data"):
+    os.makedirs("data")
+directory = "./data/"
 files = os.listdir(directory)
 for file in files:
     if file.endswith("_daily_data.csv"):
@@ -52,18 +54,18 @@ for file in files:
 # Create `./base_temperature.txt` containing the base temperature of the
 # cultivar.
 # =============================================================================
-with open("./probe_ids.txt", "w") as f:
+with open("./data/probe_ids.txt", "w") as f:
     f.write("\n".join(("P-{:s}".format(str(device_number))) for device_number
                       in devices))
 
-with open("./api_dates.txt", "w") as f:
+with open("./data/api_dates.txt", "w") as f:
     f.write(start_date + "\n")
     f.write(end_date + "\n")
 
-with open("./base_temperature.txt", "w") as f:
+with open("./data/base_temperature.txt", "w") as f:
     f.write(str(T_base))
 
-with open("./starting_year.txt", "w") as f:
+with open("./data/starting_year.txt", "w") as f:
     f.write(str(starting_year))
 # =============================================================================
 
@@ -142,7 +144,7 @@ for device in devices:
 
     # Now that we finally have all the data stored in the daily_data
     # dictionary, we can write it to an output file:
-    f = open("P-"+str(device)+"_daily_data.csv", "w")
+    f = open("./data/P-"+str(device)+"_daily_data.csv", "w")
     f.write("date")
     for k, v in daily_data[magic_date].items():
         f.write(", "+k)

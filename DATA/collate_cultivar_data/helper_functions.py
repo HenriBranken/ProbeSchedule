@@ -44,11 +44,11 @@ def find_nearest_index(model_array, raw_value):
     return nearest_index
 
 
-def gaussian(x, amp=1, mean=0, sigma=5):
+def gaussian(x, amp=1, mean=0, sigma=10):
     return amp*np.exp(-(x - mean)**2 / (2*sigma**2))
 
 
-def weighted_moving_average(x, y, step_size=1.0, width=5, x_lims=None,
+def weighted_moving_average(x, y, step_size=1.0, width=10, x_lims=None,
                             append_=False):
     if x_lims:
         x_min, x_max = x_lims[0], x_lims[1]

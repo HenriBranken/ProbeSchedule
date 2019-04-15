@@ -8,7 +8,7 @@ import os
 # 1. path_to_probe_ids --> .txt File containing the 1 probe_id per line.
 # 2. probe_ids --> A list of strings containing the probe ids.
 # =============================================================================
-path_to_probe_ids = "./probe_ids.txt"
+path_to_probe_ids = "./data/probe_ids.txt"
 with open(path_to_probe_ids, "r") as f:
     probe_ids = [x.rstrip() for x in f.readlines()]
 # =============================================================================
@@ -17,10 +17,10 @@ with open(path_to_probe_ids, "r") as f:
 # -----------------------------------------------------------------------------
 # Remove the old *.xlsx file(s).
 # -----------------------------------------------------------------------------
-directory = "./"
+directory = "./data/"
 files = os.listdir(directory)
 for file in files:
-    if file.endswith(".xlsx"):
+    if file.startswith("cultivar_"):
         os.remove(os.path.join(directory, file))
         print("Removed the file named: {}.".format(file))
 # -----------------------------------------------------------------------------
@@ -29,12 +29,12 @@ for file in files:
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Here we process the daily data (GDD, and the Waterbalance Data).
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-writer = pd.ExcelWriter("cultivar_data.xlsx", engine="xlsxwriter",
+writer = pd.ExcelWriter("./data/cultivar_data.xlsx", engine="xlsxwriter",
                         date_format="%Y-%m-%d")
 
 for p in probe_ids:
     print("Currently busy with probe {:s}.".format(p))
-    sub_df = pd.read_csv(p + "_daily_data.csv", sep=",", header=0,
+    sub_df = pd.read_csv("./data/" + p + "_daily_data.csv", sep=",", header=0,
                          parse_dates=True, index_col=0,
                          na_values=["nan", "None"])
     sub_df.to_excel(writer, header=True, index=True, sheet_name=p,

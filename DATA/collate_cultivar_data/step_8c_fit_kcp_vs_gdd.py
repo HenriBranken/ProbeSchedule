@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import math
 import matplotlib.pyplot as plt
-import helper_functions as h
+import helper_functions as hf
 import helper_meta_data as hm
 
 # -----------------------------------------------------------------------------
@@ -68,8 +68,8 @@ x_smoothed = np.insert(x_smoothed, 0, values=x_prepend)
 y_smoothed = np.insert(y_smoothed, 0, values=y_prepend)
 
 # 7. Determine the goodness of the fit.
-r_squared = h.get_r_squared(x_raw=independent_var, y_raw=dependent_var,
-                            x_fit=x_smoothed, y_fit=y_smoothed)
+r_squared = hf.get_r_squared(x_raw=independent_var, y_raw=dependent_var,
+                             x_fit=x_smoothed, y_fit=y_smoothed)
 print("The goodness of the fit is: {:.3f}.".format(r_squared))
 # =============================================================================
 

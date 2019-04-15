@@ -5,7 +5,7 @@ import os
 # =============================================================================
 # Declare "constants"
 # =============================================================================
-with open("./probe_ids.txt", "r") as f:
+with open("./data/probe_ids.txt", "r") as f:
     probe_ids = [p.rstrip() for p in list(f)]
 # =============================================================================
 
@@ -14,7 +14,7 @@ with open("./probe_ids.txt", "r") as f:
 # Import the necessary data
 # -----------------------------------------------------------------------------
 # `./cultivar_data.xlsx` is the raw data as extracted from an API call.
-processed_dict = pd.read_excel("./cultivar_data.xlsx", sheet_name=None)
+processed_dict = pd.read_excel("./data/cultivar_data.xlsx", sheet_name=None)
 
 # A list to be populated with the probe dataframes.
 # Each dataframe corresponds to an individual probe.
@@ -97,7 +97,7 @@ print("-" * 80)
 # 2. need to be kept (i.e. any NON-redundant probe_id).
 # -----------------------------------------------------------------------------
 # The probe(s) to be discarded are written to `./probes_to_be_discarded.txt`.
-with open("./probes_to_be_discarded.txt", "w") as f:
+with open("./data/probes_to_be_discarded.txt", "w") as f:
     f.write("\n".join(("{:s}".format(p)) for p in probes_to_be_popped))
 
 # Generate the new list of probes that need to be kept.
@@ -105,7 +105,7 @@ with open("./probes_to_be_discarded.txt", "w") as f:
 # Use list comprehension to get all the probes that do not belong to
 # `probes_to_be_popped`.  (Note the use of `not in`).
 new_probe_ids = [p for p in probe_ids if p not in probes_to_be_popped]
-with open("./probe_ids.txt", "w") as f:
+with open("./data/probe_ids.txt", "w") as f:
     f.write("\n".join(("{:s}".format(p)) for p in new_probe_ids))
 # -----------------------------------------------------------------------------
 
@@ -120,12 +120,13 @@ with open("./probe_ids.txt", "w") as f:
 for p in probes_to_be_popped:
     del processed_dict[p]
 
-# Remove the old `./cultivar_data_unique.xlsx` file
-if os.path.exists("./cultivar_data_unique.xlsx"):
-    os.remove("./cultivar_data_unique.xlsx")
+# Remove the old `./data/cultivar_data_unique.xlsx` file
+if os.path.exists("./data/cultivar_data_unique.xlsx"):
+    os.remove("./data/cultivar_data_unique.xlsx")
 
 # Instantiate a new Excel-File object at `./cultivar_data_unique.xlsx`
-writer = pd.ExcelWriter("./cultivar_data_unique.xlsx", engine="xlsxwriter")
+writer = pd.ExcelWriter("./data/cultivar_data_unique.xlsx",
+                        engine="xlsxwriter")
 
 # Populate the Excel file with different sheets.  One sheet per probe.
 # The sheet name is equal to the probe_id.

@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 from itertools import cycle
-import helper_functions as h
+import helper_functions as hf
 import pandas as pd
 import numpy as np
 import helper_meta_data as hm
@@ -69,8 +69,8 @@ kcp_trend_df = pd.read_excel("./data/binned_kcp_data.xlsx",
 # 9. Save DataFrame giving "season_day" and "smoothed_gdd".  "wrapped_date"
 #    serves as the index.
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-processed_eg_df["wrapped_dates"] = h.date_wrapper(processed_eg_df.index,
-                                                  starting_year=starting_year)
+processed_eg_df["wrapped_dates"] = hf.date_wrapper(processed_eg_df.index,
+                                                   starting_year=starting_year)
 stamp_season_dict = dict(zip(kcp_trend_df.index,
                              kcp_trend_df["season_day"].values))
 series_to_be_assigned = \
@@ -81,7 +81,7 @@ processed_eg_df.sort_values(by=["season_day"], ascending=True, inplace=True)
 
 x_vals = processed_eg_df["season_day"].values
 y_vals = processed_eg_df["cumulative_gdd"].values
-x_plt, y_plt = h.weighted_moving_average(x=x_vals, y=y_vals, width=10)
+x_plt, y_plt = hf.weighted_moving_average(x=x_vals, y=y_vals, width=10)
 
 fig, ax = plt.subplots(figsize=(10, 5))
 ax.scatter(x=processed_eg_df["season_day"].values,
