@@ -3,13 +3,14 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 import helper_functions as h
+import helper_meta_data as hm
 
 # -----------------------------------------------------------------------------
 # Define some constants
 # -----------------------------------------------------------------------------
 # 1. `delta_x` is the step size to be used when generating a list of x values.
 # -----------------------------------------------------------------------------
-delta_x = 1
+delta_x = hm.delta_x
 # -----------------------------------------------------------------------------
 
 

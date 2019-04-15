@@ -1,12 +1,14 @@
 import os
+from itertools import cycle
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-import datetime
-from cleaning_operations import BEGINNING_MONTH, KCP_MAX
+from cleaning_operations import KCP_MAX
 import pandas as pd
 from cleaning_operations import description_dict
 import math
 import helper_functions as h
+import helper_meta_data as hm
+import helper_data as hd
 
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -14,16 +16,12 @@ import helper_functions as h
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Load the cleaned data garnered in `step_1_perform_cleaning.py`.
 fn = "./data/stacked_cleaned_data_for_overlay.xlsx"
-cleaned_multi_df = pd.read_excel(fn, header=0, index_col=[0, 1],
-                                 parse_dates=True)
-outer_index = cleaned_multi_df.index.get_level_values("probe_id").unique()
-outer_index = list(outer_index)
-inner_index = cleaned_multi_df.index.get_level_values("datetimeStamp").unique()
-inner_index = list(inner_index)
+cleaned_multi_df = hd.cleaned_multi_df.copy(deep=True)
+outer_index = hd.outer_index[:]
+inner_index = hd.inner_index[:]
 
 # Get a list of all the Probe-IDs involved for the cultivar
-with open("../probe_ids.txt", "r") as f2:
-    probe_ids = [x.rstrip() for x in f2.readlines()]
+probe_ids = hm.probe_ids
 num_probes = len(probe_ids)
 
 # Create a folder for each probe-id in the `figures` parent folder.
@@ -36,15 +34,15 @@ processed_eg_df = pd.read_excel("./data/processed_probe_data.xlsx",
                                 squeeze=True, parse_dates=True)
 
 # Extract the starting_year and starting_date
-with open("./data/starting_year.txt", "r") as f:
-    starting_year = int(f.readline().rstrip())
-start_date = datetime.datetime(year=starting_year, month=BEGINNING_MONTH,
-                               day=1)
+starting_year = hm.starting_year
+season_start_date = hm.season_start_date
+season_end_date = hm.season_end_date
+
 
 fn = "./data/Smoothed_kcp_trend_vs_datetime.xlsx"
 skcp_vs_dt_df = pd.read_excel(fn, sheet_name=0, index_col=0, squeeze=False,
                               parse_dates=True)
-skcp_vs_dt_df["days"] = skcp_vs_dt_df.index - start_date
+skcp_vs_dt_df["days"] = skcp_vs_dt_df.index - season_start_date
 skcp_vs_dt_df["days"] = skcp_vs_dt_df["days"].dt.days
 x_smoothed = skcp_vs_dt_df["days"].values
 y_smoothed = skcp_vs_dt_df["Smoothed_kcp_trend"].values
@@ -55,15 +53,10 @@ x_smoothed_dates = skcp_vs_dt_df.index.values
 # =============================================================================
 # Define/Declare some "constants"
 # =============================================================================
-season_begin_date = datetime.datetime(year=starting_year,
-                                      month=BEGINNING_MONTH, day=1)
-season_end_date = datetime.datetime(year=starting_year + 1,
-                                    month=BEGINNING_MONTH, day=1)
-api_start_date = min(processed_eg_df.index)
-api_end_date = max(processed_eg_df.index)
-marker_list = ["o", ">", "<", "s", "P", "*", "X", "D"]
-color_list = ["red", "gold", "seagreen", "lightseagreen", "royalblue",
-              "darkorchid", "plum", "burlywood"]
+api_start_date = hm.api_start_date
+api_end_date = hm.api_end_date
+marker_color_meta = hm.marker_color_meta[:]
+marker_color_meta = cycle(marker_color_meta)
 
 num_cols = 2
 num_rows = int(math.ceil(len(probe_ids) / num_cols))
@@ -73,20 +66,8 @@ num_rows = int(math.ceil(len(probe_ids) / num_cols))
 # -----------------------------------------------------------------------------
 # Define all the helper functions
 # -----------------------------------------------------------------------------
-def get_dates_and_kcp(dataframe, probe_id):
-    sub_df = dataframe.loc[(probe_id, ), ["kcp"]]
-    sub_df["days"] = sub_df.index - start_date
-    sub_df["days"] = sub_df["days"].dt.days
-    return sub_df.index, sub_df["days"].values, sub_df["kcp"].values
-
-
-def get_labels(begin, terminate, freq="MS"):
-    return [x for x in pd.date_range(start=begin, end=terminate, freq=freq)]
-
-
-season_xticks = get_labels(begin=season_begin_date, terminate=season_end_date)
-api_xticks = get_labels(begin=api_start_date, terminate=api_end_date,
-                        freq="QS")
+season_xticks = hd.season_xticks
+api_xticks = hd.api_xticks
 # -----------------------------------------------------------------------------
 
 
@@ -94,14 +75,7 @@ api_xticks = get_labels(begin=api_start_date, terminate=api_end_date,
 # Define the vline date marking the beginning of a new season in the figures.
 # A new season is just 1 year apart from the previous season (obviously).
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-vline_dates = []
-for d in processed_eg_df.index:
-    if (d.month == BEGINNING_MONTH) and (d.day == 1):
-        new_season_date = datetime.datetime(year=d.year, month=d.month,
-                                            day=d.day)
-        vline_dates.append(new_season_date)
-
-vline_date = vline_dates[0]
+vline_dates = hd.vline_dates[:]
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
@@ -115,14 +89,13 @@ plt.subplots_adjust(wspace=0.05)
 fig.suptitle("$k_{cp}$ versus Date")
 fig.autofmt_xdate()
 
-zipped_meta = ((m, c) for m, c in zip(marker_list, color_list))
-
 for idx, ax in enumerate(axs):
-    meta = next(zipped_meta)
+    meta = next(marker_color_meta)
     ax.set_ylim(bottom=0.0, top=KCP_MAX)
     ax.grid(True)
-    dates, days, kcp = get_dates_and_kcp(dataframe=cleaned_multi_df,
-                                         probe_id=probe_ids[idx])
+    dates, kcp = h.get_dates_and_kcp(dataframe=cleaned_multi_df,
+                                     probe_id=probe_ids[idx])
+    days = pd.Series(dates - season_start_date).dt.days.values
     r_squared = h.get_r_squared(x_raw=days, y_raw=kcp, x_fit=x_smoothed,
                                 y_fit=y_smoothed)
     ax.scatter(dates, kcp, marker=meta[0], color=meta[1], s=20,
@@ -136,7 +109,7 @@ for idx, ax in enumerate(axs):
     ax.set_xticks(season_xticks)
     ax.set_xticklabels(season_xticks, rotation=40, ha="right")
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
-    ax.set_xlim(left=season_begin_date, right=season_end_date)
+    ax.set_xlim(left=season_start_date, right=season_end_date)
     for tick in ax.get_xticklabels():
         tick.set_visible(True)
     ax.legend(prop={"size": 6}, loc=6)
@@ -164,7 +137,8 @@ fig.delaxes(axs[-1])
 plt.subplots_adjust(wspace=0.05)
 fig.suptitle("Total Irrigation versus Date")
 fig.autofmt_xdate()
-zipped_meta = ((m, c) for m, c in zip(marker_list, color_list))
+marker_color_meta = hm.marker_color_meta[:]
+marker_color_meta = cycle(marker_color_meta)
 
 for idx, ax in enumerate(axs):
     df = pd.read_excel("./data/processed_probe_data.xlsx",

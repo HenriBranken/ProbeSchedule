@@ -3,6 +3,8 @@ from itertools import cycle
 import helper_functions as h
 import pandas as pd
 import numpy as np
+import helper_meta_data as hm
+import helper_data as hd
 
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -14,16 +16,14 @@ import numpy as np
 #    the iterable is exhausted.  This enables us, in theory, to infinitely loop
 #    through the iterable.
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-meta = [("goldenrod", "-"), ("green", "--"), ("blue", ":"), ("silver", "-."),
-        ("burlywood", "-"), ("lightsalmon", "--"), ("chartreuse", ":")]
-metacycle = cycle(meta)
-meta = next(metacycle)
+color_ls_meta = hm.color_ls_meta[:]
+color_ls_meta = cycle(color_ls_meta)
+meta = next(color_ls_meta)
 
-with open("./data/starting_year.txt", "r") as f:
-    starting_year = int(f.readline().rstrip())
+starting_year = hm.starting_year
 
-CULTIVAR = "Golden Delicious Apples"
-WEEKLY_BINNED_VERSION = True
+CULTIVAR = hm.CULTIVAR
+WEEKLY_BINNED_VERSION = hm.WEEKLY_BINNED_VERSION
 # Alternative option is `None`.
 # Specifies whether to use weekly-binned kcp data or not.
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -45,8 +45,7 @@ WEEKLY_BINNED_VERSION = True
 #    "day_averaged_kcp" is to become our new y-axis.
 #    The common denominator between these two features is "season_day".
 # -----------------------------------------------------------------------------
-processed_df = pd.read_excel("./data/processed_probe_data.xlsx", header=0,
-                             index_col=0, squeeze=False, parse_dates=["date"])
+processed_eg_df = hd.processed_eg_df.copy(deep=True)
 kcp_trend_df = pd.read_excel("./data/binned_kcp_data.xlsx",
                              sheet_name="day_frequency", header=0, index_col=0,
                              squeeze=False, parse_dates=True)
@@ -56,7 +55,7 @@ kcp_trend_df = pd.read_excel("./data/binned_kcp_data.xlsx",
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Data Crunching.
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# 1. Wrap the dates of processed_df.index
+# 1. Wrap the dates of processed_eg_df.index
 # 2. For each wrapped date, get the corresponding "season_day".
 #    This is achieved by applying the `map` function on a pandas Series.
 # 3. Drop all the samples for which cumulative_gdd is NaN.
@@ -70,23 +69,23 @@ kcp_trend_df = pd.read_excel("./data/binned_kcp_data.xlsx",
 # 9. Save DataFrame giving "season_day" and "smoothed_gdd".  "wrapped_date"
 #    serves as the index.
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-processed_df["wrapped_dates"] = h.date_wrapper(processed_df.index,
-                                               starting_year=starting_year)
+processed_eg_df["wrapped_dates"] = h.date_wrapper(processed_eg_df.index,
+                                                  starting_year=starting_year)
 stamp_season_dict = dict(zip(kcp_trend_df.index,
                              kcp_trend_df["season_day"].values))
-series_to_be_assigned = processed_df["wrapped_dates"].map(stamp_season_dict,
-                                                          na_action="ignore")
-processed_df["season_day"] = series_to_be_assigned
-processed_df.dropna(subset=["cumulative_gdd"], inplace=True)
-processed_df.sort_values(by=["season_day"], ascending=True, inplace=True)
+series_to_be_assigned = \
+    processed_eg_df["wrapped_dates"].map(stamp_season_dict, na_action="ignore")
+processed_eg_df["season_day"] = series_to_be_assigned
+processed_eg_df.dropna(subset=["cumulative_gdd"], inplace=True)
+processed_eg_df.sort_values(by=["season_day"], ascending=True, inplace=True)
 
-x_vals = processed_df["season_day"].values
-y_vals = processed_df["cumulative_gdd"].values
+x_vals = processed_eg_df["season_day"].values
+y_vals = processed_eg_df["cumulative_gdd"].values
 x_plt, y_plt = h.weighted_moving_average(x=x_vals, y=y_vals, width=10)
 
 fig, ax = plt.subplots(figsize=(10, 5))
-ax.scatter(x=processed_df["season_day"].values,
-           y=processed_df["cumulative_gdd"].values, marker="^", c="blue",
+ax.scatter(x=processed_eg_df["season_day"].values,
+           y=processed_eg_df["cumulative_gdd"].values, marker="^", c="blue",
            edgecolors="black", alpha=0.30, s=20,
            label="Cumulative GDD's of multiple seasons")
 ax.plot(x_plt, y_plt, alpha=1, color=meta[0], linestyle=meta[1],
@@ -107,12 +106,11 @@ plt.close()
 
 x_plt = x_plt.astype(int)
 day_gdd_dict = dict(zip(x_plt, y_plt))
-series_to_be_assigned = processed_df["season_day"].map(day_gdd_dict)
-processed_df["smoothed_cumul_gdd"] = series_to_be_assigned
-smoothed_cumul_gdd_df = pd.DataFrame(data=processed_df[["season_day",
-                                                        "smoothed_cumul_gdd"]],
-                                     index=processed_df["wrapped_dates"],
-                                     copy=True)
+series_to_be_assigned = processed_eg_df["season_day"].map(day_gdd_dict)
+processed_eg_df["smoothed_cumul_gdd"] = series_to_be_assigned
+smoothed_cumul_gdd_df = \
+    pd.DataFrame(data=processed_eg_df[["season_day", "smoothed_cumul_gdd"]],
+                 index=processed_eg_df["wrapped_dates"], copy=True)
 smoothed_cumul_gdd_df.drop_duplicates(inplace=True)
 smoothed_cumul_gdd_df.to_excel("./data/smoothed_cumul_gdd_vs_season_day.xlsx",
                                header=True, index=True,

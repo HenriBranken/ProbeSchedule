@@ -1,31 +1,33 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import matplotlib.dates as mdates
-from cleaning_operations import KCP_MAX, BEGINNING_MONTH
-import datetime
+from cleaning_operations import KCP_MAX
+import helper_meta_data as hm
+import helper_data as hd
 pd.set_option('display.max_columns', 6)
 
 # -----------------------------------------------------------------------------
 # Load the necessary data
 # -----------------------------------------------------------------------------
-#   1.  kcp_trend_vs_datetime is the data associated with the smoothed version
-#   2.  kcp_vs_days --> cleaned probe data
-#   3.  kcp_vs_day_df --> kcp as a function of day of the year/season
-#   4.  kcp_vs_week_df --> kcp as a function of week of the year/season
-#   5.  kcp_vs_month_df --> kcp as a function of month of the year/season
-#   6.  probe_ids --> List of probe-ids used in the analysis
+# 1. kcp_trend_vs_datetime is the data associated with the smoothed version
+# 2. kcp_vs_days --> cleaned probe data
+# 3. kcp_vs_day_df --> kcp as a function of day of the year/season
+# 4. kcp_vs_week_df --> kcp as a function of week of the year/season
+# 5. kcp_vs_month_df --> kcp as a function of month of the year/season
+# 6. probe_ids --> List of probe-ids used in the analysis
 # -----------------------------------------------------------------------------
 # Extract the data associated with the smoothed trend line.
-kcp_vs_days_df = pd.read_excel("./data/Smoothed_kcp_trend_vs_datetime.xlsx",
-                               header=0, names=["Smoothed_kcp_trend"],
+kcp_vs_days_df = pd.read_excel("./data/smoothed_kcp_trend_vs_datetime.xlsx",
+                               header=0, names=["smoothed_kcp_trend"],
                                index_col=0, parse_dates=True)
 base_datetimestamp = kcp_vs_days_df.index
-base_daily_kcp = kcp_vs_days_df["Smoothed_kcp_trend"].values
+base_daily_kcp = kcp_vs_days_df["smoothed_kcp_trend"].values
 
-with open("./data/starting_year.txt", "r") as f:
-    starting_year = int(f.readline().rstrip())
+starting_year = hm.starting_year
 starting_week = base_datetimestamp[0].isocalendar()[1]  # the calendar week
-starting_date = base_datetimestamp[0]
+season_start_date = hm.season_start_date
+season_end_date = hm.season_end_date
+season_xticks = hd.season_xticks
 
 # kcp_vs_days is the cleaned scatter_plot data
 kcp_vs_days = pd.read_excel("data/kcp_vs_days.xlsx", header=0,
@@ -47,11 +49,9 @@ kcp_vs_month_df = pd.read_excel("data/binned_kcp_data.xlsx",
                                        "monthly_averaged_kcp"], index_col=0,
                                 squeeze=True, parse_dates=True)
 
-with open("../probe_ids.txt", "r") as f:
-    probe_ids = [x.rstrip() for x in f.readlines()]
+probe_ids = hm.probe_ids
 
-cco_df = pd.read_excel("./data/reference_crop_coeff.xlsx", sheet_name=0,
-                       header=0, index_col=0, parse_dates=True)
+cco_df = hd.cco_df.copy(deep=True)
 
 with open("./data/mode.txt", "r") as f:
     mode = f.readline().rstrip()
@@ -76,9 +76,7 @@ if mode == "WMA":
 repeated_weekly_kcp_vs_day = []
 repeated_monthly_kcp_vs_day = []
 for d in base_datetimestamp:
-    season_week = (d - starting_date).days // 7 + 1
-    if season_week == 53:
-        season_week = 52
+    season_week = min(((d - season_start_date).days // 7) + 1, 52)
     condition = kcp_vs_week_df["season_week"] == season_week
     to_append = kcp_vs_week_df[condition]["weekly_averaged_kcp"][0]
     repeated_weekly_kcp_vs_day.append(to_append)
@@ -109,17 +107,10 @@ ax.scatter(cco_df.index, cco_df["cco"].values, c="yellow", marker=".",
 ax.set_xlabel("Date (Month of the Year/Season)")
 ax.set_ylabel("$k_{cp}$")
 ax.set_title("Different binning strategies for $k_{cp}$ as a function of time")
-ax.set_xlim(left=base_datetimestamp[0], right=base_datetimestamp[-1])
+ax.set_xlim(left=season_start_date, right=season_end_date)
 ax.set_ylim(bottom=0.0, top=KCP_MAX)
 ax.xaxis.set_major_formatter(mdates.DateFormatter('%b/%d'))  # Month/01
-major_xticks = pd.date_range(start=datetime.datetime(year=starting_year,
-                                                     month=BEGINNING_MONTH,
-                                                     day=1),
-                             end=datetime.datetime(year=starting_year + 1,
-                                                   month=BEGINNING_MONTH,
-                                                   day=1),
-                             freq="MS")
-ax.set_xticks(major_xticks)
+ax.set_xticks(season_xticks)
 ax.legend()
 ax.grid()
 fig.autofmt_xdate()

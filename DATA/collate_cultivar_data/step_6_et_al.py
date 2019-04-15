@@ -3,12 +3,13 @@ import matplotlib.pyplot as plt
 from itertools import cycle
 import numpy as np
 import matplotlib.dates as mdates
-import datetime
-from cleaning_operations import BEGINNING_MONTH, KCP_MAX
+from cleaning_operations import KCP_MAX
 import pandas as pd
 from pandas.plotting import register_matplotlib_converters
 from cleaning_operations import description_dict
-# import helper_functions as h
+from helper_functions import get_dates_and_kcp
+import helper_meta_data as hm
+import helper_data as hd
 register_matplotlib_converters()
 
 
@@ -16,56 +17,31 @@ register_matplotlib_converters()
 # Define some constants
 # =============================================================================
 # Create some meta data that will be used in the upcoming scatter plots
-marker_list = ["o", ">", "<", "s", "P", "*", "X", "D"]
-color_list = ["red", "gold", "seagreen", "lightseagreen", "royalblue",
-              "darkorchid", "plum", "burlywood"]
-zipped_meta = [(m, c) for m, c in zip(marker_list, color_list)]
-zipped_meta = cycle(zipped_meta)
-t_base = 10.0
+marker_color_meta = hm.marker_color_meta[:]
+marker_color_meta = cycle(marker_color_meta)
+t_base = hm.temperature_base
 # =============================================================================
-
-
-# -----------------------------------------------------------------------------
-# Define some helper functions
-# -----------------------------------------------------------------------------
-def get_dates_and_kcp(dataframe, probe_id):
-    sub_df = dataframe.loc[(probe_id, ), ["kcp"]]
-    return sub_df.index, sub_df["kcp"].values
-
-
-def get_labels(begin, terminate, freq="MS"):
-    return [x for x in pd.date_range(start=begin, end=terminate, freq=freq)]
-# -----------------------------------------------------------------------------
 
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Import all the necessary data
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Load the cleaned data garnered in `step_1_perform_cleaning.py`.
-cleaned_multi_df = \
-    pd.read_excel("./data/stacked_cleaned_data_for_overlay.xlsx",
-                  header=0, index_col=[0, 1], parse_dates=True)
-outer_index = cleaned_multi_df.index.get_level_values("probe_id").unique()
-outer_index = list(outer_index)
-inner_index = cleaned_multi_df.index.get_level_values("datetimeStamp").unique()
-inner_index = list(inner_index)
-
+cleaned_multi_df = hd.cleaned_multi_df.copy(deep=True)
+outer_index = hd.outer_index[:]
+inner_index = hd.inner_index[:]
 # Get a list of all the Probe-IDs involved for the cultivar
-with open("../probe_ids.txt", "r") as f2:
-    probe_ids = [x.rstrip() for x in f2.readlines()]
+probe_ids = hm.probe_ids
 
 # Make a directory for each probe in the `figures` parent directory.
 for p in probe_ids:
     if not os.path.exists("./figures/{}/".format(p)):
         os.makedirs("./figures/{}/".format(p))
 
-processed_eg_df = pd.read_excel("./data/processed_probe_data.xlsx",
-                                sheet_name=0, header=0, index_col=0,
-                                squeeze=True, parse_dates=True)
+processed_eg_df = hd.processed_eg_df.copy(deep=True)
 
 # Get the starting year of the crop data
-with open("./data/starting_year.txt", "r") as f:
-    starting_year = int(f.readline().rstrip())
+starting_year = hm.starting_year
 
 # Get the mode of the fitting procedure used in `step_3_smoothed_version.py`.
 with open("./data/mode.txt", "r") as f:
@@ -77,26 +53,13 @@ with open("./data/mode.txt", "r") as f:
 # Define the vline date marking the beginning of a new season in the figures.
 # A new season is just 1 year apart.
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-eg_df = pd.read_excel("./data/processed_probe_data.xlsx",
-                      sheet_name="{}".format(probe_ids[0]), header=0,
-                      index_col=0, squeeze=True, parse_dates=True)
-vline_dates = []
-for d in eg_df.index:
-    if (d.month == BEGINNING_MONTH) and (d.day == 1):
-        new_season_date = datetime.datetime(year=d.year,
-                                            month=d.month,
-                                            day=d.day)
-        vline_dates.append(new_season_date)
-vline_date = vline_dates[0]
-
-beginning_datetime = datetime.datetime(year=starting_year,
-                                       month=BEGINNING_MONTH, day=1)
-end_datetime = datetime.datetime(year=starting_year + 1,
-                                 month=BEGINNING_MONTH, day=1)
-api_start_date = min(processed_eg_df.index)
-api_end_date = max(processed_eg_df.index)
-api_xticks = get_labels(begin=api_start_date, terminate=api_end_date,
-                        freq="QS")
+vline_dates = hd.vline_dates[:]
+season_start_date = hm.season_start_date
+season_end_date = hm.season_end_date
+season_xticks = hd.season_xticks
+api_start_date = hm.api_start_date
+api_end_date = hm.api_end_date
+api_xticks = hd.api_xticks
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
@@ -113,14 +76,12 @@ for i, p in enumerate(outer_index):
     ax.set_ylabel("$k_{cp}$")
     ax.set_title("$k_{cp}$ versus Month of the Season.")
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%b/%d'))
-    ax.set_xlim(left=beginning_datetime, right=end_datetime)
-    major_xticks = get_labels(begin=beginning_datetime,
-                              terminate=end_datetime)
-    ax.set_xticks(major_xticks)
+    ax.set_xlim(left=season_start_date, right=season_end_date)
+    ax.set_xticks(season_xticks)
     ax.set_ylim(bottom=0.0, top=KCP_MAX)
     ax.grid(True)
     dates, kcp = get_dates_and_kcp(dataframe=cleaned_multi_df, probe_id=p)
-    meta = next(zipped_meta)
+    meta = next(marker_color_meta)
     ax.scatter(dates, kcp, marker=meta[0], color=meta[1], s=60,
                edgecolors="black", linewidth=1, alpha=0.5,
                label=probe_ids[i])
@@ -135,8 +96,8 @@ for i, p in enumerate(outer_index):
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Plot the Profile Readings (versus date) for each probe on a separate plot.
 # For each plot, indicate the discrete points where the following occur:
-#   1.  Data Blips --> DATA_BLIP_DESC
-#   2.  Large Dips --> LARGE_PROFILE_DIP_DESC
+# 1. Data Blips --> DATA_BLIP_DESC
+# 2. Large Dips --> LARGE_PROFILE_DIP_DESC
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 print("Plotting Profile Readings for each probe on a separate set of axes.")
 for p in probe_ids:
@@ -157,8 +118,7 @@ for p in probe_ids:
     ax.scatter(x=large_dip_dates,
                y=df.loc[large_dip_dates, "profile"], s=50, color="black",
                marker="X", label="'Large' Dips", edgecolors="green")
-    major_xticks = get_labels(begin=df.index[0], terminate=df.index[-1])
-    ax.set_xticks(major_xticks)
+    ax.set_xticks(api_xticks)
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y/%b'))
     ax.set_xlabel("Date")
     ax.set_ylabel("Profile Reading")
@@ -199,8 +159,7 @@ for p in probe_ids:
         ax.axvline(x=v, color="blue", ls="--", linewidth=3, alpha=0.4)
     ax.plot([], [], color="blue", ls="--", linewidth=3, alpha=0.4,
             label="New Season")
-    major_xticks = get_labels(begin=df.index[0], terminate=df.index[-1])
-    ax.set_xticks(major_xticks)
+    ax.set_xticks(api_xticks)
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y/%b'))
     ax.grid()
     ax.legend()
@@ -228,8 +187,7 @@ ax.plot(df.index, df["rain"], label="Daily Rain Reading", lw=1, alpha=0.6)
 ax.scatter(indices_rain.index[indices_rain], y=df.loc[indices_rain, "rain"],
            s=30, color="black", marker="^",
            label=description_dict["rain_desc"], edgecolors="blue")
-major_xticks = get_labels(begin=df.index[0], terminate=df.index[-1])
-ax.set_xticks(major_xticks)
+ax.set_xticks(api_xticks)
 ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y/%b'))
 for v in vline_dates:
     ax.axvline(x=v, linewidth=3, color="magenta", alpha=0.4, ls="--")
@@ -266,8 +224,7 @@ ax.plot(interim_df.index, interim_df["eto"], label="(Imputed) $ET_0$", lw=2,
         alpha=0.6, color="green")
 ax.plot(interim_df.index, interim_df["etc"], label="Flagged $ET_c$", lw=2,
         alpha=0.6, color="blue")
-major_xticks = get_labels(begin=df.index[0], terminate=df.index[-1])
-ax.set_xticks(major_xticks)
+ax.set_xticks(api_xticks)
 ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y/%b'))
 for v in vline_dates:
     ax.axvline(x=v, linewidth=3, color="magenta", alpha=0.4, ls="--")
@@ -300,16 +257,14 @@ ax1.set_title("Heat Units and GDD versus Time")
 ax1.set_xlabel("Date")
 ax1.set_ylabel("Heat Units", color=color)
 pl1 = ax1.bar(processed_eg_df.index, processed_eg_df["interpolated_hu"],
-              color=color, label="Interpolated H.U.", alpha=0.5)
+              color=color, label="Interpolated H.U.", alpha=1.0, width=1.0)
 ax1.tick_params(axis="y", labelcolor=color)
 for v in vline_dates:
     ax1.axvline(x=v, linewidth=3, linestyle="--", color="magenta", alpha=0.4)
 ax1.plot([], [], linewidth=3, linestyle="--", color="magenta", alpha=0.4,
          label="New Season")
-ax1.set_xlim(left=processed_eg_df.index[0], right=processed_eg_df.index[-1])
-major_xticks = get_labels(begin=processed_eg_df.index[0],
-                          terminate=processed_eg_df.index[-1])
-ax1.set_xticks(major_xticks)
+ax1.set_xlim(left=api_start_date, right=api_end_date)
+ax1.set_xticks(api_xticks)
 ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y/%b'))
 fig.autofmt_xdate()
 
@@ -320,7 +275,7 @@ pl2 = ax2.plot(processed_eg_df.index, processed_eg_df["cumulative_gdd"],
                color=color, label="Cumulative GDD", lw=2, alpha=1.0)
 ax2.tick_params(axis="y", labelcolor=color)
 ax2.set_ylim(bottom=0)
-ax2.set_xticks(major_xticks)
+ax2.set_xticks(api_xticks)
 ax2.xaxis.set_major_formatter(mdates.DateFormatter('%Y/%b'))
 fig.autofmt_xdate()
 
@@ -343,7 +298,6 @@ plt.close()
 print("Plot temperature and heat-units data.")
 t_min = processed_eg_df["T_min"].values
 t_max = processed_eg_df["T_max"].values
-t_24h_avg = processed_eg_df["T_24hour_avg"].values
 t_avg = (t_min + t_max)/2.0
 date_stamp = processed_eg_df.index
 
@@ -382,7 +336,7 @@ axs[0].legend()
 condition = processed_eg_df["heat_units"] == 0
 zero_hu_dates = processed_eg_df[condition].index
 axs[1].bar(processed_eg_df.index, processed_eg_df["interpolated_hu"],
-           color="lightcoral", label="Heat Units", alpha=1.0)
+           color="lightcoral", label="Heat Units", alpha=1.0, width=1.0)
 for v in vline_dates:
     axs[1].axvline(x=v, linestyle="--", linewidth=2.5, color="magenta",
                    alpha=0.5)

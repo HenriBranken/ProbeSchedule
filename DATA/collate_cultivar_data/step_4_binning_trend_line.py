@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import datetime
 from cleaning_operations import BEGINNING_MONTH
+import helper_meta_data as hm
 pd.set_option('display.max_columns', 6)
 
 # -----------------------------------------------------------------------------
@@ -10,15 +11,14 @@ pd.set_option('display.max_columns', 6)
 # The cleaned_kcp_df is a DataFrame containing the cleaned kcp data.
 # -----------------------------------------------------------------------------
 # Extract the smoothed trendline.
-kcp_vs_days_df = pd.read_excel("./data/Smoothed_kcp_trend_vs_datetime.xlsx",
-                               header=0, names=["Smoothed_kcp_trend"],
+kcp_vs_days_df = pd.read_excel("./data/smoothed_kcp_trend_vs_datetime.xlsx",
+                               header=0, names=["smoothed_kcp_trend"],
                                index_col=0, parse_dates=True)
 datetimestamp = kcp_vs_days_df.index
-kcp_trend = kcp_vs_days_df["Smoothed_kcp_trend"].values
+kcp_trend = kcp_vs_days_df["smoothed_kcp_trend"].values
 
 # Get the starting year
-with open("./data/starting_year.txt", "r") as f:
-    starting_year = int(f.readline().rstrip())
+starting_year = hm.starting_year
 starting_week = datetimestamp[0].isocalendar()[1]  # the starting CALENDAR week
 starting_date = datetimestamp[0]
 

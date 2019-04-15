@@ -10,12 +10,12 @@ import sys
 ETO_MAX = 12
 KCP_MAX = 0.8
 BEGINNING_MONTH = 7  # i.e. beginning of July.
-ETCP_MAX = ETO_MAX * KCP_MAX
-DAY = datetime.timedelta(days=1)
+ETCP_MAX = ETO_MAX * KCP_MAX  # Derived
+DAY = datetime.timedelta(days=1)  # Derived
 # The smaller the value, the more strict/drastic the flagging becomes.
 ETCP_PERC_DEVIATION = 0.30
-SUSP_LOW_VAL = 1 - ETCP_PERC_DEVIATION
-SUSP_HIGH_VAL = 1 + ETCP_PERC_DEVIATION
+SUSP_LOW_VAL = 1 - ETCP_PERC_DEVIATION  # Derived
+SUSP_HIGH_VAL = 1 + ETCP_PERC_DEVIATION  # Derived
 
 # The following events are "irredeemable".
 # "irredeemable" is associated with a `binary_value` of 1.

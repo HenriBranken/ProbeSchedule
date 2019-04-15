@@ -5,11 +5,6 @@ from cleaning_operations import description_dict
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Declare some constants
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-idx = pd.IndexSlice
-# pandas.IndexSlice --> "Create an object to more easily perform multi-index
-# slicing."
-# In reality, I don't actually use `idx` anywhere in the code below...
-
 # some string constants used when writing text to file later on in the report.
 line = "+" + "-"*43 + "+" + "-"*15 + "+" + "-"*18 + "+"
 border = "+" + "-"*78 + "+"

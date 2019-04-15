@@ -2,15 +2,13 @@ import numpy as np
 import math
 from scipy.signal import argrelextrema
 import pandas as pd
-from cleaning_operations import BEGINNING_MONTH
 import datetime
+from cleaning_operations import BEGINNING_MONTH
+from helper_meta_data import pol_degree
 
 
 class NoProperWMATrend(Exception):
     pass
-
-
-pol_degree = 4
 
 
 def rectify_trend(fitted_trend_values):
@@ -46,11 +44,12 @@ def find_nearest_index(model_array, raw_value):
     return nearest_index
 
 
-def gaussian(x, amp=1, mean=0, sigma=10):
+def gaussian(x, amp=1, mean=0, sigma=5):
     return amp*np.exp(-(x - mean)**2 / (2*sigma**2))
 
 
-def weighted_moving_average(x, y, step_size=1.0, width=10, x_lims=None):
+def weighted_moving_average(x, y, step_size=1.0, width=5, x_lims=None,
+                            append_=False):
     if x_lims:
         x_min, x_max = x_lims[0], x_lims[1]
     else:
@@ -58,6 +57,10 @@ def weighted_moving_average(x, y, step_size=1.0, width=10, x_lims=None):
     num = int((x_max - x_min) // step_size + 1)
     bin_coords = np.linspace(start=x_min, stop=x_max, num=num, endpoint=True)
     bin_avgs = np.zeros(len(bin_coords))
+
+    if append_:
+        x = list(x) + [x[-1]]*90
+        y = list(y) + [y[-1]]*90
 
     for index in range(len(bin_coords)):
         weights = gaussian(x=x, mean=bin_coords[index], sigma=width)
@@ -166,3 +169,12 @@ def get_xs_and_ys(dataframe, iteration, status="scatter"):
     x_var, y_var = "x_" + status, "y_" + status
     sub_df = dataframe.loc[(iteration, ), [x_var, y_var]]
     return sub_df[x_var].values, sub_df[y_var].values
+
+
+def get_dates_and_kcp(dataframe, probe_id):
+    sub_df = dataframe.loc[(probe_id, ), ["kcp"]]
+    return sub_df.index, sub_df["kcp"].values
+
+
+def get_labels(begin, terminate, freq="MS"):
+    return [x for x in pd.date_range(start=begin, end=terminate, freq=freq)]

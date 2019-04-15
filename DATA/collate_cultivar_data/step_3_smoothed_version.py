@@ -3,17 +3,17 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import datetime
 import pandas as pd
-from cleaning_operations import BEGINNING_MONTH, KCP_MAX
+from cleaning_operations import KCP_MAX
 import helper_functions as h
+import helper_meta_data as hm
 
 
 # -----------------------------------------------------------------------------
 # Declare important constants
 # -----------------------------------------------------------------------------
-n_neighbours_list = list(np.arange(start=30, stop=1-1, step=-1))
-# helper function.
-delta_x = 1  # the step-size of the trendline
-x_limits = [0, 365]
+n_neighbours_list = hm.n_neighbours_list
+delta_x = hm.delta_x
+x_limits = hm.x_limits
 mode = "WMA"  # The `default` at which we start out.
 # -----------------------------------------------------------------------------
 
@@ -32,19 +32,14 @@ cleaned_df.sort_index(axis=0, level="datetimeStamp", ascending=True,
                       inplace=True)
 
 # Generate a list of all the probe-id names.
-with open("../probe_ids.txt", "r") as f:
-    probe_ids = [x.rstrip() for x in f.readlines()]
+probe_ids = hm.probe_ids
 
 # Extract the starting year.  The year of the most "historic/past" sample.
-with open("./data/starting_year.txt", "r") as f:
-    starting_year = int(f.readline().rstrip())
+starting_year = hm.starting_year
 
 # Create pandas DataFrame containing the reference crop coefficient values.
 cco_df = pd.read_excel("./data/reference_crop_coeff.xlsx", sheet_name=0,
                        header=0, index_col=0, parse_dates=True)
-cco_df["days"] = cco_df.index - datetime.datetime(year=starting_year,
-                                                  month=BEGINNING_MONTH, day=1)
-cco_df["days"] = cco_df["days"].dt.days  # we use the dt.days attribute
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
@@ -54,9 +49,7 @@ cco_df["days"] = cco_df["days"].dt.days  # we use the dt.days attribute
 # Sort the DataFrame by the "days" column.
 # -----------------------------------------------------------------------------
 # Calculate the number_of_days offset for each sample from the beginning.
-cleaned_df["offset"] = cleaned_df.index - \
-                       datetime.datetime(year=starting_year,
-                                         month=BEGINNING_MONTH, day=1)
+cleaned_df["offset"] = cleaned_df.index - hm.season_start_date
 
 # Convert the time-delta objects of the `offset` column to integer type.
 cleaned_df["days"] = cleaned_df["offset"].dt.days
@@ -86,7 +79,8 @@ for n_neighbours in n_neighbours_list:
                                                            y=dependent_var,
                                                            step_size=delta_x,
                                                            width=n_neighbours,
-                                                           x_lims=x_limits)
+                                                           x_lims=x_limits,
+                                                           append_=True)
         saved_trend_lines.append(zip(x_smoothed, y_smoothed))
         r_squared_stats.append(h.get_r_squared(x_raw=independent_var,
                                                y_raw=dependent_var,
@@ -126,8 +120,8 @@ except h.NoProperWMATrend as e:
 # still equal to "WMA".
 if mode == "WMA":
     print("We are still in \"WMA\" mode.")
-    r_squared_check = h.get_r_squared(x_raw=cco_df["days"].values,
-                                      y_raw=cco_df["cco"].values,
+    r_squared_check = h.get_r_squared(x_raw=independent_var,
+                                      y_raw=dependent_var,
                                       x_fit=x_smoothed, y_fit=y_smoothed)
     print("r_squared_check = {:.4f}.".format(r_squared_check))
 
@@ -136,8 +130,7 @@ if mode == "WMA":
                                               step_size=delta_x,
                                               degree=h.pol_degree,
                                               x_lims=x_limits)
-    r_squared_pol = h.get_r_squared(x_raw=cco_df["days"].values,
-                                    y_raw=cco_df["cco"].values,
+    r_squared_pol = h.get_r_squared(x_raw=independent_var, y_raw=dependent_var,
                                     x_fit=x_pol, y_fit=y_pol)
     print("r_squared_pol = {:.4f}.".format(r_squared_pol))
     if r_squared_check > r_squared_pol:
@@ -169,8 +162,8 @@ ax.set_xticks(major_xticks)
 ax.plot(x_smoothed, y_smoothed, alpha=0.70, label=mode)
 ax.scatter(independent_var, dependent_var, c="magenta", marker=".",
            edgecolors="black", alpha=0.5, label="Cleaned Probe Data")
-ax.scatter(cco_df["days"].values, cco_df["cco"].values, c="yellow", marker=".",
-           alpha=0.5, label="Reference $k_{cp}$")
+ax.scatter(cco_df["season_day"].values, cco_df["cco"].values, c="yellow",
+           marker=".", alpha=0.5, label="Reference $k_{cp}$")
 ax.legend()
 plt.tight_layout()
 plt.savefig("./figures/Smoothed_kcp_versus_days.png")
@@ -182,37 +175,31 @@ plt.close()
 # Create another plot where the x-axis is of type datetime.
 # In this new plot we have kcp versus Month of the Year.
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-starting_date = datetime.datetime(year=starting_year, month=BEGINNING_MONTH,
-                                  day=1)
+season_start_date = hm.season_start_date
+
 linspaced_x = list(np.arange(start=x_limits[0], stop=x_limits[1]+1, step=1))
 
 datetime_linspaced = []
 for i in linspaced_x:
     days = float(i)
-    datetime_linspaced.append(starting_date + datetime.timedelta(days=days))
+    datetime_linspaced.append(season_start_date +
+                              datetime.timedelta(days=days))
 
 datetime_clouded = []
 for i in independent_var:
     days = float(i)
-    datetime_clouded.append(starting_date + datetime.timedelta(days=days))
+    datetime_clouded.append(season_start_date +
+                            datetime.timedelta(days=days))
 
 fig, ax = plt.subplots(figsize=(10, 5))
-major_xticks = pd.date_range(start=datetime.datetime(year=starting_year,
-                                                     month=BEGINNING_MONTH,
-                                                     day=1),
-                             end=datetime.datetime(year=starting_year + 1,
-                                                   month=BEGINNING_MONTH,
-                                                   day=1),
+major_xticks = pd.date_range(start=season_start_date, end=hm.season_end_date,
                              freq="MS")
 ax.set_xticks(major_xticks)
 ax.set_xlabel("Date (Month of the Season)")
 ax.set_ylabel("$k_{cp}$")
 ax.set_title("Smoothed $k_{cp}$ versus Month of the Season")
 ax.grid(True)
-ax.set_xlim(left=datetime.datetime(year=starting_year, month=BEGINNING_MONTH,
-                                   day=1),
-            right=datetime.datetime(year=starting_year+1,
-                                    month=BEGINNING_MONTH, day=1))
+ax.set_xlim(left=season_start_date, right=hm.season_end_date)
 ax.xaxis.set_major_formatter(mdates.DateFormatter('%b/%d'))  # Month/01
 ax.set_ylim(bottom=0.0, top=KCP_MAX)
 
@@ -257,12 +244,12 @@ with open("./data/mode.txt", "w") as f:
     f.write(mode)
 
 df = pd.DataFrame(data={"datetimeStamp": datetime_linspaced,
-                        "Smoothed_kcp_trend": y_smoothed},
-                  index=datetime_linspaced, columns=["Smoothed_kcp_trend"],
+                        "smoothed_kcp_trend": y_smoothed},
+                  index=datetime_linspaced, columns=["smoothed_kcp_trend"],
                   copy=True)
 
-df.to_excel("./data/Smoothed_kcp_trend_vs_datetime.xlsx", float_format="%.7f",
-            columns=["Smoothed_kcp_trend"], header=True, index=True,
+df.to_excel("./data/smoothed_kcp_trend_vs_datetime.xlsx", float_format="%.7f",
+            columns=["smoothed_kcp_trend"], header=True, index=True,
             index_label="datetimeStamp")
 
 # Save the (sorted) data of the cleaned kcp data to an Excel file

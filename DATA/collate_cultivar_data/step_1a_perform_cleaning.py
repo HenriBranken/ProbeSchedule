@@ -225,6 +225,10 @@ for i, d in enumerate(cco_df.index):
 cco_df.set_index(keys="wrapped_date", inplace=True)
 cco_df = cco_df[~cco_df.index.duplicated(keep="first")]
 cco_df.sort_index(ascending=True, inplace=True)
+cco_df["season_day"] = cco_df.index - datetime.datetime(year=starting_year,
+                                                        month=BEGINNING_MONTH,
+                                                        day=1)
+cco_df["season_day"] = cco_df["season_day"].dt.days + 1
 cco_df.to_excel("./data/reference_crop_coeff.xlsx", sheet_name="sheet_1",
                 header=True, index=True)
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

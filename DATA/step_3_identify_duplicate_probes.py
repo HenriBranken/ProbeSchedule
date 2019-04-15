@@ -2,59 +2,64 @@ import pandas as pd
 import os
 
 
-# ======================================================================================================================
+# =============================================================================
 # Declare "constants"
-# ======================================================================================================================
+# =============================================================================
 with open("./probe_ids.txt", "r") as f:
     probe_ids = [p.rstrip() for p in list(f)]
-print(probe_ids)
-# ======================================================================================================================
+# =============================================================================
 
 
-# ----------------------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # Import the necessary data
-# ----------------------------------------------------------------------------------------------------------------------
-# `../cultivar_data.xlsx` is the raw data as extracted from an API call.
+# -----------------------------------------------------------------------------
+# `./cultivar_data.xlsx` is the raw data as extracted from an API call.
 processed_dict = pd.read_excel("./cultivar_data.xlsx", sheet_name=None)
 
-dfs = []  # A list to be populated with the probe dataframes.  Each dataframe corresponds to an individual probe.
+# A list to be populated with the probe dataframes.
+# Each dataframe corresponds to an individual probe.
+dfs = []
 for probe_id in processed_dict.keys():
     temp_df = processed_dict[probe_id]
     temp_df["probe_id"] = probe_id
     dfs.append(temp_df)
 
-# Create one massive DataFrame containing all the sheets' data.  The column "probe_id" specifies the probe_id
-# associated with a particular sample.
+# Create one massive DataFrame containing all the sheets' data.
+# The column "probe_id" specifies the probe_id associated with a particular
+# sample.
 df = pd.concat(dfs)
 
-# Create a MultiIndex DataFrame where "probe_id" is the outermost index, and "date" is the innermost index.
-# The outermost index is sorted according to "probe_id", whereas the innermost index is sorted according to "date".
+# Create a MultiIndex DataFrame where "probe_id" is the outermost index, and
+# "date" is the innermost index.
 multi_df = df.set_index(["probe_id", "date"])
-# ----------------------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Define some helper functions
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# 1. Extract a sub_dataframe containing all the samples of a particular probe as indicated by the "label" parameter.
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# 1. Extract a sub_dataframe containing all the samples of a particular probe as indicated by the "label" parameter.
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# 1. Extract a sub_dataframe containing all the samples of a particular probe
+# as indicated by the "label" parameter.
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# 1. Extract a sub_dataframe containing all the samples of a particular probe
+# as indicated by the "label" parameter.
 def get_sub_df(multi_dataframe, label):
     return multi_dataframe.loc[(label, ), :]
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-# ======================================================================================================================
-# Do the data manipulation to see if any sub-DataFrames are equal to one another
-# ======================================================================================================================
+# =============================================================================
+# Do the data manipulation to see if any sub-DataFrames are duplicates.
+# =============================================================================
 # Populate list with probe DataFrames
-probe_dfs = [get_sub_df(multi_dataframe=multi_df, label=p) for p in probe_ids]  # list comprehension
+probe_dfs = [get_sub_df(multi_dataframe=multi_df, label=p) for p in probe_ids]
 
 master_list_of_duplicates = []
 for i, p in enumerate(probe_ids):
     base_df = probe_dfs[i]
     base_probe_id = p
-    remainder_list_of_probe_ids = [probe for probe in probe_ids if probe != base_probe_id]
+    remainder_list_of_probe_ids = [probe for probe in probe_ids
+                                   if probe != base_probe_id]
     to_be_appended = [p]
     for pp in remainder_list_of_probe_ids:
         sub_df = get_sub_df(multi_dataframe=multi_df, label=pp)
@@ -65,7 +70,8 @@ for i, p in enumerate(probe_ids):
         master_list_of_duplicates.append(to_be_appended)
 
 # Remove any duplicates sub-lists in `master_list_of_duplicates`
-master_list_of_duplicates = [list(some_sub_tuple) for some_sub_tuple in set(map(tuple, master_list_of_duplicates))]
+master_list_of_duplicates = [list(some_sub_tuple) for some_sub_tuple in
+                             set(map(tuple, master_list_of_duplicates))]
 print("Sublists of probes that are identical:")
 print(master_list_of_duplicates)
 print("-" * 80)
@@ -76,36 +82,40 @@ for i in range(len(master_list_of_duplicates)):
     probes_to_be_popped.append(master_list_of_duplicates[i][1:])
 
 # Flatten out `probes_to_be_popped` so that it is a simple 1-dimensional list.
-probes_to_be_popped = [item for sublist in probes_to_be_popped for item in sublist]
+probes_to_be_popped = [item for sublist in probes_to_be_popped
+                       for item in sublist]
 
 print("\nProbes that are redundant, and thus need to be removed:")
 print(probes_to_be_popped)
 print("-" * 80)
-# ======================================================================================================================
+# =============================================================================
 
 
-# ----------------------------------------------------------------------------------------------------------------------
-# Write to two different .txt files the probe-id(s) that:
-# 1. need to be discarded from any future use whatsoever (i.e. the probe_ids that are redundant).
+# -----------------------------------------------------------------------------
+# Write to two different `.txt` files the probe-id(s) that:
+# 1. need to be discarded from any future use whatsoever.
 # 2. need to be kept (i.e. any NON-redundant probe_id).
-# ----------------------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # The probe(s) to be discarded are written to `./probes_to_be_discarded.txt`.
 with open("./probes_to_be_discarded.txt", "w") as f:
     f.write("\n".join(("{:s}".format(p)) for p in probes_to_be_popped))
 
-# Generate the new list of probes that need to be kept.  This list is written to `./data/probe_ids.txt`.
-# Use list comprehension to get all the probes that do not belong to `probes_to_be_popped`.  (Note the use of `not in`)
+# Generate the new list of probes that need to be kept.
+# This list is written to `./probe_ids.txt`.
+# Use list comprehension to get all the probes that do not belong to
+# `probes_to_be_popped`.  (Note the use of `not in`).
 new_probe_ids = [p for p in probe_ids if p not in probes_to_be_popped]
 with open("./probe_ids.txt", "w") as f:
     f.write("\n".join(("{:s}".format(p)) for p in new_probe_ids))
-# ----------------------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Create a new Excel file that does not contain duplicate probe datasets.
-# Each sheet corresponds to a unique probe dataset.  Collectively, there are no duplicates in the probe-set.
-# Store the Excel-file at `../cultivar_daily_data_unique.xlsx`, where `..` is the `DATA` directory.
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Each sheet corresponds to a unique probe dataset.  Collectively, there are no
+# duplicates in the probe-set.
+# Store the Excel-file at `./cultivar_daily_data_unique.xlsx`.
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Delete key from dictionary using the del keyword:
 for p in probes_to_be_popped:
     del processed_dict[p]
@@ -117,11 +127,13 @@ if os.path.exists("./cultivar_data_unique.xlsx"):
 # Instantiate a new Excel-File object at `./cultivar_data_unique.xlsx`
 writer = pd.ExcelWriter("./cultivar_data_unique.xlsx", engine="xlsxwriter")
 
-# Populate the Excel file with different sheets.  One sheet per probe.  The sheet name is equal to the probe_id.
+# Populate the Excel file with different sheets.  One sheet per probe.
+# The sheet name is equal to the probe_id.
 for p in new_probe_ids:
     sub_df = processed_dict[p]
     sub_df.drop(axis=1, columns=["probe_id"], inplace=True)
     sub_df.set_index(keys="date", drop=True, append=False, inplace=True)
-    sub_df.to_excel(writer, sheet_name=p, header=True, index=True, index_label=["date"])
+    sub_df.to_excel(writer, sheet_name=p, header=True, index=True,
+                    index_label=["date"])
 writer.save()
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
