@@ -14,7 +14,7 @@ register_matplotlib_converters()
 # =============================================================================
 # Declare some necessary "constants"
 # =============================================================================
-# 1. Create some meta data that will be used in the upcoming scatter plots
+# 1. Create some meta data that will be used in the upcoming scatter plots.
 #    This meta data stores `marker` and `color` values.
 # =============================================================================
 marker_color_meta = hm.marker_color_meta[:]
@@ -22,6 +22,7 @@ marker_color_meta = cycle(marker_color_meta)
 starting_year = hm.starting_year
 season_start_date = hm.season_start_date
 season_end_date = hm.season_end_date
+major_xticks = hd.season_xticks
 # =============================================================================
 
 
@@ -35,7 +36,8 @@ season_end_date = hm.season_end_date
 # 1.
 # Load the cleaned data garnered in `step_1_perform_cleaning.py`.
 cleaned_multi_df = hd.cleaned_multi_df.copy(deep=True)
-outer_index = hd.outer_index[:]
+outer_index = hd.outer_index[:]  # the outer_index is actually a list of probe
+# IDs.
 
 # 2.
 # Get a list of all the Probe-IDs involved for the cultivar
@@ -48,9 +50,10 @@ cco_df = hd.cco_df.copy(deep=True)
 
 
 # =============================================================================
-# Plot all the cleaned kcp data and save the plotted figure
+# Plot all the cleaned kcp data and save the plotted figure.
+# Saved at "./figures/overlay.png".
 # =============================================================================
-# Ensure that the `./figures` directory exists.
+# Make sure that the "./figures" directory exists.
 if not os.path.exists("./figures"):
     os.makedirs("figures")
 
@@ -60,9 +63,6 @@ ax.set_ylabel("$k_{cp}$")
 ax.set_title("$k_{cp}$ versus Month of the Season")
 ax.xaxis.set_major_formatter(mdates.DateFormatter('%b/%d'))
 ax.set_xlim(left=season_start_date, right=season_end_date)
-major_xticks = pd.date_range(start=season_start_date, end=season_end_date,
-                             freq="MS")
-# Notice that the `MS` alias stands for `Month Start Frequency`.
 
 ax.set_xticks(major_xticks)
 ax.set_ylim(bottom=0.0, top=KCP_MAX)
@@ -85,7 +85,8 @@ plt.close()
 
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# Make a plot of etcp for each probe.
+# Plot all the cleaned etcp data and save the figure.
+# Saved at "./figures/etcp_versus_date.png".
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Reset the cycle iterable
 marker_color_meta = hm.marker_color_meta[:]
@@ -110,7 +111,6 @@ for p in probe_ids:
     ax.scatter(useful_dates, useful_etcp, marker=meta[0], color=meta[1], s=60,
                label=p, alpha=0.5, edgecolors="black")
 ax.xaxis.set_major_formatter(mdates.DateFormatter('%b/%d'))
-major_xticks = get_labels(begin=season_start_date, terminate=season_end_date)
 ax.set_xticks(major_xticks)
 ax.set_xlim(left=season_start_date, right=season_end_date)
 ax.legend()

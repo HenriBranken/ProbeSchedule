@@ -6,64 +6,67 @@ import pandas as pd
 from cleaning_operations import KCP_MAX
 import helper_functions as hf
 import helper_meta_data as hm
+import helper_data as hd
 
 
 # -----------------------------------------------------------------------------
 # Declare important constants
 # -----------------------------------------------------------------------------
 n_neighbours_list = hm.n_neighbours_list
-delta_x = hm.delta_x
-x_limits = hm.x_limits
-mode = hm.mode  # The `default` at which we start out.
+delta_x = hm.delta_x  # 1
+x_limits = hm.x_limits  # [0, 365]
+mode = hm.mode  # The `default` at which we start out (which is "WMA").
+# "WMA" stands for Weighted-Moving-Average; "Pol" stands for Polynomial-fit.
 # -----------------------------------------------------------------------------
 
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Import all the necessary data
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# Create a DataFrame containing all the cleaned (date, kcp) data samples.
-# Probe-id information is not necessary in this dataframe.
-cleaned_df = pd.read_excel("./data/stacked_cleaned_data_for_overlay.xlsx",
-                           header=0, index_col=[0, 1], parse_dates=True)
-outer_index = list(cleaned_df.index.get_level_values("probe_id").unique())
-inner_index = list(cleaned_df.index.get_level_values("datetimeStamp").unique())
+# Get the DataFrame containing all the cleaned (date, kcp) data samples.
+cleaned_df = hd.cleaned_multi_df.copy(deep=True)
+outer_index = hd.outer_index[:]
+inner_index = hd.inner_index[:]
+# Drop the outer_index corresponding to probe_id.  Probe info is not necessary:
 cleaned_df.index = cleaned_df.index.droplevel(0)
+# Next we sort `cleaned_df` according to "datetimestamp" so that `cleaned_df`
+# is in chronological order:
 cleaned_df.sort_index(axis=0, level="datetimeStamp", ascending=True,
                       inplace=True)
 
-# Generate a list of all the probe-id names.
-probe_ids = hm.probe_ids
+# Get the list of all the probe-id names.
+probe_ids = hm.probe_ids[:]
 
-# Extract the starting year.  The year of the most "historic/past" sample.
+# Get the starting year:
 starting_year = hm.starting_year
 
-# Create pandas DataFrame containing the reference crop coefficient values.
-cco_df = pd.read_excel("./data/reference_crop_coeff.xlsx", sheet_name=0,
-                       header=0, index_col=0, parse_dates=True)
+# Get the DataFrame storing the reference crop coefficients:
+cco_df = hd.cco_df.copy(deep=True)
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 # -----------------------------------------------------------------------------
-# Calculate the offset of each date from the beginning of the season.
-# Convert the offsets, which are of type timedelta, to integer values.
+# Calculate the offset of each date from season_start_date.
+# Convert the offsets, which are of type timedelta, to integer types.
 # Sort the DataFrame by the "days" column.
 # -----------------------------------------------------------------------------
-# Calculate the number_of_days offset for each sample from the beginning.
-cleaned_df["offset"] = cleaned_df.index - hm.season_start_date
+# Calculate the number_of_days 'offset' for each sample from the beginning.
+cleaned_df["days"] = cleaned_df.index - hm.season_start_date
 
-# Convert the time-delta objects of the `offset` column to integer type.
-cleaned_df["days"] = cleaned_df["offset"].dt.days
+# Convert the time-delta objects to integer type.
+cleaned_df["days"] = cleaned_df["days"].dt.days
 
 # Sort the whole DataFrame by the `days` column in ascending order
 cleaned_df.sort_values(by="days", axis=0, inplace=True)
-# At the bottom of the file, we save cleaned_df to an Excel file.
+# At the bottom of this script, we save cleaned_df to an Excel file.
 # -----------------------------------------------------------------------------
 
 
 # =============================================================================
-# Perform weighted-moving-average trends to the data
-# Make plots of `kcp` versus `Days into the Season` of the WMA trends
-# Here, the x-axis is simply an integer.
+# Perform weighted-moving-average trends to the cleaned_df data.
+# Make plots of `kcp versus Days into the Season` of the WMA trends.
+# Here, the x-axis is simply an integer (Number of Days).
+# The y-axis is (cleaned) kcp.
 # =============================================================================
 independent_var = cleaned_df["days"].values
 dependent_var = cleaned_df["kcp"].values  # the crop coefficient, kcp
@@ -120,10 +123,10 @@ except hf.NoProperWMATrend as e:
 # still equal to "WMA".
 if mode == "WMA":
     print("We are still in \"WMA\" mode.")
-    r_squared_check = hf.get_r_squared(x_raw=independent_var,
-                                       y_raw=dependent_var,
-                                       x_fit=x_smoothed, y_fit=y_smoothed)
-    print("r_squared_check = {:.4f}.".format(r_squared_check))
+    r_squared_WMA = hf.get_r_squared(x_raw=independent_var,
+                                     y_raw=dependent_var,
+                                     x_fit=x_smoothed, y_fit=y_smoothed)
+    print("r_squared_WMA = {:.4f}.".format(r_squared_WMA))
 
     x_pol, y_pol = hf.get_final_polynomial_fit(x_raw=independent_var,
                                                y_raw=dependent_var,
@@ -134,7 +137,7 @@ if mode == "WMA":
                                      y_raw=dependent_var,
                                      x_fit=x_pol, y_fit=y_pol)
     print("r_squared_pol = {:.4f}.".format(r_squared_pol))
-    if r_squared_check > r_squared_pol:
+    if r_squared_WMA > r_squared_pol:  # i.e. if WMA is WORSE than Pol-fit.
         mode = "Polynomial-fit"
         print("We have switched over to \"Polynomial-fit\" mode.")
         r_squared_stats = []
@@ -143,13 +146,14 @@ if mode == "WMA":
                                                step_size=delta_x,
                                                degree=hf.pol_degree,
                                                x_lims=x_limits)
-        x_smoothed, y_smoothed = some_tup
+        x_smoothed, y_smoothed = some_tup  # unpack the tuple
         r_squared_stats.append(hf.get_r_squared(x_raw=independent_var,
                                                 y_raw=dependent_var,
                                                 x_fit=x_smoothed,
                                                 y_fit=y_smoothed))
 
-
+# Save the scatter plot and trend line to
+# "./figures/smoothed_kcp_versus_days.png".
 _, ax = plt.subplots(figsize=(10, 5))
 ax.set_xlabel("Number of days into the Season")
 ax.set_ylabel("$k_{cp}$")
@@ -167,31 +171,36 @@ ax.scatter(cco_df["season_day"].values, cco_df["cco"].values, c="yellow",
            marker=".", alpha=0.5, label="Reference $k_{cp}$")
 ax.legend()
 plt.tight_layout()
-plt.savefig("./figures/Smoothed_kcp_versus_days.png")
+plt.savefig("./figures/smoothed_kcp_versus_days.png")
 plt.close()
 # =============================================================================
 
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Create another plot where the x-axis is of type datetime.
-# In this new plot we have kcp versus Month of the Year.
+# In this new plot we have `kcp versus Month of the Season`.
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 season_start_date = hm.season_start_date
 
 linspaced_x = list(np.arange(start=x_limits[0], stop=x_limits[1]+1, step=1))
 
+# `datetime_linspaced` is a list of datetime objects that will serve as the x-
+# axis when making the trend-line plot.
 datetime_linspaced = []
 for i in linspaced_x:
     days = float(i)
     datetime_linspaced.append(season_start_date +
                               datetime.timedelta(days=days))
 
+# `datetime_clouded` is a list of datetime objects that will serve as the x-
+# axis when making the scatter plot.
 datetime_clouded = []
 for i in independent_var:
     days = float(i)
     datetime_clouded.append(season_start_date +
                             datetime.timedelta(days=days))
 
+# The figure is saved at `./figures/smoothed_kcp_versus_month.png`.
 fig, ax = plt.subplots(figsize=(10, 5))
 major_xticks = pd.date_range(start=season_start_date, end=hm.season_end_date,
                              freq="MS")
@@ -213,16 +222,17 @@ ax.scatter(cco_df.index, cco_df["cco"].values, c="yellow", marker=".",
 ax.legend()
 fig.autofmt_xdate()  # rotate and align the tick labels so they look better
 plt.tight_layout()
-plt.savefig("./figures/Smoothed_kcp_versus_monthf.png")
-plt.cla()
-plt.clf()
+plt.savefig("./figures/smoothed_kcp_versus_month.png")
 plt.close()
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 # -----------------------------------------------------------------------------
 # Write the r-squared statistics to file
-# Each line in the file corresponds to the n_neighbours and r_squared.
+# If mode == "WMA", then each line corresponds to the n_neighbours and
+# r_squared.
+# Else, if mode == "Polynomial-fit", then a single line will contain the
+# highest order of the polynomial, and the r_squared of that polynomial.
 # -----------------------------------------------------------------------------
 if mode == "WMA":
     with open("./data/statistics_wma_trend_lines.txt", "w") as f:
@@ -237,13 +247,16 @@ else:
 
 
 # =============================================================================
-# Save the `mode`.
+# Save the final `mode`.
 # Save the data related to the best-fitting trend line.
-# Save the sorted data of the cleaned kcp data.
+# Save the chronological data of the cleaned kcp data.
 # =============================================================================
+# Save the final `mode` to "./data/mode.txt".
 with open("./data/mode.txt", "w") as f:
     f.write(mode)
 
+# Save the data related to the best-fitting trend line to
+# "./data/smoothed_kcp_trend_vs_datetime.xlsx".
 df = pd.DataFrame(data={"datetimeStamp": datetime_linspaced,
                         "smoothed_kcp_trend": y_smoothed},
                   index=datetime_linspaced, columns=["smoothed_kcp_trend"],
@@ -253,7 +266,8 @@ df.to_excel("./data/smoothed_kcp_trend_vs_datetime.xlsx", float_format="%.7f",
             columns=["smoothed_kcp_trend"], header=True, index=True,
             index_label="datetimeStamp")
 
-# Save the (sorted) data of the cleaned kcp data to an Excel file
+# Save the (sorted) data of the cleaned kcp data to an Excel file stored at
+# "./data/kcp_vs_days.xlsx".
 cleaned_df.to_excel("data/kcp_vs_days.xlsx", sheet_name="sheet_1", header=True,
                     index=True, index_label=True, columns=["days", "kcp"],
                     float_format="%.7f")

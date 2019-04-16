@@ -9,10 +9,16 @@ import helper_meta_data as hm
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Define important "constants".
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# Create a list, `probe_ids`, of all the probe-ids that are going to be used
+# Create a list, `probe_ids`, of all the probe-ids that are going to be used:
 probe_ids = hm.probe_ids
+
+# Create the path "./figures" if it does not already exist:
 if not os.path.exists("./figures"):
     os.makedirs("figures")
+
+# Define the season start date.
+season_start_date = hm.season_start_date
+starting_year = hm.starting_year
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
@@ -20,9 +26,13 @@ if not os.path.exists("./figures"):
 # Define some helper functions
 # -----------------------------------------------------------------------------
 def load_probe_data(probe_name):
+    # Load a data stored in the Excel sheet_name indicated by `probe_name`, and
+    # assign the data to a DataFrame called `dataframe`.
     dataframe = pd.read_excel("./data/cultivar_data_unique.xlsx",
                               sheet_name=probe_name, index_col=0,
                               parse_dates=True)
+    # Create a new list of column names where any "0" characters are replaced
+    # "o" characters.
     new_columns = []
     for c in dataframe.columns:
         if '0' in c:
@@ -33,6 +43,12 @@ def load_probe_data(probe_name):
 
 
 def initialize_flagging_columns(dataframe):
+    # In the DataFrame passed to this function, instantiate two new series
+    # columns.
+    # 1. dataframe["binary_value"] stores the binary_value associated with a
+    #    sample.
+    # 2. dataframe["description"] stores the string descriptions describing the
+    #    flagging iterations that were applied to the particular sample.
     dataframe["binary_value"] = 0
     dataframe["description"] = str()
     return dataframe
@@ -72,7 +88,7 @@ writer = pd.ExcelWriter("./data/processed_probe_data.xlsx",
                         engine="xlsxwriter")
 writer_2 = pd.ExcelWriter("./data/cleaned_data_for_overlay.xlsx",
                           engine="xlsxwriter")
-# Create a for loop iterating over all the different probe datasets
+# Create a for loop iterating over all the different probe datasets.
 # In each iteration, perform all the necessary flagging.
 for probe_id in probe_ids:
     print("\n")
@@ -97,7 +113,7 @@ for probe_id in probe_ids:
 
     # 5.
     # Impute Koue-Bokkeveld (a.k.a. kbv) `eto` data onto stuck `eto` data.
-    df = cleaning_operations.impute_kbv_data(df, bad_eto_days)
+    # df = cleaning_operations.impute_kbv_data(df, bad_eto_days)
 
     # 6.
     # Flag raining events for which the rain exceeds 2 millimeters.
@@ -182,7 +198,8 @@ writer_2.save()  # `./data/cleaned_data_for_overlay.xlsx`
 cleaned_dict = pd.read_excel("./data/cleaned_data_for_overlay.xlsx",
                              sheet_name=None, header=0, parse_dates=True,
                              index_col=0)
-dfs = []  # A list to be populated with the dataframes.
+
+dfs = []  # A list to be populated with the probe dataframes.
 for probe_id in cleaned_dict.keys():
     temp_df = cleaned_dict[probe_id]
     temp_df["probe_id"] = probe_id
@@ -204,10 +221,11 @@ with open("./data/probe_ids.txt", "w", encoding="utf-8") as f2:
 processed_df = pd.read_excel("./data/processed_probe_data.xlsx",
                              sheet_name="{}".format(probe_ids[0]), header=0,
                              index_col=0, squeeze=True, parse_dates=True)
-starting_year = processed_df.index[0].year
+
 cco_df = processed_df["cco"].to_frame()
-cco_df["wrapped_date"] = datetime.datetime(year=starting_year,
-                                           month=BEGINNING_MONTH, day=1)
+cco_df["wrapped_date"] = season_start_date  # This is just a dummy
+# initialisation to ensure that the series cco_df["wrapped_date"] will be of
+# type datetime.
 for i, d in enumerate(cco_df.index):
     if BEGINNING_MONTH <= d.month <= 12:
         manipulated_date = datetime.datetime(year=starting_year, month=d.month,
@@ -217,13 +235,16 @@ for i, d in enumerate(cco_df.index):
         cco_df.loc[d, "wrapped_date"] = datetime.datetime(year=starting_year+1,
                                                           month=d.month,
                                                           day=d.day)
+# Make "wrapped_date" the new index of the cco_df DataFrame:
 cco_df.set_index(keys="wrapped_date", inplace=True)
+# Remove any duplicate entries:
 cco_df = cco_df[~cco_df.index.duplicated(keep="first")]
+# Sort the index in ascending order:
 cco_df.sort_index(ascending=True, inplace=True)
-cco_df["season_day"] = cco_df.index - datetime.datetime(year=starting_year,
-                                                        month=BEGINNING_MONTH,
-                                                        day=1)
+# Calculate the season_day and convert it to type integer:
+cco_df["season_day"] = cco_df.index - season_start_date
 cco_df["season_day"] = cco_df["season_day"].dt.days + 1
+# Save the cco_df DataFrame to "./data/reference_crop_coeff.xlsx":
 cco_df.to_excel("./data/reference_crop_coeff.xlsx", sheet_name="sheet_1",
                 header=True, index=True)
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

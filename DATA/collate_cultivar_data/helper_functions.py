@@ -58,9 +58,24 @@ def weighted_moving_average(x, y, step_size=1.0, width=10, x_lims=None,
     bin_coords = np.linspace(start=x_min, stop=x_max, num=num, endpoint=True)
     bin_avgs = np.zeros(len(bin_coords))
 
-    if append_:
-        x = list(x) + [x[-1]]*90
-        y = list(y) + [y[-1]]*90
+    if append_ and x_lims:
+        valid_x_idxs = np.where(np.array(x) > 335)[0]
+        if len(valid_x_idxs) > 0:
+            valid_y_pnts = y[valid_x_idxs]
+            tail_val = np.average(valid_y_pnts) - 0.0125
+            appendee = list(np.arange(start=x[valid_x_idxs[-1]],
+                                      stop=x[valid_x_idxs[-1]] + 75,
+                                      step=step_size))
+            x = list(x) + appendee
+            y = list(y) + [tail_val]*len(appendee)
+        else:
+            pass
+            # appendee = list(np.arange(start=x_lims[1] + step_size,
+            #                           stop=x_lims[1] + 75,
+            #                           step=step_size))
+            # x = list(x) + appendee
+            # tail_val = y[-1] - 0.0125
+            # y = list(y) + [tail_val]*len(appendee)
 
     for index in range(len(bin_coords)):
         weights = gaussian(x=x, mean=bin_coords[index], sigma=width)

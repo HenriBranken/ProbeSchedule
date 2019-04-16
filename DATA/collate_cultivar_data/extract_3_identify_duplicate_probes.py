@@ -3,8 +3,10 @@ import os
 
 
 # =============================================================================
-# Declare "constants"
+# Declare necessary "constants".
 # =============================================================================
+# Populate the list, `probe_ids`, containing a sequence of strings that
+# represent the probe_ids.
 with open("./data/probe_ids.txt", "r") as f:
     probe_ids = [p.rstrip() for p in list(f)]
 # =============================================================================
@@ -13,19 +15,20 @@ with open("./data/probe_ids.txt", "r") as f:
 # -----------------------------------------------------------------------------
 # Import the necessary data
 # -----------------------------------------------------------------------------
-# `./cultivar_data.xlsx` is the raw data as extracted from an API call.
+# `./data/cultivar_data.xlsx` is the raw data as extracted from an API call.
+# We specify `sheet_name=None` to get all the sheets.
 processed_dict = pd.read_excel("./data/cultivar_data.xlsx", sheet_name=None)
 
 # A list to be populated with the probe dataframes.
-# Each dataframe corresponds to an individual probe.
+# Each pandas dataframe corresponds to an individual probe.
 dfs = []
 for probe_id in processed_dict.keys():
     temp_df = processed_dict[probe_id]
     temp_df["probe_id"] = probe_id
     dfs.append(temp_df)
 
-# Create one massive DataFrame containing all the sheets' data.
-# The column "probe_id" specifies the probe_id associated with a particular
+# Create one massive DataFrame containing all the sheets' (probes') data.
+# The column "probe_id" is used to indicate the probe-id associated with any
 # sample.
 df = pd.concat(dfs)
 
@@ -39,19 +42,19 @@ multi_df = df.set_index(["probe_id", "date"])
 # Define some helper functions
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # 1. Extract a sub_dataframe containing all the samples of a particular probe
-# as indicated by the "label" parameter.
+#    as indicated by the `label` parameter.
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# 1. Extract a sub_dataframe containing all the samples of a particular probe
-# as indicated by the "label" parameter.
+# 1.
 def get_sub_df(multi_dataframe, label):
     return multi_dataframe.loc[(label, ), :]
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 # =============================================================================
-# Do the data manipulation to see if any sub-DataFrames are duplicates.
+# Do the data manipulation (checking) to see if any sub-DataFrames are
+# duplicates.
 # =============================================================================
-# Populate list with probe DataFrames
+# Populate list with all the probe DataFrames
 probe_dfs = [get_sub_df(multi_dataframe=multi_df, label=p) for p in probe_ids]
 
 master_list_of_duplicates = []
@@ -63,7 +66,7 @@ for i, p in enumerate(probe_ids):
     to_be_appended = [p]
     for pp in remainder_list_of_probe_ids:
         sub_df = get_sub_df(multi_dataframe=multi_df, label=pp)
-        if base_df.equals(sub_df):
+        if base_df.equals(sub_df):  # here we perform the actual checking.
             to_be_appended.append(pp)
             to_be_appended.sort()
     if len(to_be_appended) > 1:
@@ -93,15 +96,16 @@ print("-" * 80)
 
 # -----------------------------------------------------------------------------
 # Write to two different `.txt` files the probe-id(s) that:
-# 1. need to be discarded from any future use whatsoever.
-# 2. need to be kept (i.e. any NON-redundant probe_id).
+# 1. Need to be discarded from any future use whatsoever (they are redundant).
+# 2. Need to be kept (i.e. any NON-redundant probe_id).
 # -----------------------------------------------------------------------------
-# The probe(s) to be discarded are written to `./probes_to_be_discarded.txt`.
+# The probe(s) to be discarded are written to
+# `./data/probes_to_be_discarded.txt`.
 with open("./data/probes_to_be_discarded.txt", "w") as f:
     f.write("\n".join(("{:s}".format(p)) for p in probes_to_be_popped))
 
 # Generate the new list of probes that need to be kept.
-# This list is written to `./probe_ids.txt`.
+# This list is written to `./data/probe_ids.txt`.
 # Use list comprehension to get all the probes that do not belong to
 # `probes_to_be_popped`.  (Note the use of `not in`).
 new_probe_ids = [p for p in probe_ids if p not in probes_to_be_popped]
@@ -111,25 +115,25 @@ with open("./data/probe_ids.txt", "w") as f:
 
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# Create a new Excel file that does not contain duplicate probe datasets.
+# Create a new Excel file that does not contain any duplicate probe datasets.
 # Each sheet corresponds to a unique probe dataset.  Collectively, there are no
 # duplicates in the probe-set.
-# Store the Excel-file at `./cultivar_daily_data_unique.xlsx`.
+# Store the Excel-file at `./data/cultivar_daily_data_unique.xlsx`.
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# Delete key from dictionary using the del keyword:
+# Delete (probe) key from DataFrame Dictionary using the del keyword:
 for p in probes_to_be_popped:
     del processed_dict[p]
 
-# Remove the old `./data/cultivar_data_unique.xlsx` file
+# Remove the old `./data/cultivar_data_unique.xlsx` file.
 if os.path.exists("./data/cultivar_data_unique.xlsx"):
     os.remove("./data/cultivar_data_unique.xlsx")
 
-# Instantiate a new Excel-File object at `./cultivar_data_unique.xlsx`
+# Instantiate a new Excel-File object at `./data/cultivar_data_unique.xlsx`.
 writer = pd.ExcelWriter("./data/cultivar_data_unique.xlsx",
                         engine="xlsxwriter")
 
-# Populate the Excel file with different sheets.  One sheet per probe.
-# The sheet name is equal to the probe_id.
+# Populate the Excel file with different sheets.  One sheet per (unique) probe.
+# The sheet name is equal to the (unique) probe_id.
 for p in new_probe_ids:
     sub_df = processed_dict[p]
     sub_df.drop(axis=1, columns=["probe_id"], inplace=True)

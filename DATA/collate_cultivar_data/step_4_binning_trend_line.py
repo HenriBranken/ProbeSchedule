@@ -7,8 +7,9 @@ pd.set_option('display.max_columns', 6)
 
 # -----------------------------------------------------------------------------
 # Load the necessary data
-# kcp_vs_days_df contains the smoothed trendline as a function of datetime.
-# The cleaned_kcp_df is a DataFrame containing the cleaned kcp data.
+# `kcp_vs_days_df` contains the smoothed trendline as a function of datetime.
+# The cleaned_kcp_df is a DataFrame containing the cleaned kcp data, which is
+# basically a scatter plot.
 # -----------------------------------------------------------------------------
 # Extract the smoothed trendline.
 kcp_vs_days_df = pd.read_excel("./data/smoothed_kcp_trend_vs_datetime.xlsx",
@@ -20,9 +21,9 @@ kcp_trend = kcp_vs_days_df["smoothed_kcp_trend"].values
 # Get the starting year
 starting_year = hm.starting_year
 starting_week = datetimestamp[0].isocalendar()[1]  # the starting CALENDAR week
-starting_date = datetimestamp[0]
+starting_date = hm.season_start_date
 
-# The scatter plot of cleaned kcp as a function of datetime
+# The scatter plot of cleaned kcp as a function of datetime.
 cleaned_kcp_df = pd.read_excel("./data/kcp_vs_days.xlsx",
                                names=["days", "kcp"], index_col=0,
                                parse_dates=True)
@@ -33,6 +34,7 @@ cleaned_kcp_df = pd.read_excel("./data/kcp_vs_days.xlsx",
 # Define helper functions
 # =============================================================================
 def season_month_mapper(cal_m):
+    # Map from the calendar month to the corresponding season month.
     if cal_m < BEGINNING_MONTH:
         return int(cal_m + 13 - BEGINNING_MONTH)
     else:
@@ -40,6 +42,10 @@ def season_month_mapper(cal_m):
 
 
 def from_calendar_month_datetime_mapper(cal_m):
+    # For the calendar month fed to the function, determine the appropriate
+    # year.  In either case, set the day to be in the middle of the month, at
+    # day=15.  Combine everything to form a datestamp.
+    # Therefore map from calendar_month to datestamp.
     if BEGINNING_MONTH <= cal_m <= 12:
         return datetime.datetime(year=starting_year, month=cal_m, day=15)
     else:
@@ -47,6 +53,7 @@ def from_calendar_month_datetime_mapper(cal_m):
 
 
 def calendar_week_mapper(season_w):
+    # Map from season week to calendar week.
     delta = starting_week - 1
     if (season_w + delta) > 52:
         return int(season_w + delta - 52)
@@ -55,10 +62,14 @@ def calendar_week_mapper(season_w):
 
 
 def from_season_week_datetime_mapper(season_w):
+    # Map from the season_week to a datestamp.  This datestamp should
+    # fall somewhere in the middle of the season_week.
     return starting_date + datetime.timedelta(days=7*season_w - 4)
 
 
 def calendar_day_mapper(season_d):
+    # Map a season_day to a calendar_day.  (calendar_day, regardless of the
+    # year, always starts at Jan/01).
     specific_date = starting_date + datetime.timedelta(days=season_d - 1)
     return int(specific_date.timetuple()[-2])
 # =============================================================================
@@ -66,7 +77,7 @@ def calendar_day_mapper(season_d):
 
 # -----------------------------------------------------------------------------
 # Create Daily Averages for kcp.
-# Create a pandas DataFrame, called kcp_vs_day_df.  The columns are:
+# Create a pandas DataFrame, called `kcp_vs_day_df`.  The columns are:
 #   datetimestamp --> the index of the DataFrame
 #   calendar_day --> self-explanatory
 #   season_day --> self-explanatory

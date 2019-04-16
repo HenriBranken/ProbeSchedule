@@ -17,8 +17,8 @@ border = "+" + "-"*78 + "+"
 # 1. reporter(file_to_write_to, dataframe, brief_desc, probe=None):
 #    Gives us information on how many data samples are affected by a certain
 #    event, such as, for example, `Rain perturbing etcp`, etc...
-#    If probe is None, then we determine the amount of useful samples for the
-#    entire set of probes on a farm/block.
+#    If probe is None, then we determine the amount of samples affected for the
+#    entire set of probes.
 #
 # 2. conclusion(file_to_write_to, dataframe, probe=None):
 #    Tells you how many samples are useful after flagging a probe dataset.
@@ -26,6 +26,9 @@ border = "+" + "-"*78 + "+"
 #    entire set of probes on a farm/block.
 # =============================================================================
 def reporter(file_to_write_to, dataframe, brief_desc, probe=None):
+    # Give us info on how many samples are affected by a certain flagging
+    # event.  If probe=None, then we determine the amount of samples affected
+    # in the entire set of probes.
     if probe:  # i.e. we are working with a subset DataFrame.
         nm = dataframe.loc[probe, "description"].str.contains(brief_desc).sum()
         n_tot_entries = len(list(dataframe.index.unique(level="date")))
@@ -48,7 +51,9 @@ def reporter(file_to_write_to, dataframe, brief_desc, probe=None):
 
 
 def conclusion(file_to_write_to, dataframe, probe=None):
-    if not probe:  # if concluding for the entire set
+    # Report the number of samples that are useful for a probe (or a probe set
+    # if probe=None) after all the flagging iterations were applied.
+    if not probe:  # i.e. we are giving a conclusion for the entire probe SET.
         n_tot_entries = len(dataframe.index)
         n_affected = dataframe["binary_value"].sum()
         n_useful = n_tot_entries - n_affected
@@ -64,7 +69,7 @@ def conclusion(file_to_write_to, dataframe, probe=None):
         n_empty_space = int(80 - len(conc_string) - 1)
         file_to_write_to.write(line + "\n")
         file_to_write_to.write(conc_string + " "*n_empty_space + "|\n")
-    else:
+    else:  # Only give a conclusion for a particular probe_id.
         n_tot_entries = len(dataframe.loc[probe])
         n_affected = dataframe.loc[(probe, ), "binary_value"].sum()
         n_useful = n_tot_entries - n_affected
@@ -141,7 +146,7 @@ multi_df = df.set_index(["probe_id", "date"])
 
 # =============================================================================
 # Block of code to generate the report, which is saved at
-# `./data/data_report.txt`.
+# "./data/data_report.txt".
 # =============================================================================
 # Get a list of all the probe_ids.
 probe_ids = list(multi_df.index.get_level_values("probe_id").unique())
@@ -166,7 +171,7 @@ f.write(border + "\n")
 f.write("|" + "{:^78}".format("Report for the entire SET of probes:") + "|\n")
 f.write(line + "\n")
 
-for k in dict_keys:  # Loop over all the possible descriptions.
+for k in dict_keys:  # Loop over all the possible flagging descriptions.
     reporter(file_to_write_to=f, dataframe=multi_df,
              brief_desc=description_dict[k], probe=None)
 conclusion(file_to_write_to=f, dataframe=multi_df, probe=None)

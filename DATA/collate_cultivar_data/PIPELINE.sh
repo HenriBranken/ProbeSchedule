@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Keep the .csv and .xlsx files generated in the extraction pipeline.
-# Remove all other old files.
-# Perform data crunching and reproduce the results.
+# Delete all the files stored under `./data/*` and `./figures/*`.
+# Perform all the extraction steps, encapsulated in "extracts_1_to_3_pipeline.sh".
+# Perform all the data crunching on the extracted data, encapsulated in "steps_1_to_9_run_pipeline.sh".
 
 response=99
 while [[ "${response}" != y && "${response}" != n ]]
@@ -11,23 +11,11 @@ do
 done
 if [[ "${response}" = y ]]
 then
-    rm -v ./data/binned_kcp_data.xlsx
-    rm -v ./data/cleaned_data_for_overlay.xlsx
-    rm -v ./data/data_report.txt
-    rm -v ./data/fit_of_kcp_vs_cumulative_gdd.xlsx
-    rm -v ./data/kcp_vs_days.xlsx
-    rm -v ./data/kcp_vs_smoothed_cumul_gdd.xlsx
-    rm -v ./data/mode.txt
-    rm -v ./data/prized_index.txt
-    rm -v ./data/prized_n_neighbours.txt
-    rm -v ./data/processed_probe_data.xlsx
-    rm -v ./data/projected_weekly_data.xlsx
-    rm -v ./data/reference_crop_coeff.xlsx
-    rm -v ./data/smoothed_cumul_gdd_vs_season_day.xlsx
-    rm -v ./data/smoothed_kcp_trend_vs_datetime.xlsx
-    rm -v ./data/stacked_cleaned_data_for_overlay.xlsx
-    rm -v ./data/statistics_wma_trend_lines.txt
+    rm -rfv ./data/*
     rm -rfv ./figures/*
+    python3 extract_1_get_daily_data_csv_format.py
+    python3 extract_2_transform_to_excel_format.py
+    python3 extract_3_identify_duplicate_probes.py
     python3 step_1a_perform_cleaning.py
     python3 step_1b_write_report.py
     python3 step_2_overlay_compare.py

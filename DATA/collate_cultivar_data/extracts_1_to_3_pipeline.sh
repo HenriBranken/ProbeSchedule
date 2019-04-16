@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Extract probe data from the API.
+# 1. Generate a .csv file for each probe ID.
+# 2. Combine the .csv files into a multi-sheet Excel spreadsheet.
+# 3. Check for duplicate data sets, and remove copies if present.
+
 response=99
 while [[ "${response}" != y && "${response}" != n ]]
 do

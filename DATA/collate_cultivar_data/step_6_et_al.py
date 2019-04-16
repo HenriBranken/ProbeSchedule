@@ -34,7 +34,7 @@ inner_index = hd.inner_index[:]
 # Get a list of all the Probe-IDs involved for the cultivar
 probe_ids = hm.probe_ids
 
-# Make a directory for each probe in the `figures` parent directory.
+# Make a directory for each probe in the "./figures/" parent directory.
 for p in probe_ids:
     if not os.path.exists("./figures/{}/".format(p)):
         os.makedirs("./figures/{}/".format(p))
@@ -44,15 +44,16 @@ processed_eg_df = hd.processed_eg_df.copy(deep=True)
 # Get the starting year of the crop data
 starting_year = hm.starting_year
 
-# Get the mode of the fitting procedure used in `step_3_smoothed_version.py`.
+# Get the mode of the fitting procedure used in `step_3_smoothed_version.py`,
+# whether it be "WMA" or "Polynomial-fit".
 with open("./data/mode.txt", "r") as f:
     mode = f.readline().rstrip()
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# Define the vline date marking the beginning of a new season in the figures.
-# A new season is just 1 year apart.
+# Define the vline dates marking the beginning of a new season in the figures.
+# The beginning of different seasons are just 1 year apart.
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 vline_dates = hd.vline_dates[:]
 season_start_date = hm.season_start_date
@@ -66,6 +67,7 @@ api_xticks = hd.api_xticks
 
 # =============================================================================
 # Plot the cleaned probe data for each probe on a separate figure.
+# Figures are saved at "./figures/<probe_id>/cleaned_probe_data.png"
 # =============================================================================
 print("Plotting cleaned probe data for each probe on a separate set of axes.")
 if not os.path.exists("./figures"):
@@ -99,6 +101,7 @@ for i, p in enumerate(outer_index):
 # For each plot, indicate the discrete points where the following occur:
 # 1. Data Blips --> DATA_BLIP_DESC
 # 2. Large Dips --> LARGE_PROFILE_DIP_DESC
+# Figures are saved at "./figures/<probe_id>/profile.png".
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 print("Plotting Profile Readings for each probe on a separate set of axes.")
 for p in probe_ids:
@@ -139,6 +142,7 @@ for p in probe_ids:
 
 # =============================================================================
 # For each probe, make a plot of the irrigation.
+# Figures are saved at "./figures/<probe_id>/irrigation.png".
 # =============================================================================
 print("Plot the irrigation for each probe on a separate set of axes.")
 for p in probe_ids:
@@ -166,7 +170,7 @@ for p in probe_ids:
     ax.legend()
     plt.tight_layout()
     fig.autofmt_xdate()
-    plt.savefig("figures/{}/irrigation.png".format(p))
+    plt.savefig("./figures/{}/irrigation.png".format(p))
     plt.close()
 # =============================================================================
 
@@ -175,6 +179,7 @@ for p in probe_ids:
 # Plot the Rain events versus the Date.
 # They are identical for the different probes on a farm.
 # Therefore only one probe_id is needed.
+# The figure is saved at "./figures/rain.png".
 # -----------------------------------------------------------------------------
 print("Plot the Rain events.")
 p = probe_ids[0]
@@ -208,7 +213,8 @@ plt.close()
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # EvapoTranspiration versus Date.
-# Only 1 graph is sufficient, therefore we only use 1 probeID.
+# Only 1 graph is sufficient, therefore we only use 1 probe_id.
+# The figure is saved at "./figures/et.png".
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 print("Plot the evapotranspiration data.")
 interim_df = pd.DataFrame(data={"eto": df["eto"],
@@ -246,7 +252,7 @@ plt.close()
 # =============================================================================
 # Heat Units and GDD versus Time
 # Only 1 graph is sufficient, therefore we only use 1 probeID.
-# For this graph we use the gdd_cumulative helper function defined above.
+# The figure is saved at "./figures/GDD_heat_units_vs_time.png".
 # =============================================================================
 print("Plot Heat Units and GDD data.")
 fig = plt.figure()
@@ -258,7 +264,7 @@ ax1.set_title("Heat Units and GDD versus Time")
 ax1.set_xlabel("Date")
 ax1.set_ylabel("Heat Units", color=color)
 pl1 = ax1.bar(processed_eg_df.index, processed_eg_df["interpolated_hu"],
-              color=color, label="Interpolated H.U.", alpha=1.0, width=1.0)
+              color=color, label="Interpolated H.U.", alpha=0.6, width=1.0)
 ax1.tick_params(axis="y", labelcolor=color)
 for v in vline_dates:
     ax1.axvline(x=v, linewidth=3, linestyle="--", color="magenta", alpha=0.4)
@@ -291,10 +297,11 @@ plt.close()
 
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# Make a plot of all the temperature curves:
+# Make a plot of the data:
 # 1. (T_min + T_max)/2.0
 # 2. hline of T_base (which is 10 degrees Celsius for Apples).
 # 3. Heat Units.
+# The figure is saved at "./figures/temp_and_heat_units.png".
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 print("Plot temperature and heat-units data.")
 t_min = processed_eg_df["T_min"].values

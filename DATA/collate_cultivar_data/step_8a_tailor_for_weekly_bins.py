@@ -44,10 +44,12 @@ season_end_date = hm.season_end_date
 # =============================================================================
 # Dictionary comprehension
 sweek_kcps_dict = {k: [] for k in np.arange(start=1, stop=52+1, step=1)}
+# Gather daily-kcp data into weekly bins:
 for i, s_day in enumerate(season_day):
     season_week = min(((s_day - 1)//7) + 1, 52)
     sweek_kcps_dict[season_week].append(daily_kcp[i])
-for k in sweek_kcps_dict.keys():  # perform averaging for every season week.
+# Perform averaging for every season week bin:
+for k in sweek_kcps_dict.keys():
     sweek_kcps_dict[k] = np.average(sweek_kcps_dict[k])
 # =============================================================================
 
@@ -79,7 +81,9 @@ projected_df.index.name = "datetime_stamp"
 
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# Show a plot of the weekly data that is projected onto daily bins
+# Show a plot of the weekly data that is projected onto daily bins.
+# The figure is paused for 4 seconds, after which the rest of the script is
+# executed.
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 fig, ax = plt.subplots(figsize=(10, 7.07))
 ax.set_xlabel("Season Day")
@@ -97,7 +101,7 @@ plt.pause(interval=4)
 
 
 # =============================================================================
-# Save the projected data to `./data/projected_data.xlsx`.
+# Save the projected data to "./data/projected_weekly_data.xlsx".
 # =============================================================================
 projected_df.to_excel("./data/projected_weekly_data.xlsx", float_format="%.7f",
                       header=True, index=True, index_label="datetime_stamp")

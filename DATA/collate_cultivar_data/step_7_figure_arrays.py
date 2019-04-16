@@ -23,19 +23,20 @@ inner_index = hd.inner_index[:]
 probe_ids = hm.probe_ids
 num_probes = len(probe_ids)
 
-# Create a folder for each probe-id in the `figures` parent folder.
+# Create a folder for each probe-id in the `figures` parent folder, if it
+# does not already exist.
 for p in probe_ids:
     if not os.path.exists("./figures/{}/".format(p)):
         os.makedirs("./figures/{}/".format(p))
 
 processed_eg_df = hd.processed_eg_df.copy(deep=True)
 
-# Extract the starting_year and starting_date
+# Get the `starting_year`, `season_start_date`, `season_end_date`.
 starting_year = hm.starting_year
 season_start_date = hm.season_start_date
 season_end_date = hm.season_end_date
 
-
+# Extract the data of the smoothed kcp trendline.
 fn = "./data/smoothed_kcp_trend_vs_datetime.xlsx"
 skcp_vs_dt_df = pd.read_excel(fn, sheet_name=0, index_col=0, squeeze=False,
                               parse_dates=True)
@@ -52,33 +53,24 @@ x_smoothed_dates = skcp_vs_dt_df.index.values
 # =============================================================================
 api_start_date = hm.api_start_date
 api_end_date = hm.api_end_date
+season_xticks = hd.season_xticks[:]
+api_xticks = hd.api_xticks[:]
 marker_color_meta = hm.marker_color_meta[:]
 marker_color_meta = cycle(marker_color_meta)
+vline_dates = hd.vline_dates[:]
 
 num_cols = 2
 num_rows = int(math.ceil(len(probe_ids) / num_cols))
 # =============================================================================
 
 
-# -----------------------------------------------------------------------------
-# Define all the helper functions
-# -----------------------------------------------------------------------------
-season_xticks = hd.season_xticks
-api_xticks = hd.api_xticks
-# -----------------------------------------------------------------------------
-
-
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# Define the vline date marking the beginning of a new season in the figures.
-# A new season is just 1 year apart from the previous season (obviously).
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-vline_dates = hd.vline_dates[:]
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-
 # =============================================================================
-# Plot array of cleaned kcp for all the probes
+# Plot array of cleaned kcp for all the probes along with the smoothed trend.
+# In each plot, annotate the r-squared value.
+# The figure is saved at "./figures/array_kcp.png".
+# TODO: Populate the directory "./figures/kcp/kcp_<probe_id>.png".
 # =============================================================================
+print("Plot the cleaned kcp data, and original trendline, for each probe.")
 fig, axs = plt.subplots(nrows=num_rows, ncols=num_cols, figsize=(7.07, 10))
 axs = axs.flatten()
 fig.delaxes(axs[-1])
@@ -126,8 +118,11 @@ plt.close()
 
 
 # -----------------------------------------------------------------------------
-# Make array of Total Irrigation Plots
+# Make array of Total Irrigation Plots.
+# This figure is saved at "./figures/array_irrigation.png".
+# TODO: Populate directory "./figures/irrigation/irrigation_<probe_id>.png".
 # -----------------------------------------------------------------------------
+print("Produce a total irrigation plot for each probe.")
 fig, axs = plt.subplots(nrows=num_rows, ncols=num_cols, figsize=(7.07, 10))
 axs = axs.flatten()
 fig.delaxes(axs[-1])
@@ -177,8 +172,11 @@ plt.close()
 
 
 # =============================================================================
-# Array of water profile plots
+# Array of water profile plots.
+# The figure is saved at "./figures/array_profile.png".
+# TODO: Populate directory "./figures/profile/profile_<probe_id>.png".
 # =============================================================================
+print("Produce a water profile plot for each probe.")
 fig, axs = plt.subplots(nrows=num_rows, ncols=num_cols, figsize=(7.07, 10))
 axs = axs.flatten()
 fig.delaxes(axs[-1])

@@ -14,7 +14,6 @@ pd.set_option('display.max_columns', 6)
 # 3. kcp_vs_day_df --> kcp as a function of day of the year/season
 # 4. kcp_vs_week_df --> kcp as a function of week of the year/season
 # 5. kcp_vs_month_df --> kcp as a function of month of the year/season
-# 6. probe_ids --> List of probe-ids used in the analysis
 # -----------------------------------------------------------------------------
 # Extract the data associated with the smoothed trend line.
 kcp_vs_days_df = pd.read_excel("./data/smoothed_kcp_trend_vs_datetime.xlsx",
@@ -29,70 +28,81 @@ season_start_date = hm.season_start_date
 season_end_date = hm.season_end_date
 season_xticks = hd.season_xticks
 
-# kcp_vs_days is the cleaned scatter_plot data
+# `kcp_vs_days` is the cleaned scatter_plot data.
 kcp_vs_days = pd.read_excel("data/kcp_vs_days.xlsx", header=0,
                             names=["days", "kcp"], index_col=0,
                             parse_dates=True)
+# `kcp_vs_day_df` is the smoothed trend line.
 kcp_vs_day_df = pd.read_excel("data/binned_kcp_data.xlsx",
                               sheet_name="day_frequency", header=0,
                               names=["season_day", "calendar_day",
                                      "day_averaged_kcp"], index_col=0,
                               squeeze=True, parse_dates=True)
+# `kcp_vs_week_df` is the weekly-binned kcp data.
 kcp_vs_week_df = pd.read_excel("data/binned_kcp_data.xlsx",
                                sheet_name="week_frequency", header=0,
                                names=["season_week", "calendar_week",
                                       "weekly_averaged_kcp"], index_col=0,
                                squeeze=True, parse_dates=True)
+# `kcp_vs_month_df` is the monthly-binned kcp data.
 kcp_vs_month_df = pd.read_excel("data/binned_kcp_data.xlsx",
                                 sheet_name="month_frequency", header=0,
                                 names=["season_month", "calendar_month",
                                        "monthly_averaged_kcp"], index_col=0,
                                 squeeze=True, parse_dates=True)
 
-probe_ids = hm.probe_ids
-
+# Get the reference crop coefficients as a function of datestamp/season_day.
 cco_df = hd.cco_df.copy(deep=True)
 
+# Extract the final `mode`, whether it be "WMA" or "Polynomial-fit".
 with open("./data/mode.txt", "r") as f:
     mode = f.readline().rstrip()
 # -----------------------------------------------------------------------------
 
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# Code block in which we extract the lowest possible n_neighbours.
+# Code block in which we extract the lowest possible n_neighbours, IF
+# mode == "WMA".
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 if mode == "WMA":
     with open("./data/prized_index.txt", "r") as f:
         prized_index = int(f.readline().rstrip())
-
     with open("./data/prized_n_neighbours.txt", "r") as f:
         prized_n_neighbours = int(f.readline().rstrip())
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 # =============================================================================
-# Replicate/repeat kcp values for weekly and monthly bins accordingly
+# Project `kcp values` for weekly and monthly bins accordingly
 # =============================================================================
 repeated_weekly_kcp_vs_day = []
 repeated_monthly_kcp_vs_day = []
 for d in base_datetimestamp:
+    # Extract the season week:
     season_week = min(((d - season_start_date).days // 7) + 1, 52)
     condition = kcp_vs_week_df["season_week"] == season_week
+    # Find kcp value corresponding to season week:
     to_append = kcp_vs_week_df[condition]["weekly_averaged_kcp"][0]
+    # Append associated kcp value to `repeated_weekly_kcp_vs_day` list:
     repeated_weekly_kcp_vs_day.append(to_append)
+    # Repeat the procedure for monthly bins....................................
+    # Extract the calendar month
     calendar_month = d.month
     condition = kcp_vs_month_df["calendar_month"] == calendar_month
+    # Fin the kcp value corresponding to calendar_month:
     to_append = kcp_vs_month_df[condition]["monthly_averaged_kcp"][0]
+    # Append associated kcp value to `repeated_monthly_kcp_vs_day` list:
     repeated_monthly_kcp_vs_day.append(to_append)
 # =============================================================================
 
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# Plot the data
-# Compare the scatter plot of the cleaned data with the:
-#   a.  Best trend
-#   b.  Weekly-binned kcp data
-#   c.  Monthly-binned kcp data
+# Plot the data.
+# Compare the scatter plot of the cleaned kcp data with the:
+# a. Smoothed trendline.
+# b. Projected Weekly-binned kcp data.
+# c. Projected Monthly-binned kcp data.
+# The figure is stored at "./figures/kcp_binning_strategies.png".
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 fig, ax = plt.subplots(figsize=(10, 5))
 ax.scatter(kcp_vs_days.index, kcp_vs_days["kcp"], c="magenta", marker=".",
