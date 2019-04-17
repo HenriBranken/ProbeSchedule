@@ -51,7 +51,7 @@ def gaussian(x, amp=1, mean=0, sigma=10):
 def weighted_moving_average(x, y, step_size=1.0, width=10, x_lims=None,
                             append_=False):
     if x_lims:
-        x_min, x_max = x_lims[0], x_lims[1]
+        x_min, x_max = x_lims[0] + 1, x_lims[1] + 1
     else:
         x_min, x_max = math.floor(min(x)), math.ceil(max(x))
     num = int((x_max - x_min) // step_size + 1)
@@ -170,13 +170,13 @@ def create_xy_df(x_vals, y_vals, iteration, status):
                                        "y_scatter": y_vals,
                                        "iteration": iteration},
                                  copy=True)
-        dataframe.index.name = "i"
+        dataframe.index.name = "j"
     else:
         dataframe = pd.DataFrame(data={"x_smoothed": x_vals,
                                        "y_smoothed": y_vals,
                                        "iteration": iteration},
                                  copy=True)
-        dataframe.index.name = "i"
+        dataframe.index.name = "j"
     return dataframe
 
 

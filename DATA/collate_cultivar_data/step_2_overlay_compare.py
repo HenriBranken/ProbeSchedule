@@ -5,7 +5,7 @@ from itertools import cycle
 from cleaning_operations import KCP_MAX
 import pandas as pd
 from pandas.plotting import register_matplotlib_converters
-from helper_functions import date_wrapper, get_dates_and_kcp, get_labels
+from helper_functions import date_wrapper, get_dates_and_kcp
 import helper_meta_data as hm
 import helper_data as hd
 register_matplotlib_converters()
@@ -52,6 +52,7 @@ cco_df = hd.cco_df.copy(deep=True)
 # =============================================================================
 # Plot all the cleaned kcp data and save the plotted figure.
 # Saved at "./figures/overlay.png".
+# TODO: For massive probe sets, use only one marker and color for scatter.
 # =============================================================================
 # Make sure that the "./figures" directory exists.
 if not os.path.exists("./figures"):
@@ -87,6 +88,7 @@ plt.close()
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Plot all the cleaned etcp data and save the figure.
 # Saved at "./figures/etcp_versus_date.png".
+# TODO: For massive probe sets, use only one marker and color for scatter.
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Reset the cycle iterable
 marker_color_meta = hm.marker_color_meta[:]

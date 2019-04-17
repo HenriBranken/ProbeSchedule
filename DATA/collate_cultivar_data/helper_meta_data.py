@@ -15,6 +15,9 @@ api_end_date = datetime.datetime.strptime(api_end_date, "%Y-%m-%d")
 pol_degree = 4
 
 
+ALLOWED_TAIL_DEVIATION = 0.75
+
+
 with open("./data/base_temperature.txt", "r") as f:
     temperature_base = float(f.readline())
 

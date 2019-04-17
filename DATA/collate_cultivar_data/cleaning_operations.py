@@ -34,12 +34,15 @@ EXCEEDING_KCP_MAX_DESC = "Ratio of etcp over eto exceeds KCP_MAX"
 BAD_KCP_DESC = "kcp deviation too big"
 KCP_IS_NAN_DESC = "kcp is NaN"
 ETO_BAD_DESC = "Stuck or faulty eto"
-ETC_BAD_DESC = "Stuck or faulty etc"
+ETC_BAD_DESC = "Faulty etc"
+ETO_EXCEED_DESC = "eto exceeds ETO_MAX"
+ETC_EXCEED_DESC = "etc exceeds ETCP_MAX"
 UNREDEEMABLE = [RAIN_DESC, SIMUL_DESC, IRR_DESC, NULL_PROFILE_DESC,
                 DATA_BLIP_DESC, LARGE_PROFILE_DIP_DESC, ETCP_POS_DESC,
                 ETCP_SUSP_LOW_DESC, ETCP_SUSP_HIGH_DESC, ETCP_OUTLIERS_DESC,
                 EXCEEDING_KCP_MAX_DESC, BAD_KCP_DESC, ETO_BAD_DESC,
-                ETC_BAD_DESC, KCP_IS_NAN_DESC]
+                ETC_BAD_DESC, KCP_IS_NAN_DESC, ETO_EXCEED_DESC,
+                ETC_EXCEED_DESC]
 
 # The following events are "redeemable".
 # "redeemable" is associated with a `binary_value` of 0.
@@ -66,7 +69,9 @@ description_dict = {"rain_desc": RAIN_DESC,
                     "hu_bad_desc": HU_BAD_DESC,
                     "imputed_eto": IMPUTED_ETO,
                     "eto_bad_desc": ETO_BAD_DESC,
-                    "etc_bad_desc": ETC_BAD_DESC
+                    "eto_exceed_desc": ETO_EXCEED_DESC,
+                    "etc_bad_desc": ETC_BAD_DESC,
+                    "etc_exceed_desc": ETC_EXCEED_DESC
                     }
 # -----------------------------------------------------------------------------
 
@@ -289,11 +294,26 @@ def flag_spurious_et(df):
     interim_df = pd.DataFrame(data={"etc_diff1": df["etc"].diff(periods=1),
                                     "etc": df["etc"]},
                               index=df.index, copy=True)
-    condition = (interim_df["etc_diff1"] == 0.0) | (interim_df["etc"] == 0)
+    # condition = (interim_df["etc_diff1"] == 0.0) | (interim_df["etc"] == 0)
+    condition = interim_df["etc"] == 0
     bad_etc_days = df[condition].index
     flagger(bad_dates=bad_etc_days, brief_desc=ETC_BAD_DESC, df=df,
             bin_value=1, affected_cols=["etc", "etcp"], set_to_nan=True)
     reporter(df=df, brief_desc=ETC_BAD_DESC)
+
+    # -------------------------------------------------------------------------
+    # Flag the days for which eto exceeds ETO_MAX:
+    condition = df["eto"] > ETO_MAX
+    bad_days = df[condition].index
+    flagger(bad_dates=bad_days, brief_desc=ETO_EXCEED_DESC, df=df,
+            bin_value=1, affected_cols=["eto", "etc", "etcp"], set_to_nan=True)
+    reporter(df=df, brief_desc=ETO_EXCEED_DESC)
+
+    # Flag the days for which etc exceeds ETCP_MAX:
+    condition = df["etc"] > ETCP_MAX
+    bad_days = df[condition].index
+    flagger(bad_dates=bad_days, brief_desc=ETC_EXCEED_DESC, df=df,
+            bin_value=1, affected_cols=["etc", "eto", "etcp"], set_to_nan=True)
 
     return bad_eto_days, df
 
@@ -403,7 +423,7 @@ def flag_suspicious_and_missing_profile_events(df):
     # Note that low percentiles, say e.g. the 2nd percentile, correspond with
     # 'very negative' "profile_difference" readings, whereas large percentile
     # values, say e.g. the 98th percentile, correspond to 'slightly negative'
-    # "profile_difference" values.
+    # "profile_difference" values close to zero.
     percentile_value = np.quantile(negative_differences, q=[0.01, 0.02, 0.03,
                                                             0.04, 0.05, 0.06,
                                                             0.07, 0.08, 0.09,
