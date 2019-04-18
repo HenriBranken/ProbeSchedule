@@ -2,15 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="49ef9e0d-250f-43a7-a4f1-33f52ead0df1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/step_9b_show_progression.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data_report.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/probe_screening/r_squared_stat_list.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/probe_screening/xy_scatter_dfs.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/probe_screening/xy_smoothed_dfs.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/remaining_good_probes.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/remove_outliers_jacobus_method.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/screen_outliers_jacobus.py" beforeDir="false" afterPath="$PROJECT_DIR$/step_9a_probe_screening.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../collate_cultivar_data/step_9b_show_progression.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/step_10a_tailor_for_weekly_bins.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../collate_cultivar_data/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/data/data_report.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/data/probe_screening/r_squared_stat_list.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/data/probe_screening/xy_scatter_dfs.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/data/probe_screening/xy_smoothed_dfs.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/figures/remaining_good_probes.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/figures/remove_outliers_jacobus_method.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collate_cultivar_data/screen_outliers_jacobus.py" beforeDir="false" afterPath="$PROJECT_DIR$/../collate_cultivar_data/step_9a_probe_screening.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,68 +20,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/helper_functions.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3076">
-              <caret line="53" column="51" selection-start-line="53" selection-start-column="51" selection-end-line="53" selection-end-column="51" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/step_9a_probe_screening.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="175">
-              <caret line="310" column="12" lean-forward="true" selection-start-line="310" selection-start-column="12" selection-end-line="310" selection-end-column="12" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/step_9b_show_progression.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="499">
-              <caret line="160" lean-forward="true" selection-start-line="160" selection-end-line="160" />
-              <folding>
-                <element signature="e#0#31#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/helper_data.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="900">
-              <caret line="36" selection-start-line="36" selection-end-line="36" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/helper_meta_data.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-475">
-              <caret line="17" column="29" selection-start-line="17" selection-start-column="29" selection-end-line="17" selection-end-column="29" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -162,7 +102,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/step_1_main.py" />
         <option value="$PROJECT_DIR$/steps_1_to_5_run_pipeline.sh" />
         <option value="$PROJECT_DIR$/alternative.py" />
         <option value="$PROJECT_DIR$/write_report_new.py" />
@@ -198,7 +137,6 @@
         <option value="$PROJECT_DIR$/step_1a_perform_cleaning.py" />
         <option value="$PROJECT_DIR$/step_1b_write_report.py" />
         <option value="$PROJECT_DIR$/step_3_smoothed_version.py" />
-        <option value="$PROJECT_DIR$/step_4_binning_trend_line.py" />
         <option value="$PROJECT_DIR$/step_5_plotting_binned_kcp_trends.py" />
         <option value="$PROJECT_DIR$/step_6_et_al.py" />
         <option value="$PROJECT_DIR$/step_7_figure_arrays.py" />
@@ -208,11 +146,13 @@
         <option value="$PROJECT_DIR$/step_2_overlay_compare.py" />
         <option value="$PROJECT_DIR$/cleaning_operations.py" />
         <option value="$PROJECT_DIR$/helper_meta_data.py" />
-        <option value="$PROJECT_DIR$/helper_functions.py" />
         <option value="$PROJECT_DIR$/screen_outliers_jacobus.py" />
         <option value="$PROJECT_DIR$/animation.py" />
         <option value="$PROJECT_DIR$/step_9b_show_progression.py" />
         <option value="$PROJECT_DIR$/step_9a_probe_screening.py" />
+        <option value="$PROJECT_DIR$/helper_functions.py" />
+        <option value="$PROJECT_DIR$/step_4_binning_trend_line.py" />
+        <option value="$PROJECT_DIR$/step_10a_tailor_for_weekly_bins.py" />
       </list>
     </option>
   </component>
@@ -229,18 +169,18 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="collate_cultivar_data" type="b2602c69:ProjectViewProjectNode" />
-              <item name="collate_cultivar_data" type="462c0819:PsiDirectoryNode" />
+              <item name="collate_cultivar_data_new_order" type="b2602c69:ProjectViewProjectNode" />
+              <item name="collate_cultivar_data_new_order" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -260,7 +200,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.screen_outliers_jacobus">
+  <component name="RunManager" selected="Python.step_10a_tailor_for_weekly_bins">
     <configuration name="animation" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="collate_cultivar_data" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -303,7 +243,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="step_8b_kcp_versus_gdd" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="step_10a_tailor_for_weekly_bins" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="collate_cultivar_data" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -315,7 +255,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/step_8b_kcp_versus_gdd.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/step_10a_tailor_for_weekly_bins.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -324,7 +264,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="step_8c_fit_kcp_vs_gdd" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="step_4_binning_trend_line" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="collate_cultivar_data" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -336,7 +276,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/step_8c_fit_kcp_vs_gdd.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/step_4_binning_trend_line.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -368,11 +308,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.step_10a_tailor_for_weekly_bins" />
         <item itemvalue="Python.screen_outliers_jacobus" />
+        <item itemvalue="Python.step_4_binning_trend_line" />
         <item itemvalue="Python.step_9b_show_progression" />
         <item itemvalue="Python.animation" />
-        <item itemvalue="Python.step_8c_fit_kcp_vs_gdd" />
-        <item itemvalue="Python.step_8b_kcp_versus_gdd" />
       </list>
     </recent_temporary>
   </component>
@@ -400,9 +340,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="-2" width="1920" height="1082" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15919873" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.19082762" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -427,13 +366,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="Added a module for making polynomial fits to the cleaned data scatter plot." />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_imps/_pydev_execfile.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="17" selection-start-line="17" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main.py" />
     <entry file="file://$PROJECT_DIR$/overlay_compare.py" />
     <entry file="file://$PROJECT_DIR$/get_trends_from_stacked_data.py" />
@@ -538,16 +470,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/step_8a_tailor_for_weekly_bins.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/step_8b_kcp_versus_gdd.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1899">
@@ -564,16 +486,6 @@
           <caret line="84" column="40" lean-forward="true" selection-start-line="84" selection-start-column="40" selection-end-line="84" selection-end-column="40" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/step_3_smoothed_version.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="269" column="28" lean-forward="true" selection-start-line="269" selection-start-column="28" selection-end-line="269" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -625,16 +537,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/step_4_binning_trend_line.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5025">
-          <caret line="205" selection-start-line="205" selection-end-line="205" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/step_1b_write_report.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3225">
@@ -645,16 +547,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/animation.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="900">
-          <caret line="75" column="10" lean-forward="true" selection-start-line="75" selection-start-column="10" selection-end-line="75" selection-end-column="10" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/animation.py" />
     <entry file="file://$PROJECT_DIR$/master_data.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="375">
@@ -667,7 +560,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/helper_data.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="900">
+        <state relative-caret-position="800">
           <caret line="36" selection-start-line="36" selection-end-line="36" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
@@ -677,18 +570,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/helper_meta_data.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-475">
+        <state relative-caret-position="350">
           <caret line="17" column="29" selection-start-line="17" selection-start-column="29" selection-end-line="17" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/helper_functions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3076">
-          <caret line="53" column="51" selection-start-line="53" selection-start-column="51" selection-end-line="53" selection-end-column="51" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
@@ -697,21 +580,68 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/step_9b_show_progression.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="499">
-          <caret line="160" lean-forward="true" selection-start-line="160" selection-end-line="160" />
+        <state relative-caret-position="2101">
+          <caret line="160" selection-start-line="160" selection-end-line="160" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/helper_functions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3076">
+          <caret line="53" column="43" selection-start-line="53" selection-start-column="43" selection-end-line="53" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/step_9a_probe_screening.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="310" column="12" lean-forward="true" selection-start-line="310" selection-start-column="12" selection-end-line="310" selection-end-column="12" />
+        <state relative-caret-position="1925">
+          <caret line="389" column="22" lean-forward="true" selection-start-line="389" selection-start-column="22" selection-end-line="389" selection-end-column="22" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/step_4_binning_trend_line.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-600">
+          <caret line="90" column="47" lean-forward="true" selection-start-line="90" selection-start-column="47" selection-end-line="90" selection-end-column="47" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/step_3_smoothed_version.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="269" column="28" lean-forward="true" selection-start-line="269" selection-start-column="28" selection-end-line="269" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/step_10a_tailor_for_weekly_bins.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="18" column="53" selection-start-line="18" selection-start-column="53" selection-end-line="18" selection-end-column="53" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/step_8a_tailor_for_weekly_bins.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="50">
+          <caret line="2" column="14" lean-forward="true" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
         </state>
       </provider>
     </entry>
