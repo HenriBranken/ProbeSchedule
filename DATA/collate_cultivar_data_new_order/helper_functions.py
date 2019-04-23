@@ -193,3 +193,25 @@ def get_dates_and_kcp(dataframe, probe_id):
 
 def get_labels(begin, terminate, freq="MS"):
     return [x for x in pd.date_range(start=begin, end=terminate, freq=freq)]
+
+
+def extract_probe_df(multi_index_df, probe, starting_date):
+    df = multi_index_df.loc[(probe, ), ["kcp"]]
+    df["days"] = df.index - starting_date
+    df["days"] = df["days"].dt.days
+    df.sort_values("days", ascending=True, inplace=True)
+    return df[["days", "kcp"]]
+
+
+def collapse_dataframe(multi_index_df, tbr_probe_list, starting_date):
+    # Return a new Single_Index DataFrame where all the probes specified in
+    # `tbr_probe_list` are REMOVED.  We basically get back a pruned DataFrame
+    # containing the data of the remaining "healthy probes".
+    df = multi_index_df.copy(deep=True)
+    for pr in tbr_probe_list:
+        df.drop(index=pr, level=0, inplace=True)
+    df.index = df.index.droplevel(0)
+    df.sort_index(axis=0, level="datetimeStamp", ascending=True, inplace=True)
+    df["days"] = df.index - starting_date
+    df["days"] = df["days"].dt.days
+    return df["days"].values, df["kcp"].values

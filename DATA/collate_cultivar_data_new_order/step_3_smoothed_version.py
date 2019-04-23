@@ -14,7 +14,7 @@ import helper_data as hd
 # -----------------------------------------------------------------------------
 n_neighbours_list = hm.n_neighbours_list
 delta_x = hm.delta_x  # 1
-x_limits = hm.x_limits  # [0, 365]
+x_limits = hm.x_limits[:]  # [0, 365]
 mode = hm.mode  # The `default` at which we start out (which is "WMA").
 # "WMA" stands for Weighted-Moving-Average; "Pol" stands for Polynomial-fit.
 # -----------------------------------------------------------------------------

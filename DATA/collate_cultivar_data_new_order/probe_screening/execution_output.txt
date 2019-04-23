@@ -1,5 +1,2 @@
-No index at which the number of extrema is 1.
-Cannot perform Gaussian WMA anymore.
-Proceeding with Polynomial Fit.
-There is no improvement in the r-squared statisticof the trendline fit.
+The trendline fit for the MAJORITY of the probes did not improve.
 Exiting the for-loop prematurely.

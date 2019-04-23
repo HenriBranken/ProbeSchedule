@@ -17,9 +17,12 @@ x_limits = hm.x_limits[:]
 marker_color_meta = hm.marker_color_meta[:]
 marker_color_meta = cycle(marker_color_meta)
 ALLOWED_TAIL_DEVIATION = hm.ALLOWED_TAIL_DEVIATION
-top_border = "+" + "-"*78 + "+\n"
-line = "+" + "-"*7 + "+" + "-"*12 + "+" + "-"*12 + "+" + "-"*12 + "+" + \
+top_border_1 = "+" + "-"*78 + "+\n"
+line_1 = "+" + "-"*7 + "+" + "-"*12 + "+" + "-"*12 + "+" + "-"*12 + "+" + \
        "-"*19 + "+" + "-"*11 + "+\n"
+top_border_2 = "+" + "-"*78 + "+\n"
+line_2 = "+" + "-"*11 + "+" + "-"*16 + "+" + "-"*14 + "+" + "-"*17 + "+" + \
+         "-"*16 + "+\n"
 # =============================================================================
 
 
@@ -82,32 +85,10 @@ with open("./data/mode.txt", "r") as f:
 # -----------------------------------------------------------------------------
 # Define some helper functions
 # -----------------------------------------------------------------------------
-def collapse_dataframe(multi_index_df, tbr_probe_list, starting_date):
-    # Return a new Single_Index DataFrame where all the probes specified in
-    # `tbr_probe_list` are REMOVED.  We basically get back a pruned DataFrame
-    # containing the data of the remaining "healthy probes".
-    df = multi_index_df.copy(deep=True)
-    for pr in tbr_probe_list:
-        df.drop(index=pr, level=0, inplace=True)
-    df.index = df.index.droplevel(0)
-    df.sort_index(axis=0, level="datetimeStamp", ascending=True, inplace=True)
-    df["days"] = df.index - starting_date
-    df["days"] = df["days"].dt.days
-    return df["days"].values, df["kcp"].values
-
-
-def extract_probe_df(multi_index_df, probe, starting_date):
-    df = multi_index_df.loc[(probe, ), ["kcp"]]
-    df["days"] = df.index - starting_date
-    df["days"] = df["days"].dt.days
-    df.sort_values("days", ascending=True, inplace=True)
-    return df[["days", "kcp"]]
-
-
-def check_tails(y_trendline, leading_ref=cco_df["cco"].values[0],
+def check_tails(y_trendline_1, leading_ref=cco_df["cco"].values[0],
                 trailing_ref=cco_df["cco"].values[-1],
                 allowed_dev=ALLOWED_TAIL_DEVIATION, suppress_check=False):
-    leading_val, trailing_val = y_trendline[0], y_trendline[-1]
+    leading_val, trailing_val = y_trendline_1[0], y_trendline_1[-1]
     leading_dev = np.absolute(leading_val - leading_ref)/leading_ref
     trailing_dev = np.absolute(trailing_val - trailing_ref)/trailing_ref
     if suppress_check:
@@ -127,8 +108,8 @@ def check_improvement(latest_stat, stat_list, suppress_check=False):
         return False
 
 
-def info_filler(iter_, pnts, cco_rs, sc_rs, delta, removed,
-                just_strings=False):
+def info_filler_1(iter_, pnts, cco_rs, sc_rs, delta, removed,
+                  just_strings=False):
     if just_strings:
         a = "| {:^5s} ".format(iter_)
         b = "| {:^10s} ".format(pnts)
@@ -147,6 +128,52 @@ def info_filler(iter_, pnts, cco_rs, sc_rs, delta, removed,
             g = "| {:>17s} ".format(delta)
         h = "| {:>9s} |\n".format(removed)
     return a + b + c + d + g + h
+
+
+def info_filler_2(iter_, n_healthy_p, num_imp, num_det, bool_val,
+                  just_strings=False):
+    if just_strings:
+        a = "| {:^9s} ".format(iter_)
+        b = "| {:^14s} ".format(n_healthy_p)
+        c = "| {:^12s} ".format(num_imp)
+        d = "| {:^15s} ".format(num_det)
+        g = "| {:^14s} |\n".format(bool_val)
+    else:
+        a = "| {:>9s} ".format("[{}, {}]".format(iter_, iter_ + 1))
+        b = "| {:>14.0f} ".format(n_healthy_p)
+        c = "| {:>12.0f} ".format(num_imp)
+        d = "| {:>15.0f} ".format(num_det)
+        g = "| {:>14s} |\n".format(str(bool_val))
+    return a + b + c + d + g
+
+
+def generate_output(the_string, out_file):
+    print(the_string)
+    out_file.write(the_string)
+    return
+
+
+def compare_old_vs_new(healthy_probes, x_fit, old_trend, new_trend):
+    old_r_squares = []
+    new_r_squares = []
+    for healthy_probe in healthy_probes:
+        sub_df = hf.extract_probe_df(multi_index_df=cleaned_multi_df,
+                                     probe=healthy_probe,
+                                     starting_date=season_start_date)
+        old_r_squared = hf.get_r_squared(x_raw=sub_df["days"].values,
+                                         y_raw=sub_df["kcp"].values,
+                                         x_fit=x_fit, y_fit=old_trend)
+        new_r_squared = hf.get_r_squared(x_raw=sub_df["days"].values,
+                                         y_raw=sub_df["kcp"].values,
+                                         x_fit=x_fit, y_fit=new_trend)
+        old_r_squares.append(old_r_squared)
+        new_r_squares.append(new_r_squared)
+    boolean_list = [new_r_squares[ii] <= old_r_squares[ii] for ii in
+                    range(len(healthy_probes))]
+    number_improvements = sum(boolean_list)
+    number_deterioriations = len(healthy_probes) - number_improvements
+    comparison = number_improvements >= number_deterioriations
+    return number_improvements, number_deterioriations, comparison
 # -----------------------------------------------------------------------------
 
 
@@ -173,6 +200,7 @@ r_sqr_cco_stat_list = [r_sqr_cco_stat]
 xy_scatter_dfs = [xy_scatter_df]
 xy_smoothed_dfs = [xy_smoothed_df]
 removed_probes = []
+healthy_old_vs_new = []
 
 # Assert that the number of flagging iterations is less than the num_probes:
 assert len(probe_ids) > n_iterations, "Number of iterations is greater than " \
@@ -181,49 +209,65 @@ assert len(probe_ids) > n_iterations, "Number of iterations is greater than " \
                                       "n_iterations < len(probe_ids)."
 
 fn = open("./probe_screening/execution_output.txt", "w")
+imps_and_dets = open("./probe_screening/probe_information.txt", "w")
+imps_and_dets.write(top_border_2)
+imps_and_dets.write("| {:^76s} |\n".format("Probe Information"))
+imps_and_dets.write(line_2)
+imps_and_dets.write(info_filler_2(iter_="", n_healthy_p="Number of",
+                                  num_imp="Number of", num_det="Number of",
+                                  bool_val="", just_strings=True))
+imps_and_dets.write(info_filler_2(iter_="Iteration",
+                                  n_healthy_p="healthy probes",
+                                  num_imp="Improvements",
+                                  num_det="Deterioriations",
+                                  bool_val="n_imp >= n_det",
+                                  just_strings=True))
+imps_and_dets.write(line_2)
 
 q = 0
 # Cycle through the screening logic `n_iterations` times.
 for i in range(n_iterations):
+    y_smoothed_old = np.copy(y_smoothed)
     try:
         # Populate probes_r_squared list with r-squares between probe scatter
-        # data and the current smoothed trend line:
+        # data and the current smoothed trend line_1:
         probes_r_squared = []
         # Loop over all the probes:
         for p in probe_ids:
             # Extract an individual probe:
-            probe_df = extract_probe_df(multi_index_df=cleaned_multi_df,
-                                        probe=p,
-                                        starting_date=season_start_date)
-            # Compute r-squared between probe scatter and current trend line:
+            probe_df = hf.extract_probe_df(multi_index_df=cleaned_multi_df,
+                                           probe=p,
+                                           starting_date=season_start_date)
+            # Compute r-squared between probe scatter and current trend line_1:
             val = hf.get_r_squared(x_raw=probe_df["days"].values,
                                    y_raw=probe_df["kcp"].values,
                                    x_fit=x_smoothed, y_fit=y_smoothed)
             # Append r-squared `val` to the growing probes_r_squared list:
             probes_r_squared.append(val)
         # Extract the probe index whose probe scatter data is the most poorly
-        # fit by the smoothed trendline.  Call this probe the "worst probe":
+        # fit by the smoothed trendline_1.  Call this probe the "worst probe":
         max_arg_index = np.where(probes_r_squared == max(probes_r_squared))[0]
         max_arg_index = max_arg_index[0]
         # Append the "worst probe" to `removed_probes`.
         removed_probes.append(probe_ids.pop(max_arg_index))
+        probes_r_squared.pop(max_arg_index)
         # Generate a "pruned" (xy) scatter dataset, and assign to `x_scatter`
         # and `y_scatter`:
-        some_tuple = collapse_dataframe(multi_index_df=cleaned_multi_df,
-                                        tbr_probe_list=removed_probes,
-                                        starting_date=season_start_date)
+        some_tuple = hf.collapse_dataframe(multi_index_df=cleaned_multi_df,
+                                           tbr_probe_list=removed_probes,
+                                           starting_date=season_start_date)
         # We have finally garnered our `x_scatter` and `y_scatter` data.
         x_scatter, y_scatter = some_tuple
         # Determine the mode; whether it be "WMA" or "Polynomial-fit".
         if mode == "WMA":
-            # This will store all the various trend lines associated with
+            # This will store all the various trend line_1s associated with
             # different values of `n_neighbours`:
-            saved_trend_lines = []
+            saved_trend_line_1s = []
             num_bumps = []
             tracker = 0
             for n_neighbours in n_neighbours_list:
                 try:
-                    # Generate new smoothed trendline based on `n_neighbours`
+                    # Generate new smoothed trendline_1 based on `n_neighbours`
                     # hyperparameter:
                     x_smoothed, y_smoothed = \
                         hf.weighted_moving_average(x=x_scatter, y=y_scatter,
@@ -231,12 +275,12 @@ for i in range(n_iterations):
                                                    width=n_neighbours,
                                                    x_lims=x_limits,
                                                    append_=True)
-                    # Append smoothed trend line to `saved_trend_lines`.
-                    saved_trend_lines.append(zip(x_smoothed, y_smoothed))
+                    # Append smoothed trend line_1 to `saved_trend_line_1s`.
+                    saved_trend_line_1s.append(zip(x_smoothed, y_smoothed))
                     # Append n_bumps to `num_bumps` list.
                     num_bumps.append(hf.get_n_local_extrema(y_smoothed))
                     tracker += 1
-                # I.e. out scatter is too sparse to generate a WMA trendline:
+                # I.e. out scatter is too sparse to generate a WMA trendline_1:
                 except ZeroDivisionError:
                     # Truncate `n_neighbours_list` to contain only the
                     # `n_neighbours` that we have looped over in the for-loop.
@@ -244,22 +288,19 @@ for i in range(n_iterations):
                     # Exit the for-loop; `n_neighbours` has become too small.
                     break
             try:
-                # Get index at which the smoothed trend line has only 1 bump.
+                # Get index at which the smoothed trend line_1 has only 1 bump.
                 prized_index = hf.get_prized_index(num_bumps)
-                # Extract the associated smoothed trend_line having 1 bump.
-                trend_line = saved_trend_lines[prized_index]
-                # Extract `x_smoothed` and `y_smoothed` from `trend_line`.
-                some_tuple = [list(t) for t in zip(*trend_line)]
+                # Extract the associated smoothed trend_line_1 having 1 bump.
+                trend_line_1 = saved_trend_line_1s[prized_index]
+                # Extract `x_smoothed` and `y_smoothed` from `trend_line_1`.
+                some_tuple = [list(t) for t in zip(*trend_line_1)]
                 x_smoothed, y_smoothed = some_tuple[0], some_tuple[1]
-            # I.e. there is no trendline just having 1 bump as desired.
+            # I.e. there is no trendline_1 just having 1 bump as desired.
             # Therefore we have to switch over to "Polynomial-fit" mode.
             except hf.NoProperWMATrend as e_1:
-                print(e_1)
-                print("Cannot perform Gaussian-Weighted-Moving-Average.")
-                print("Proceeding with Polynomial Fit.")
-                fn.write(str(e_1))
-                fn.write("\nCannot perform Gaussian WMA anymore.\n"
-                         "Proceeding with Polynomial Fit.\n")
+                generate_output(the_string="Cannot perform Gaussian-WMA.\n"
+                                           "Proceeding with Polynomial Fit.\n",
+                                out_file=fn)
                 mode = "Polynomial-fit"  # Switch over to "Polynomial-fit" mode
                 # Perform 4th-order pol-fit to `x_scatter` and `y_scatter`.
                 x_smoothed, y_smoothed = \
@@ -269,7 +310,7 @@ for i in range(n_iterations):
                                                 degree=hf.pol_degree,
                                                 x_lims=x_limits)
         # I.e. we know for sure that mode is "Polynomial-fit" and we do not
-        # have to bother with "WMA" trendlines.
+        # have to bother with "WMA" trendline_1s.
         else:
             # Perform a 4th-order polynomial fit to the scatter data.
             x_smoothed, y_smoothed = \
@@ -291,49 +332,75 @@ for i in range(n_iterations):
         perf_status = check_improvement(latest_stat=r_squared_stat,
                                         stat_list=r_squared_stat_list,
                                         suppress_check=False)
+
         if perf_status:
-            tail_status = check_tails(y_trendline=y_smoothed,
-                                      suppress_check=False)
-            # I.e., if `tail_status` is True:
-            if tail_status:
-                xy_smoothed_dfs.append(hf.create_xy_df(x_vals=x_smoothed,
-                                                       y_vals=y_smoothed,
-                                                       iteration=int(i + 1),
-                                                       status="smoothed"))
-                xy_scatter_dfs.append(hf.create_xy_df(x_vals=x_scatter,
-                                                      y_vals=y_scatter,
-                                                      iteration=int(i + 1),
-                                                      status="scatter"))
-                r_squared_stat_list.append(r_squared_stat)
-                r_sqr_cco_stat_list.append(r_sqr_cco_stat)
-                q += 1
-            # I.e., `tail_status` is False.  The tail standards are NOT met:
-            else:
-                probe_ids.append(removed_probes.pop())
-                fn.write("The Tail standards are NOT satisfied.\n"
-                         "Have to exit the for-loop prematurely.\n")
-                print("\"Tail\"-standards are NOT satisfied.  "
-                      "Have to exit the for-loop prematurely.")
-                break
+            pass
         else:
             probe_ids.append(removed_probes.pop())
-            fn.write("There is no improvement in the r-squared statistic"
-                     "of the trendline fit.\n"
-                     "Exiting the for-loop prematurely.\n")
-            print("There is no improvement in the fit of the trendline "
-                  "r-squared statistic.\n"
-                  "Exiting the for-loop prematurely.")
+            generate_output(the_string="There is no improvement in the "
+                                       "r-squared statistic.\n"
+                                       "Exiting the for-loop prematurely.\n",
+                            out_file=fn)
             break
+        tail_status = check_tails(y_trendline_1=y_smoothed,
+                                  suppress_check=False)
+
+        # I.e., if `tail_status` is True:
+        if tail_status:
+            pass
+        else:
+            probe_ids.append(removed_probes.pop())
+            generate_output(the_string="The Tail standards are NOT "
+                                       "satisfied.\n"
+                                       "Have to exit the for-loop "
+                                       "prematurely.\n", out_file=fn)
+            break
+
+        n_imp, n_det, majority_vote = \
+            compare_old_vs_new(healthy_probes=probe_ids,
+                               x_fit=x_smoothed, old_trend=y_smoothed_old,
+                               new_trend=y_smoothed)
+        imps_and_dets.write(info_filler_2(iter_=i,
+                                          n_healthy_p=len(probe_ids),
+                                          num_imp=n_imp,
+                                          num_det=n_det,
+                                          bool_val=majority_vote))
+        healthy_old_vs_new.append(majority_vote)
+        if majority_vote:
+            pass
+        # I.e. majority_vote is FALSE.
+        else:
+            probe_ids.append(removed_probes.pop())
+            generate_output(the_string="The trendline fit for the "
+                                       "MAJORITY of the probes did "
+                                       "not improve.\n"
+                                       "Exiting the for-loop "
+                                       "prematurely.",
+                            out_file=fn)
+            break
+        xy_smoothed_dfs.append(hf.create_xy_df(x_vals=x_smoothed,
+                                               y_vals=y_smoothed,
+                                               iteration=int(i + 1),
+                                               status="smoothed"))
+        xy_scatter_dfs.append(hf.create_xy_df(x_vals=x_scatter,
+                                              y_vals=y_scatter,
+                                              iteration=int(i + 1),
+                                              status="scatter"))
+        r_squared_stat_list.append(r_squared_stat)
+        r_sqr_cco_stat_list.append(r_sqr_cco_stat)
+        q += 1
     # I.e. we cannot cycle through the screening logic `n_iterations` times:
     except IndexError as e_2:
-        fn.write("Cannot proceed with generating a new trendline.\n"
-                 "Have to exit the for-loop prematurely.\n")
-        print("Cannot generate a new trendline.  "
-              "Have to exit the for-loop prematurely.")
+        generate_output(the_string="Cannot generate a new trendline_1.\n"
+                                   "Have to exit the for-loop prematurely.\n",
+                        out_file=fn)
         break  # exit the for-loop
 n_iterations = q  # we re-assign n_iterations
 deltas_r_squared = list(np.ediff1d(r_squared_stat_list))
 deltas_r_squared.insert(0, "-")
+
+imps_and_dets.write(line_2)
+imps_and_dets.close()
 fn.close()
 
 
@@ -364,6 +431,7 @@ print("len(probe_ids) = {:.0f}.".format(len(probe_ids)))
 print("num_probes = len(probe_ids) + len(removed_probes) "
       "= {:.0f}.".format(len(probe_ids) + len(removed_probes)))
 print("removed_probes = {}.".format(removed_probes))
+print("healthy_old_vs_new = {}.".format(healthy_old_vs_new))
 print("."*80 + "\n")
 # =============================================================================
 
@@ -387,10 +455,7 @@ if not os.path.exists("./probe_screening/"):
 directory = "./probe_screening/"
 files = os.listdir(directory)
 for file in files:
-    if file.endswith(".xlsx"):
-        os.remove(os.path.join(directory, file))
-        print("Removed the file named: {}.".format(file))
-    if file.endswith("_stat_list.txt"):
+    if file.endswith((".xlsx", "_stat_list.txt", "_.idx.txt")):
         os.remove(os.path.join(directory, file))
         print("Removed the file named: {}.".format(file))
     if os.path.exists("./probe_screening/removed_probes.txt"):
@@ -399,11 +464,14 @@ for file in files:
     if os.path.exists("./probe_screening/screening_report.txt"):
         os.remove("./probe_screening/screening_report.txt")
         print("Removed the file named: screening_report.txt.")
+    if os.path.exists("./probe_screening/healthy_probes.txt"):
+        os.remove("./probe_screening/healthy_probes.txt")
+        print("Removed the file named: healthy_probes.txt.")
 
-# 1.
+# 1:
 writer_sc = pd.ExcelWriter("./probe_screening/xy_scatter_dfs.xlsx",
                            engine="xlsxwriter")
-# 2.
+# 2:
 writer_sm = pd.ExcelWriter("./probe_screening/xy_smoothed_dfs.xlsx",
                            engine="xlsxwriter")
 for i in range(q + 1):
@@ -418,25 +486,29 @@ for i in range(q + 1):
 writer_sc.save()
 writer_sm.save()
 
-# The second part of number 2.:
+xy_scatter_dfs[-1].to_excel("./probe_screening/screened_kcp_vs_days.xlsx",
+                            columns=["x_scatter", "y_scatter"], header=True,
+                            index=True, index_label="j", float_format="%.7f")
+
+# The second part of number 2:
 xy_smoothed_dfs[-1].to_excel("./probe_screening/pruned_kcp_vs_days.xlsx",
                              columns=["x_smoothed", "y_smoothed"],
                              header=True, index=True, index_label="j",
                              float_format="%.7f")
 
-# 3.
+# 3:
 with open("./probe_screening/r_squared_stat_list.txt", "w") as f:
     for val in r_squared_stat_list:
         f.write(str(val) + "\n")
-# 4.
+# 4:
 with open("./probe_screening/r_sqr_cco_stat_list.txt", "w") as f:
     for val in r_sqr_cco_stat_list:
         f.write(str(val) + "\n")
-# 5.
+# 5:
 with open("./probe_screening/removed_probes.txt", "w") as f:
     for p in removed_probes:
         f.write(str(p) + "\n")
-# 6.
+# 6:
 with open("./probe_screening/healthy_probes.txt", "w") as f:
     for p in probe_ids:
         f.write(str(p) + "\n")
@@ -451,26 +523,26 @@ with open("./probe_screening/healthy_probes.txt", "w") as f:
 # "./data/probe_screening/screening_report.txt".
 f = open("./probe_screening/screening_report.txt", mode="w")
 
-f.write(top_border)
+f.write(top_border_1)
 f.write("|" + "{:^78}".format("Screening Report") + "|\n")
-f.write(line)
-content = info_filler(iter_="", pnts="n scatter", cco_rs="cco",
-                      sc_rs="scatter", delta="delta", removed="probe_id",
-                      just_strings=True)
+f.write(line_1)
+content = info_filler_1(iter_="", pnts="n scatter", cco_rs="cco",
+                        sc_rs="scatter", delta="delta", removed="probe_id",
+                        just_strings=True)
 f.write(content)
-content = info_filler(iter_="iter", pnts="points", cco_rs="r-squared",
-                      sc_rs="r-squared", delta="scatter r-sqr",
-                      removed="removed", just_strings=True)
+content = info_filler_1(iter_="iter", pnts="points", cco_rs="r-squared",
+                        sc_rs="r-squared", delta="scatter r-sqr",
+                        removed="removed", just_strings=True)
 f.write(content)
-f.write(line)
+f.write(line_1)
 for i in range(q + 1):
-    content = info_filler(iter_=i, pnts=len(xy_scatter_dfs[i].index),
-                          cco_rs=r_sqr_cco_stat_list[i],
-                          sc_rs=r_squared_stat_list[i],
-                          delta=deltas_r_squared[i],
-                          removed=removed_probes[i])
+    content = info_filler_1(iter_=i, pnts=len(xy_scatter_dfs[i].index),
+                            cco_rs=r_sqr_cco_stat_list[i],
+                            sc_rs=r_squared_stat_list[i],
+                            delta=deltas_r_squared[i],
+                            removed=removed_probes[i])
     f.write(content)
-f.write(line)
+f.write(line_1)
 f.close()
 
 
