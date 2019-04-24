@@ -7,7 +7,7 @@ from cleaning_operations import KCP_MAX
 import pandas as pd
 from pandas.plotting import register_matplotlib_converters
 from cleaning_operations import description_dict
-from helper_functions import get_dates_and_kcp
+import helper_functions as hf
 import helper_meta_data as hm
 import helper_data as hd
 from helper_functions import safe_removal
@@ -44,11 +44,21 @@ processed_eg_df = hd.processed_eg_df.copy(deep=True)
 
 # Get the starting year of the crop data
 starting_year = hm.starting_year
+season_start_date = hm.season_start_date
+season_end_date = hm.season_end_date
 
 # Get the mode of the fitting procedure used in `step_3_smoothed_version.py`,
 # whether it be "WMA" or "Polynomial-fit".
 with open("./data/mode.txt", "r") as f:
     mode = f.readline().rstrip()
+
+# Extract the data of the smoothed kcp trendline.
+fn = "./probe_screening/pruned_kcp_vs_days.xlsx"
+smoothed_kcp_trend_df = pd.read_excel(fn, index_col=0, squeeze=False)
+x_smoothed = smoothed_kcp_trend_df["x_smoothed"].values
+y_smoothed = smoothed_kcp_trend_df["y_smoothed"].values
+x_smoothed_dates = list(pd.date_range(start=season_start_date,
+                                      end=season_end_date, freq="D"))
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
@@ -101,12 +111,18 @@ for i, p in enumerate(outer_index):
     ax.set_xticks(season_xticks)
     ax.set_ylim(bottom=0.0, top=KCP_MAX)
     ax.grid(True)
-    dates, kcp = get_dates_and_kcp(dataframe=cleaned_multi_df, probe_id=p)
-    meta = next(marker_color_meta)
-    ax.scatter(dates, kcp, marker=meta[0], color=meta[1], s=60,
-               edgecolors="black", linewidth=1, alpha=0.5,
-               label=probe_ids[i])
+    dates, kcp = hf.get_dates_and_kcp(dataframe=cleaned_multi_df, probe_id=p)
+    season_day = pd.Series(dates - season_start_date).dt.days.values
+    r_squared = hf.get_r_squared(x_raw=season_day, y_raw=kcp, x_fit=x_smoothed,
+                                 y_fit=y_smoothed)
+    dates, kcp = hf.get_dates_and_kcp(dataframe=cleaned_multi_df, probe_id=p)
+    ax.scatter(dates, kcp, marker="o", color="lightseagreen", s=20,
+               edgecolors="black", linewidth=1, alpha=0.75, label=p)
+    ax.plot(x_smoothed_dates, y_smoothed, linewidth=1.5, alpha=0.75,
+            label="Smoothed Trend", color="mediumvioletred")
     ax.legend()
+    ax.annotate(s="$R^2$ = {:.3f}".format(r_squared), xycoords="axes fraction",
+                xy=(0.01, 0.93))
     fig.autofmt_xdate()  # rotate and align the tick labels so they look better
     plt.tight_layout()
     plt.savefig("./figures/{}/cleaned_probe_data.png".format(probe_ids[i]))
@@ -133,13 +149,15 @@ for p in probe_ids:
     condition = df["description"].str.contains(DESC, na=False)
     large_dip_dates = df[condition].index
     fig, ax = plt.subplots(figsize=(10, 5))
-    ax.plot(df.index, df["profile"], label="Daily Profile reading", lw=1,
+    ax.plot(df.index, df["profile"], label="Daily Profile reading", lw=1.5,
             alpha=0.6)
-    ax.scatter(x=data_blip_dates, y=df.loc[data_blip_dates, "profile"], s=50,
-               color="black", marker="*", label="Data blips", edgecolors="red")
+    ax.scatter(x=data_blip_dates, y=df.loc[data_blip_dates, "profile"], s=100,
+               color="red", marker="*", label="Data blips", edgecolors="k",
+               alpha=0.5)
     ax.scatter(x=large_dip_dates,
-               y=df.loc[large_dip_dates, "profile"], s=50, color="black",
-               marker="X", label="'Large' Dips", edgecolors="green")
+               y=df.loc[large_dip_dates, "profile"], s=100, color="green",
+               marker="X", label="'Large' Dips", edgecolors="black",
+               alpha=0.5)
     ax.set_xticks(api_xticks)
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y/%b'))
     ax.set_xlabel("Date")
@@ -170,17 +188,18 @@ for p in probe_ids:
     indices_irr = df["description"].str.contains(description_dict["irr_desc"],
                                                  na=False)
     fig, ax = plt.subplots(figsize=(10, 5))
-    ax.bar(df.index, df["total_irrig"], color="magenta", label="Irrigation")
+    ax.bar(df.index, df["total_irrig"].values, color="green", label=p,
+           width=1.6, edgecolor="black", linewidth=0.5, alpha=0.5)
     ax.scatter(indices_irr.index[indices_irr],
                df.loc[indices_irr, ["total_irrig"]],
-               label="Flagged Irr. events", color="black", marker="o", s=5,
-               alpha=0.7)
+               label="Flagged Irr. events", color="blue", marker="o",
+               s=20, alpha=0.7, edgecolors="black")
     ax.set_xlabel("Date")
     ax.set_ylabel("Total Irrigation [mm]")
     ax.set_title("Total Irrigation versus Time for Probe {}.".format(p))
     for v in vline_dates:
-        ax.axvline(x=v, color="blue", ls="--", linewidth=3, alpha=0.4)
-    ax.plot([], [], color="blue", ls="--", linewidth=3, alpha=0.4,
+        ax.axvline(x=v, color="magenta", ls="--", linewidth=3, alpha=0.4)
+    ax.plot([], [], color="magenta", ls="--", linewidth=3, alpha=0.4,
             label="New Season")
     ax.set_xticks(api_xticks)
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y/%b'))
