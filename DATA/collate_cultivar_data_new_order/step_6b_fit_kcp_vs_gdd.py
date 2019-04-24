@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 import math
-import os
 import matplotlib.pyplot as plt
 from matplotlib.offsetbox import AnchoredText
 import helper_functions as hf
@@ -38,12 +37,9 @@ def interpolation_1d(x, y, step_size=1.0):
 # -----------------------------------------------------------------------------
 # Remove old files generated in a previous execution of this script.
 # -----------------------------------------------------------------------------
-if os.path.exists("./figures/kcp_versus_gdd_smoothed.png"):
-    os.remove("./figures/kcp_versus_gdd_smoothed.png")
-    print("Removed the file: kcp_versus_gdd_smoothed.png.")
-if os.path.exists("./data/fit_of_kcp_vs_cumulative_gdd.xlsx"):
-    os.remove("./data/fit_of_kcp_vs_cumulative_gdd.xlsx")
-    print("Removed the file: fit_of_kcp_vs_cumulative_gdd.xlsx.")
+file_list = ["./figures/kcp_versus_gdd_smoothed.png",
+             "./data/fit_of_kcp_vs_cumulative_gdd.xlsx"]
+hf.safe_removal(file_list=file_list)
 # -----------------------------------------------------------------------------
 
 

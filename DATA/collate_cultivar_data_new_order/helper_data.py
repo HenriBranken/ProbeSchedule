@@ -9,8 +9,19 @@ cleaned_multi_df = pd.read_excel("data/stacked_cleaned_data_for_overlay.xlsx",
                                  header=0, index_col=[0, 1], parse_dates=True)
 outer_index = cleaned_multi_df.index.get_level_values("probe_id").unique()
 outer_index = list(outer_index)
-inner_index = cleaned_multi_df.index.get_level_values("datetimeStamp").unique()
+inner_index = \
+    cleaned_multi_df.index.get_level_values("datetime_stamp").unique()
 inner_index = list(inner_index)
+
+
+cleaned_df = pd.read_excel("data/stacked_cleaned_data_for_overlay.xlsx",
+                           header=0, index_col=[0, 1], parse_dates=True)
+cleaned_df.index = cleaned_df.index.droplevel(0)
+cleaned_df.sort_index(axis=0, level="datetime_stamp", ascending=True,
+                      inplace=True)
+cleaned_df["x_scatter"] = cleaned_df.index - hm.season_start_date
+cleaned_df["x_scatter"] = cleaned_df["x_scatter"].dt.days
+cleaned_df.sort_values(by="x_scatter", axis=0, inplace=True)
 
 
 cco_df = pd.read_excel("./data/reference_crop_coeff.xlsx", sheet_name=0,

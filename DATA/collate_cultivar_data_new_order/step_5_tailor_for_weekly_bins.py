@@ -4,7 +4,7 @@ from cleaning_operations import KCP_MAX
 import numpy as np
 import helper_meta_data as hm
 import helper_data as hd
-import os
+from helper_functions import safe_removal
 
 
 # -----------------------------------------------------------------------------
@@ -39,15 +39,10 @@ season_end_date = hm.season_end_date
 # -----------------------------------------------------------------------------
 # Remove old files that were generated in the previous execution of the script.
 # -----------------------------------------------------------------------------
-if os.path.exists("./figures/weekly_binned_kcp.png"):
-    os.remove("./figures/weekly_binned_kcp.png")
-    print("Removed the file named: weekly_binned_kcp.png.")
-if os.path.exists("./data/projected_weekly_data.xlsx"):
-    os.remove("./data/projected_weekly_data.xlsx")
-    print("Removed the file named: projected_weekly_data.xlsx.")
-if os.path.exists("./figures/screened_vs_cco.png"):
-    os.remove("./figures/screened_vs_cco.png")
-    print("Removed the file named: weekly_vs_cco.png")
+file_list = ["./figures/weekly_binned_kcp.png",
+             "./figures/weekly_vs_cco.png",
+             "./data/projected_weekly_data.xlsx"]
+safe_removal(file_list=file_list)
 # -----------------------------------------------------------------------------
 
 
@@ -77,6 +72,7 @@ datetime_stamp = pd.date_range(start=season_start_date, end=season_end_date,
 # remove redundant elements at the ends of the lists (perform truncation);
 # remove ints for which int > 364.
 while len(season_day) > len(datetime_stamp):
+    print("Performing a .pop() on season_day and daily_kcp.")
     season_day.pop()
     daily_kcp.pop()
 
@@ -90,11 +86,11 @@ for i in range(x_limits[1]):  # 0, 1, 2, ..., 363, 364
     projected_kcp.append(sweek_kcp_dict.get(projected_week[i],
                                             sweek_kcp_dict[52]))
     dtstamp = datetime_stamp[i].strftime("%Y-%m-%d")
-    print("i = {:>3}, s_day = {:>3}, s_week = {:>2},"
-          " kcp = {:.4f}, datetime_stamp = {}.".format(i, season_day[i],
-                                                       projected_week[i],
-                                                       projected_kcp[i],
-                                                       dtstamp))
+    # print("i = {:>3}, s_day = {:>3}, s_week = {:>2},"
+    #       " kcp = {:.4f}, datetime_stamp = {}.".format(i, season_day[i],
+    #                                                    projected_week[i],
+    #                                                    projected_kcp[i],
+    #                                                    dtstamp))
 
 # Perform a sanity check to ensure that the lists/iterables:
 # 1) projected_week
@@ -175,13 +171,13 @@ ax.fill_between(cco_df["season_day"].values, cco_df["cco"].values,
                 where=cco_df["cco"].values <=
                 projected_df["projected_kcp"].values,
                 facecolor="lawngreen", interpolate=True,
-                label="cco <= kcp")
+                label="cco <= new kcp")
 ax.fill_between(cco_df["season_day"].values, cco_df["cco"].values,
                 projected_df["projected_kcp"].values,
                 where=cco_df["cco"].values >=
                 projected_df["projected_kcp"].values,
                 facecolor="darkred", interpolate=True,
-                label="cco >= kcp")
+                label="cco >= new kcp")
 plt.legend()
 plt.tight_layout()
 plt.savefig("./figures/weekly_vs_cco.png")

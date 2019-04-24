@@ -1,5 +1,5 @@
 import pandas as pd
-import os
+from helper_functions import safe_removal
 
 
 # =============================================================================
@@ -48,6 +48,15 @@ multi_df = df.set_index(["probe_id", "date"])
 def get_sub_df(multi_dataframe, label):
     return multi_dataframe.loc[(label, ), :]
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+# -----------------------------------------------------------------------------
+# Remove old files generated from previous execution of this script.
+# -----------------------------------------------------------------------------
+file_list = ["./data/probes_to_be_discarded.txt", "./data/probe_ids.txt",
+             "./data/cultivar_data_unique.xlsx"]
+safe_removal(file_list=file_list)
+# -----------------------------------------------------------------------------
 
 
 # =============================================================================
@@ -123,10 +132,6 @@ with open("./data/probe_ids.txt", "w") as f:
 # Delete (probe) key from DataFrame Dictionary using the del keyword:
 for p in probes_to_be_popped:
     del processed_dict[p]
-
-# Remove the old `./data/cultivar_data_unique.xlsx` file.
-if os.path.exists("./data/cultivar_data_unique.xlsx"):
-    os.remove("./data/cultivar_data_unique.xlsx")
 
 # Instantiate a new Excel-File object at `./data/cultivar_data_unique.xlsx`.
 writer = pd.ExcelWriter("./data/cultivar_data_unique.xlsx",

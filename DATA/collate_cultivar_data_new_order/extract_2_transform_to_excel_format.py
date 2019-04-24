@@ -1,5 +1,5 @@
 import pandas as pd
-import os
+from helper_functions import safe_removal
 
 
 # =============================================================================
@@ -18,12 +18,8 @@ with open(path_to_probe_ids, "r") as f:
 # Remove the old `cultivar_*.xlsx` file(s).
 # (If note removed, they will be overwritten at a later stage anyway.)
 # -----------------------------------------------------------------------------
-directory = "./data/"
-files = os.listdir(directory)
-for file in files:
-    if file.startswith("cultivar_"):
-        os.remove(os.path.join(directory, file))
-        print("Removed the file named: {}.".format(file))
+file_list = ["./data/cultivar_data.xlsx"]
+safe_removal(file_list=file_list)
 # -----------------------------------------------------------------------------
 
 

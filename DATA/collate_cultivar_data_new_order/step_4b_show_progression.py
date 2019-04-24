@@ -69,7 +69,10 @@ files = os.listdir(directory)
 for file in files:
     if file.endswith((".png", ".gif")):
         os.remove(os.path.join(directory, file))
-        print("Removed the file named: {}.".format(file))
+        print("Removed the file named: \"{}\".".format(file))
+file_list = ["./probe_screening/progression_idx.txt",
+             "./probe_screening/healthy_idx.txt"]
+hf.safe_removal(file_list=file_list)
 # -----------------------------------------------------------------------------
 
 
@@ -118,15 +121,15 @@ y_old = xy_smoothed_dict[dfs_keys[0]]["y_smoothed"].values
 x_new = xy_smoothed_dict[dfs_keys[-1]]["x_smoothed"].values
 y_new = xy_smoothed_dict[dfs_keys[-1]]["y_smoothed"].values
 for i, p in enumerate(healthy_probes):
-    probe_df = cleaned_multi_df.loc[(p, ), ["kcp"]]
+    probe_df = cleaned_multi_df.loc[(p, ), ["y_scatter"]]
     probe_df["days"] = probe_df.index - season_start_date
     probe_df["days"] = probe_df["days"].dt.days
     probe_df.sort_values(by="days", inplace=True)
     r_sqrd_old = hf.get_r_squared(x_raw=probe_df["days"].values,
-                                  y_raw=probe_df["kcp"].values,
+                                  y_raw=probe_df["y_scatter"].values,
                                   x_fit=x_old, y_fit=y_old)
     r_sqrd_new = hf.get_r_squared(x_raw=probe_df["days"].values,
-                                  y_raw=probe_df["kcp"].values,
+                                  y_raw=probe_df["y_scatter"].values,
                                   x_fit=x_new, y_fit=y_new)
     if r_sqrd_new <= r_sqrd_old:
         improvement = "True"
@@ -142,9 +145,9 @@ for i, p in enumerate(healthy_probes):
     ax.grid(True)
     ax.scatter(cco_df["season_day"].values, cco_df["cco"].values,
                marker=".", color="yellow", label="cco", alpha=0.5)
-    ax.scatter(probe_df["days"].values, probe_df["kcp"].values, marker="P",
-               edgecolors="black", color="mediumslateblue", alpha=0.6,
-               label="Probe Data")
+    ax.scatter(probe_df["days"].values, probe_df["y_scatter"].values,
+               marker="P", edgecolors="black", color="mediumslateblue",
+               alpha=0.6, label="Probe Data")
     ax.plot(x_old, y_old, ls="-.", lw=2, alpha=0.6, color="sienna",
             label="First, Original\n"
                   "Trend")

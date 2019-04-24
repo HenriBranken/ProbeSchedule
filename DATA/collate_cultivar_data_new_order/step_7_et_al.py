@@ -10,6 +10,7 @@ from cleaning_operations import description_dict
 from helper_functions import get_dates_and_kcp
 import helper_meta_data as hm
 import helper_data as hd
+from helper_functions import safe_removal
 register_matplotlib_converters()
 
 
@@ -32,7 +33,7 @@ outer_index = hd.outer_index[:]
 inner_index = hd.inner_index[:]
 
 # Get a list of all the Probe-IDs involved for the cultivar
-probe_ids = hm.probe_ids
+probe_ids = hm.probe_ids[:]
 
 # Make a directory for each probe in the "./figures/" parent directory.
 for p in probe_ids:
@@ -58,11 +59,28 @@ with open("./data/mode.txt", "r") as f:
 vline_dates = hd.vline_dates[:]
 season_start_date = hm.season_start_date
 season_end_date = hm.season_end_date
-season_xticks = hd.season_xticks
+season_xticks = hd.season_xticks[:]
 api_start_date = hm.api_start_date
 api_end_date = hm.api_end_date
-api_xticks = hd.api_xticks
+api_xticks = hd.api_xticks[:]
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+# -----------------------------------------------------------------------------
+# Remove old figures.
+# -----------------------------------------------------------------------------
+file_list = ["./figures/rain.png", "./figures/et.png",
+             "./figures/gdd_heat_units_vs_time.png",
+             "./figures/temp_and_heat_units.png"]
+safe_removal(file_list=file_list)
+
+for p in probe_ids:
+    files = os.listdir("./figures/{:s}/".format(p))
+    for f in files:
+        if f.endswith(".png"):
+            os.remove("./figures/{:s}/{:s}".format(p, f))
+            print("Removed the file: \"{}\".".format(f))
+# -----------------------------------------------------------------------------
 
 
 # =============================================================================
@@ -291,7 +309,7 @@ lines2, labels2 = ax2.get_legend_handles_labels()
 ax2.legend(lines + lines2, labels + labels2, loc=0)
 
 fig.tight_layout()
-plt.savefig("figures/GDD_heat_units_vs_time.png")
+plt.savefig("figures/gdd_heat_units_vs_time.png")
 plt.close()
 # =============================================================================
 

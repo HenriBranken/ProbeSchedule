@@ -1,14 +1,24 @@
 import numpy as np
 import math
+import ntpath
+import os
 from scipy.signal import argrelextrema
 import pandas as pd
 import datetime
 from cleaning_operations import BEGINNING_MONTH
-from helper_meta_data import pol_degree
+from helper_meta_data import pol_degree, ALLOWED_TAIL_DEVIATION
 
 
 class NoProperWMATrend(Exception):
     pass
+
+
+def safe_removal(file_list):
+    for f in file_list:
+        if os.path.exists(f):
+            os.remove(f)
+            print("Removed the file: \"{:s}\".".format(ntpath.basename(f)))
+    return
 
 
 def rectify_trend(fitted_trend_values):
@@ -54,8 +64,9 @@ def weighted_moving_average(x, y, step_size=1.0, width=10, x_lims=None,
         x_min, x_max = x_lims[0], x_lims[1]
     else:
         x_min, x_max = math.floor(min(x)), math.ceil(max(x))
-    num = int((x_max - x_min) // step_size + 1)
-    bin_coords = np.linspace(start=x_min, stop=x_max, num=num, endpoint=True)
+    # num = int((x_max - x_min) // step_size + 1)
+    # bin_coords = np.linspace(start=x_min, stop=x_max, num=num, endpoint=True)
+    bin_coords = np.arange(start=x_min, stop=x_max, step=step_size)
     bin_avgs = np.zeros(len(bin_coords))
 
     if append_ and x_lims:
@@ -187,8 +198,8 @@ def get_xs_and_ys(dataframe, iteration, status="scatter"):
 
 
 def get_dates_and_kcp(dataframe, probe_id):
-    sub_df = dataframe.loc[(probe_id, ), ["kcp"]]
-    return sub_df.index, sub_df["kcp"].values
+    sub_df = dataframe.loc[(probe_id, ), ["y_scatter"]]
+    return sub_df.index, sub_df["y_scatter"].values
 
 
 def get_labels(begin, terminate, freq="MS"):
@@ -196,11 +207,11 @@ def get_labels(begin, terminate, freq="MS"):
 
 
 def extract_probe_df(multi_index_df, probe, starting_date):
-    df = multi_index_df.loc[(probe, ), ["kcp"]]
-    df["days"] = df.index - starting_date
-    df["days"] = df["days"].dt.days
-    df.sort_values("days", ascending=True, inplace=True)
-    return df[["days", "kcp"]]
+    df = multi_index_df.loc[(probe, ), ["y_scatter"]]
+    df["season_day"] = df.index - starting_date
+    df["season_day"] = df["season_day"].dt.days
+    df.sort_values("season_day", ascending=True, inplace=True)
+    return df[["season_day", "y_scatter"]]
 
 
 def collapse_dataframe(multi_index_df, tbr_probe_list, starting_date):
@@ -211,7 +222,20 @@ def collapse_dataframe(multi_index_df, tbr_probe_list, starting_date):
     for pr in tbr_probe_list:
         df.drop(index=pr, level=0, inplace=True)
     df.index = df.index.droplevel(0)
-    df.sort_index(axis=0, level="datetimeStamp", ascending=True, inplace=True)
-    df["days"] = df.index - starting_date
-    df["days"] = df["days"].dt.days
-    return df["days"].values, df["kcp"].values
+    df.sort_index(axis=0, level="datetime_stamp", ascending=True, inplace=True)
+    df["season_day"] = df.index - starting_date
+    df["season_day"] = df["season_day"].dt.days
+    return df["season_day"].values, df["y_scatter"].values
+
+
+def check_tails(y_trendline, leading_ref, trailing_ref,
+                allowed_dev=ALLOWED_TAIL_DEVIATION, suppress_check=False):
+    leading_val, trailing_val = y_trendline[0], y_trendline[-1]
+    leading_dev = np.absolute(leading_val - leading_ref)/leading_ref
+    trailing_dev = np.absolute(trailing_val - trailing_ref)/trailing_ref
+    if suppress_check:
+        return True
+    if (leading_dev <= allowed_dev) and (trailing_dev <= allowed_dev):
+        return True
+    else:
+        return False

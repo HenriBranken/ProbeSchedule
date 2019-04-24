@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import datetime
 from cleaning_operations import BEGINNING_MONTH
 import calendar
@@ -56,6 +57,8 @@ last_day = calendar.monthrange(year=starting_year+1,
                                month=BEGINNING_MONTH-1)[1]
 season_end_date = datetime.datetime(year=starting_year+1,
                                     month=BEGINNING_MONTH-1, day=last_day)
+datetime_stamp = list(pd.date_range(start=season_start_date,
+                                    end=season_end_date, freq="D"))
 
 
 CULTIVAR = "Golden Delicious Apples"

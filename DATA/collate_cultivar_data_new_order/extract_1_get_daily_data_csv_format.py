@@ -12,6 +12,7 @@ import numpy as np
 import datetime
 from datetime import timedelta
 import os
+from helper_functions import safe_removal
 
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -40,8 +41,8 @@ starting_year = int(datetime.datetime.strptime(start_date, "%Y-%m-%d").year)
 
 
 # -----------------------------------------------------------------------------
-# Remove the old `*_daily_data.csv` files as we don't need them anymore.
-# (If they will not be removed they will in any case be overwritten later one).
+# Remove the old files as we don't need them anymore.
+# (If they will not be removed they will in any case be overwritten later on).
 # -----------------------------------------------------------------------------
 if not os.path.exists("./data"):
     os.makedirs("data")
@@ -51,6 +52,9 @@ for file in files:
     if file.endswith("_daily_data.csv"):
         os.remove(os.path.join(directory, file))
         print("Removed the file named: {}.".format(file))
+file_list = ["./data/probe_ids.txt", "./data/api_dates.txt",
+             "./data/base_temperature.txt", "./data/starting_year.txt"]
+safe_removal(file_list=file_list)
 # -----------------------------------------------------------------------------
 
 
