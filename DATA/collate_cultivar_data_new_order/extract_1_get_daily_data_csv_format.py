@@ -30,8 +30,11 @@ yesterday = datetime.datetime.today() - timedelta(days=1)
 end_date = yesterday.strftime("%Y-%m-%d")  # get yesterday's date.
 T_base = 10.0  # Base Temperature in Degrees Celsius.
 
+if not os.path.exists("./data"):
+    os.makedirs("data")
+
 # Contains the raw probe numbers, e.g.: 370, 392, 891, etc...
-with open("./data/probe_numbers.txt") as f:
+with open("./data/probe_numbers.txt", "r") as f:
     devices = [int(x.rstrip()) for x in list(f) if x != '\n']
 devices.sort()
 
@@ -44,17 +47,15 @@ starting_year = int(datetime.datetime.strptime(start_date, "%Y-%m-%d").year)
 # Remove the old files as we don't need them anymore.
 # (If they will not be removed they will in any case be overwritten later on).
 # -----------------------------------------------------------------------------
-if not os.path.exists("./data"):
-    os.makedirs("data")
 directory = "./data/"
 files = os.listdir(directory)
 for file in files:
     if file.endswith("_daily_data.csv"):
         os.remove(os.path.join(directory, file))
         print("Removed the file named: {}.".format(file))
-file_list = ["./data/probe_ids.txt", "./data/api_dates.txt",
-             "./data/base_temperature.txt", "./data/starting_year.txt"]
-safe_removal(file_list=file_list)
+list_of_files = ["./data/probe_ids.txt", "./data/api_dates.txt",
+                 "./data/base_temperature.txt", "./data/starting_year.txt"]
+safe_removal(file_list=list_of_files)
 # -----------------------------------------------------------------------------
 
 

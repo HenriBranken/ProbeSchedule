@@ -6,11 +6,16 @@ from scipy.signal import argrelextrema
 import pandas as pd
 import datetime
 from cleaning_operations import BEGINNING_MONTH
-from helper_meta_data import pol_degree, ALLOWED_TAIL_DEVIATION
 
 
 class NoProperWMATrend(Exception):
     pass
+
+
+pol_degree = 4
+
+
+ALLOWED_TAIL_DEVIATION = 0.75
 
 
 def safe_removal(file_list):

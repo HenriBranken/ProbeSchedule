@@ -1,6 +1,5 @@
 import pandas as pd
 from cleaning_operations import description_dict
-import os
 from helper_functions import safe_removal
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

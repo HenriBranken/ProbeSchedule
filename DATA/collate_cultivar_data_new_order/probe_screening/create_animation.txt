@@ -1,1 +1,0 @@
-convert -delay 100 -loop 0 progression_iter_{0..4}.png animation.gif

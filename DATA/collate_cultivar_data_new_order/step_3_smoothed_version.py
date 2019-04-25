@@ -13,7 +13,7 @@ import sys
 # -----------------------------------------------------------------------------
 # Declare important constants
 # -----------------------------------------------------------------------------
-ALLOWED_TAIL_DEVIATION = hm.ALLOWED_TAIL_DEVIATION
+ALLOWED_TAIL_DEVIATION = hf.ALLOWED_TAIL_DEVIATION
 n_neighbours_list = hm.n_neighbours_list[:]
 delta_x = hm.delta_x  # A Default value of 1.
 x_limits = hm.x_limits[:]  # [0, 365]

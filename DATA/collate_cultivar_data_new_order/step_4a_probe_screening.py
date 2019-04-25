@@ -16,13 +16,16 @@ delta_x = hm.delta_x
 x_limits = hm.x_limits[:]
 marker_color_meta = hm.marker_color_meta[:]
 marker_color_meta = cycle(marker_color_meta)
-ALLOWED_TAIL_DEVIATION = hm.ALLOWED_TAIL_DEVIATION
+ALLOWED_TAIL_DEVIATION = hf.ALLOWED_TAIL_DEVIATION
 top_border_1 = "+" + "-"*78 + "+\n"
 line_1 = "+" + "-"*7 + "+" + "-"*12 + "+" + "-"*12 + "+" + "-"*12 + "+" + \
        "-"*19 + "+" + "-"*11 + "+\n"
 top_border_2 = "+" + "-"*78 + "+\n"
 line_2 = "+" + "-"*11 + "+" + "-"*16 + "+" + "-"*14 + "+" + "-"*17 + "+" + \
          "-"*16 + "+\n"
+
+if not os.path.exists("./probe_screening"):
+    os.makedirs("probe_screening")
 # =============================================================================
 
 
@@ -144,7 +147,8 @@ def generate_output(the_string, out_file):
     return
 
 
-def compare_old_vs_new(healthy_probes, x_fit, old_trend, new_trend):
+def compare_old_vs_new(healthy_probes, x_fit, old_trend, new_trend,
+                       suppress_check=False):
     old_r_squares = []
     new_r_squares = []
     for healthy_probe in healthy_probes:
@@ -159,12 +163,16 @@ def compare_old_vs_new(healthy_probes, x_fit, old_trend, new_trend):
                                          x_fit=x_fit, y_fit=new_trend)
         old_r_squares.append(old_r_squared)
         new_r_squares.append(new_r_squared)
+    print(list(zip(new_r_squares, old_r_squares)))
     boolean_list = [new_r_squares[ii] <= old_r_squares[ii] for ii in
                     range(len(healthy_probes))]
     number_improvements = sum(boolean_list)
     number_deterioriations = len(healthy_probes) - number_improvements
     comparison = number_improvements >= number_deterioriations
-    return number_improvements, number_deterioriations, comparison
+    if suppress_check:  # suppress_check is True
+        return number_improvements, number_deterioriations, suppress_check
+    else:  # suppress_check is False
+        return number_improvements, number_deterioriations, comparison
 # -----------------------------------------------------------------------------
 
 
@@ -221,7 +229,7 @@ for i in range(n_iterations):
     y_smoothed_old = np.copy(y_smoothed)
     try:
         # Populate probes_r_squared list with r-squares between probe scatter
-        # data and the current smoothed trend line_1:
+        # data and the current smoothed trend line:
         probes_r_squared = []
         # Loop over all the probes:
         for p in probe_ids:
@@ -229,14 +237,14 @@ for i in range(n_iterations):
             probe_df = hf.extract_probe_df(multi_index_df=cleaned_multi_df,
                                            probe=p,
                                            starting_date=season_start_date)
-            # Compute r-squared between probe scatter and current trend line_1:
+            # Compute r-squared between probe scatter and current trend line:
             val = hf.get_r_squared(x_raw=probe_df["season_day"].values,
                                    y_raw=probe_df["y_scatter"].values,
                                    x_fit=x_smoothed, y_fit=y_smoothed)
             # Append r-squared `val` to the growing probes_r_squared list:
             probes_r_squared.append(val)
         # Extract the probe index whose probe scatter data is the most poorly
-        # fit by the smoothed trendline_1.  Call this probe the "worst probe":
+        # fit by the smoothed trendline.  Call this probe the "worst probe":
         max_arg_index = np.where(probes_r_squared == max(probes_r_squared))[0]
         max_arg_index = max_arg_index[0]
         # Append the "worst probe" to `removed_probes`.
@@ -253,12 +261,12 @@ for i in range(n_iterations):
         if mode == "WMA":
             # This will store all the various trend line_1s associated with
             # different values of `n_neighbours`:
-            saved_trend_line_1s = []
+            saved_trend_lines = []
             num_bumps = []
             tracker = 0
             for n_neighbours in n_neighbours_list:
                 try:
-                    # Generate new smoothed trendline_1 based on `n_neighbours`
+                    # Generate new smoothed trendline based on `n_neighbours`
                     # hyperparameter:
                     x_smoothed, y_smoothed = \
                         hf.weighted_moving_average(x=x_scatter, y=y_scatter,
@@ -266,12 +274,12 @@ for i in range(n_iterations):
                                                    width=n_neighbours,
                                                    x_lims=x_limits,
                                                    append_=True)
-                    # Append smoothed trend line_1 to `saved_trend_line_1s`.
-                    saved_trend_line_1s.append(zip(x_smoothed, y_smoothed))
+                    # Append smoothed trend line to `saved_trend_line_1s`.
+                    saved_trend_lines.append(zip(x_smoothed, y_smoothed))
                     # Append n_bumps to `num_bumps` list.
                     num_bumps.append(hf.get_n_local_extrema(y_smoothed))
                     tracker += 1
-                # I.e. out scatter is too sparse to generate a WMA trendline_1:
+                # I.e. our scatter is too sparse to generate a WMA trendline:
                 except ZeroDivisionError:
                     # Truncate `n_neighbours_list` to contain only the
                     # `n_neighbours` that we have looped over in the for-loop.
@@ -279,14 +287,14 @@ for i in range(n_iterations):
                     # Exit the for-loop; `n_neighbours` has become too small.
                     break
             try:
-                # Get index at which the smoothed trend line_1 has only 1 bump.
+                # Get index at which the smoothed trend line has only 1 bump.
                 prized_index = hf.get_prized_index(num_bumps)
                 # Extract the associated smoothed trend_line_1 having 1 bump.
-                trend_line = saved_trend_line_1s[prized_index]
-                # Extract `x_smoothed` and `y_smoothed` from `trend_line_1`.
+                trend_line = saved_trend_lines[prized_index]
+                # Extract `x_smoothed` and `y_smoothed` from `trend_line`.
                 some_tuple = [list(t) for t in zip(*trend_line)]
                 x_smoothed, y_smoothed = some_tuple[0], some_tuple[1]
-            # I.e. there is no trendline_1 just having 1 bump as desired.
+            # I.e. there is no trendline just having 1 bump as desired.
             # Therefore we have to switch over to "Polynomial-fit" mode.
             except hf.NoProperWMATrend as e_1:
                 generate_output(the_string="Cannot perform Gaussian-WMA.\n"
@@ -353,7 +361,7 @@ for i in range(n_iterations):
         n_imp, n_det, majority_vote = \
             compare_old_vs_new(healthy_probes=probe_ids,
                                x_fit=x_smoothed, old_trend=y_smoothed_old,
-                               new_trend=y_smoothed)
+                               new_trend=y_smoothed, suppress_check=False)
         imps_and_dets.write(info_filler_2(iter_=i,
                                           n_healthy_p=len(probe_ids),
                                           num_imp=n_imp,
@@ -385,7 +393,7 @@ for i in range(n_iterations):
         q += 1
     # I.e. we cannot cycle through the screening logic `n_iterations` times:
     except IndexError as e_2:
-        generate_output(the_string="Cannot generate a new trendline_1.\n"
+        generate_output(the_string="Cannot generate a new trendline.\n"
                                    "Have to exit the for-loop prematurely.\n",
                         out_file=fn)
         break  # exit the for-loop
