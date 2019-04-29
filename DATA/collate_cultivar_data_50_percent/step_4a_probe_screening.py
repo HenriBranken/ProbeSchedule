@@ -11,7 +11,7 @@ pd.options.mode.chained_assignment = None  # default='warn'
 # =============================================================================
 # Define some other important constants
 # =============================================================================
-n_neighbours_list = hm.n_neighbours_list
+n_neighbours_list = hm.n_neighbours_list[:]
 delta_x = hm.delta_x
 x_limits = hm.x_limits[:]
 marker_color_meta = hm.marker_color_meta[:]
@@ -163,7 +163,7 @@ def compare_old_vs_new(healthy_probes, x_fit, old_trend, new_trend,
                                          x_fit=x_fit, y_fit=new_trend)
         old_r_squares.append(old_r_squared)
         new_r_squares.append(new_r_squared)
-    print(list(zip(new_r_squares, old_r_squares)))
+    # print(list(zip(new_r_squares, old_r_squares)))
     boolean_list = [new_r_squares[ii] <= old_r_squares[ii] for ii in
                     range(len(healthy_probes))]
     number_improvements = sum(boolean_list)

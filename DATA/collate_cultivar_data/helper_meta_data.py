@@ -33,6 +33,14 @@ delta_x = 1
 
 x_limits = [0, 365]
 
+CULTIVAR = "Golden Delicious Apples"
+
+
+WEEKLY_BINNED_VERSION = True
+
+
+mode = "WMA"
+
 
 marker_list = ["o", ">", "<", "s", "P", "*", "X", "D"]
 color_list = ["red", "gold", "seagreen", "lightseagreen", "royalblue",
@@ -53,12 +61,3 @@ season_end_date = datetime.datetime(year=starting_year+1,
                                     month=BEGINNING_MONTH-1, day=last_day)
 datetime_stamp = list(pd.date_range(start=season_start_date,
                                     end=season_end_date, freq="D"))
-
-
-CULTIVAR = "Golden Delicious Apples"
-
-
-WEEKLY_BINNED_VERSION = True
-
-
-mode = "WMA"

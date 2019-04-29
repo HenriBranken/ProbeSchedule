@@ -42,7 +42,7 @@ cco_df = hd.cco_df.copy(deep=True)
 # Create a DataFrame where the index is a wrapped date, and the only column is
 # "etcp".  We only keep "etcp" entries that are non-NaN and are associated with
 # a "binary_value" of 0.  For neatness, sort the "wrapped_date" index as well.
-# Having duplicate dates in the index makes sense.
+# Having duplicate dates in the index DOES make sense.
 processed_dict = pd.read_excel("./data/processed_probe_data.xlsx",
                                sheet_name=None, header=0, index_col=0,
                                parse_dates=True)

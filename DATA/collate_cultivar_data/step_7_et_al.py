@@ -264,7 +264,7 @@ condition = interim_df["description"].str.contains(DESC, na=False)
 bad_etc_dates = df[condition].index
 interim_df.loc[bad_etc_dates, "etc"] = np.nan
 fig, ax = plt.subplots(figsize=(10, 5))
-ax.plot(interim_df.index, interim_df["eto"], label="(Imputed) $ET_0$", lw=2,
+ax.plot(interim_df.index, interim_df["eto"], label="Flagged $ET_0$", lw=2,
         alpha=0.6, color="green")
 ax.plot(interim_df.index, interim_df["etc"], label="Flagged $ET_c$", lw=2,
         alpha=0.6, color="blue")
@@ -276,7 +276,7 @@ ax.plot([], [], linewidth=3, color="magenta", alpha=0.4, linestyle="--",
         label="New Season")
 ax.set_xlabel("Date")
 ax.set_ylabel("Evapotranspiration")
-ax.set_title("$ET_c$ and $ET_o$ after flagging and imputation.")
+ax.set_title("$ET_c$ and $ET_o$ after flagging.")
 ax.grid()
 ax.legend()
 plt.tight_layout()
@@ -301,7 +301,7 @@ ax1.set_title("Heat Units and GDD versus Time")
 ax1.set_xlabel("Date")
 ax1.set_ylabel("Heat Units", color=color)
 pl1 = ax1.bar(processed_eg_df.index, processed_eg_df["interpolated_hu"],
-              color=color, label="Interpolated H.U.", alpha=0.6, width=1.0)
+              color=color, label="Heat Units", alpha=0.6, width=1.0)
 ax1.tick_params(axis="y", labelcolor=color)
 for v in vline_dates:
     ax1.axvline(x=v, linewidth=3, linestyle="--", color="magenta", alpha=0.4)

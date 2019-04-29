@@ -97,14 +97,6 @@ then
 
     RESULT=$?
     if [[ ${RESULT} -eq 0 ]]; then
-        python3 step_5_tailor_for_weekly_bins.py
-    else
-        echo "The Python script step_4b_show_progression.py failed."
-        exit 1
-    fi
-
-    RESULT=$?
-    if [[ ${RESULT} -eq 0 ]]; then
         python3 step_6a_kcp_versus_gdd.py
     else
         echo "The Python script step_5_tailor_for_weekly_bins.py failed."
