@@ -1,0 +1,16 @@
+RAIN_THRESHOLD=2
+ETO_MAX=12
+KCP_MAX=0.8
+BEGINNING_MONTH=7
+ETCP_PERC_DEVIATION=0.50
+KCP_PERC_DEVIATION=0.50
+start_date=2017-01-01
+T_base=10
+pol_degree=4
+ALLOWED_TAIL_DEVIATION=0.75
+delta_x=1
+x_limits_left=0
+x_limits_right=365
+CULTIVAR=Golden Delicious Apples
+WEEKLY_BINNED_VERSION=True
+mode=WMA
