@@ -1,0 +1,214 @@
++------------------------------------------------------------------------------+
+|                             Probe P-370 Report:                              |
++-------------------------------------------+---------------+------------------+
+| Rain perturbing etcp                      |        12.03% |         102/848  |
+| Software simulation                       |         7.31% |          62/848  |
+| `Possible` irrigation                     |         6.84% |          58/848  |
+| Null profile value                        |         7.31% |          62/848  |
+| Profile data blip                         |         1.65% |          14/848  |
+| Large profile dip                         |         1.06% |           9/848  |
+| Etcp is positive                          |        15.80% |         134/848  |
+| Etcp larger than allowed maximum          |         0.00% |           0/848  |
+| Etcp suspiciously low                     |         3.54% |          30/848  |
+| Etcp suspiciously high                    |        46.23% |         392/848  |
+| Ratio of etcp over eto exceeds KCP_MAX    |         0.00% |           0/848  |
+| kcp deviation too big                     |         0.00% |           0/848  |
+| kcp is NaN                                |        93.63% |         794/848  |
+| Faulty or Missing Heat Units              |         0.00% |           0/848  |
+| Imputed eto                               |         0.00% |           0/848  |
+| Stuck or faulty eto                       |         0.71% |           6/848  |
+| eto exceeds ETO_MAX                       |         0.00% |           0/848  |
+| Faulty etc                                |         0.00% |           0/848  |
+| etc exceeds ETCP_MAX                      |         0.00% |           0/848  |
++-------------------------------------------+---------------+------------------+
+| Only 6.37% of data, that is 54/848 samples, are useful for probe P-370.      |
++------------------------------------------------------------------------------+
+
+
++------------------------------------------------------------------------------+
+|                             Probe P-371 Report:                              |
++-------------------------------------------+---------------+------------------+
+| Rain perturbing etcp                      |        12.03% |         102/848  |
+| Software simulation                       |         9.32% |          79/848  |
+| `Possible` irrigation                     |         6.96% |          59/848  |
+| Null profile value                        |         9.32% |          79/848  |
+| Profile data blip                         |         1.53% |          13/848  |
+| Large profile dip                         |         1.77% |          15/848  |
+| Etcp is positive                          |        14.50% |         123/848  |
+| Etcp larger than allowed maximum          |         0.00% |           0/848  |
+| Etcp suspiciously low                     |         2.00% |          17/848  |
+| Etcp suspiciously high                    |        37.50% |         318/848  |
+| Ratio of etcp over eto exceeds KCP_MAX    |         0.00% |           0/848  |
+| kcp deviation too big                     |         0.47% |           4/848  |
+| kcp is NaN                                |        96.11% |         815/848  |
+| Faulty or Missing Heat Units              |         0.00% |           0/848  |
+| Imputed eto                               |         0.00% |           0/848  |
+| Stuck or faulty eto                       |        12.15% |         103/848  |
+| eto exceeds ETO_MAX                       |         0.00% |           0/848  |
+| Faulty etc                                |         2.36% |          20/848  |
+| etc exceeds ETCP_MAX                      |         0.00% |           0/848  |
++-------------------------------------------+---------------+------------------+
+| Only 3.89% of data, that is 33/848 samples, are useful for probe P-371.      |
++------------------------------------------------------------------------------+
+
+
++------------------------------------------------------------------------------+
+|                             Probe P-372 Report:                              |
++-------------------------------------------+---------------+------------------+
+| Rain perturbing etcp                      |        12.03% |         102/848  |
+| Software simulation                       |         9.32% |          79/848  |
+| `Possible` irrigation                     |         5.78% |          49/848  |
+| Null profile value                        |         9.32% |          79/848  |
+| Profile data blip                         |         1.42% |          12/848  |
+| Large profile dip                         |         1.06% |           9/848  |
+| Etcp is positive                          |        14.86% |         126/848  |
+| Etcp larger than allowed maximum          |         0.00% |           0/848  |
+| Etcp suspiciously low                     |         6.13% |          52/848  |
+| Etcp suspiciously high                    |        38.80% |         329/848  |
+| Ratio of etcp over eto exceeds KCP_MAX    |         0.00% |           0/848  |
+| kcp deviation too big                     |         0.12% |           1/848  |
+| kcp is NaN                                |        91.86% |         779/848  |
+| Faulty or Missing Heat Units              |         0.00% |           0/848  |
+| Imputed eto                               |         0.00% |           0/848  |
+| Stuck or faulty eto                       |         4.25% |          36/848  |
+| eto exceeds ETO_MAX                       |         0.00% |           0/848  |
+| Faulty etc                                |         0.00% |           0/848  |
+| etc exceeds ETCP_MAX                      |         0.00% |           0/848  |
++-------------------------------------------+---------------+------------------+
+| Only 8.14% of data, that is 69/848 samples, are useful for probe P-372.      |
++------------------------------------------------------------------------------+
+
+
++------------------------------------------------------------------------------+
+|                             Probe P-384 Report:                              |
++-------------------------------------------+---------------+------------------+
+| Rain perturbing etcp                      |        12.03% |         102/848  |
+| Software simulation                       |         0.00% |           0/848  |
+| `Possible` irrigation                     |         8.49% |          72/848  |
+| Null profile value                        |         0.00% |           0/848  |
+| Profile data blip                         |         0.00% |           0/848  |
+| Large profile dip                         |         2.00% |          17/848  |
+| Etcp is positive                          |        14.50% |         123/848  |
+| Etcp larger than allowed maximum          |         0.00% |           0/848  |
+| Etcp suspiciously low                     |        12.03% |         102/848  |
+| Etcp suspiciously high                    |        33.96% |         288/848  |
+| Ratio of etcp over eto exceeds KCP_MAX    |         0.00% |           0/848  |
+| kcp deviation too big                     |         0.12% |           1/848  |
+| kcp is NaN                                |        83.73% |         710/848  |
+| Faulty or Missing Heat Units              |         0.00% |           0/848  |
+| Imputed eto                               |         0.00% |           0/848  |
+| Stuck or faulty eto                       |         0.83% |           7/848  |
+| eto exceeds ETO_MAX                       |         0.00% |           0/848  |
+| Faulty etc                                |         0.00% |           0/848  |
+| etc exceeds ETCP_MAX                      |         0.00% |           0/848  |
++-------------------------------------------+---------------+------------------+
+| Only 16.27% of data, that is 138/848 samples, are useful for probe P-384.    |
++------------------------------------------------------------------------------+
+
+
++------------------------------------------------------------------------------+
+|                             Probe P-391 Report:                              |
++-------------------------------------------+---------------+------------------+
+| Rain perturbing etcp                      |        12.03% |         102/848  |
+| Software simulation                       |        23.94% |         203/848  |
+| `Possible` irrigation                     |         6.60% |          56/848  |
+| Null profile value                        |        32.19% |         273/848  |
+| Profile data blip                         |         1.06% |           9/848  |
+| Large profile dip                         |         1.53% |          13/848  |
+| Etcp is positive                          |         8.02% |          68/848  |
+| Etcp larger than allowed maximum          |         0.00% |           0/848  |
+| Etcp suspiciously low                     |         0.83% |           7/848  |
+| Etcp suspiciously high                    |        13.80% |         117/848  |
+| Ratio of etcp over eto exceeds KCP_MAX    |         0.00% |           0/848  |
+| kcp deviation too big                     |         0.12% |           1/848  |
+| kcp is NaN                                |        97.05% |         823/848  |
+| Faulty or Missing Heat Units              |         0.00% |           0/848  |
+| Imputed eto                               |         0.00% |           0/848  |
+| Stuck or faulty eto                       |        54.60% |         463/848  |
+| eto exceeds ETO_MAX                       |         0.00% |           0/848  |
+| Faulty etc                                |         0.00% |           0/848  |
+| etc exceeds ETCP_MAX                      |         0.00% |           0/848  |
++-------------------------------------------+---------------+------------------+
+| Only 2.95% of data, that is 25/848 samples, are useful for probe P-391.      |
++------------------------------------------------------------------------------+
+
+
++------------------------------------------------------------------------------+
+|                             Probe P-392 Report:                              |
++-------------------------------------------+---------------+------------------+
+| Rain perturbing etcp                      |        12.03% |         102/848  |
+| Software simulation                       |        22.52% |         191/848  |
+| `Possible` irrigation                     |         6.72% |          57/848  |
+| Null profile value                        |        30.31% |         257/848  |
+| Profile data blip                         |         0.71% |           6/848  |
+| Large profile dip                         |         1.53% |          13/848  |
+| Etcp is positive                          |         7.31% |          62/848  |
+| Etcp larger than allowed maximum          |         0.00% |           0/848  |
+| Etcp suspiciously low                     |         1.89% |          16/848  |
+| Etcp suspiciously high                    |        12.85% |         109/848  |
+| Ratio of etcp over eto exceeds KCP_MAX    |         0.00% |           0/848  |
+| kcp deviation too big                     |         1.30% |          11/848  |
+| kcp is NaN                                |        95.28% |         808/848  |
+| Faulty or Missing Heat Units              |         0.00% |           0/848  |
+| Imputed eto                               |         0.00% |           0/848  |
+| Stuck or faulty eto                       |        52.95% |         449/848  |
+| eto exceeds ETO_MAX                       |         0.00% |           0/848  |
+| Faulty etc                                |         0.00% |           0/848  |
+| etc exceeds ETCP_MAX                      |         0.00% |           0/848  |
++-------------------------------------------+---------------+------------------+
+| Only 4.72% of data, that is 40/848 samples, are useful for probe P-392.      |
++------------------------------------------------------------------------------+
+
+
++------------------------------------------------------------------------------+
+|                             Probe P-891 Report:                              |
++-------------------------------------------+---------------+------------------+
+| Rain perturbing etcp                      |        12.03% |         102/848  |
+| Software simulation                       |         0.00% |           0/848  |
+| `Possible` irrigation                     |         8.25% |          70/848  |
+| Null profile value                        |         0.00% |           0/848  |
+| Profile data blip                         |         0.00% |           0/848  |
+| Large profile dip                         |         1.53% |          13/848  |
+| Etcp is positive                          |        14.27% |         121/848  |
+| Etcp larger than allowed maximum          |         0.00% |           0/848  |
+| Etcp suspiciously low                     |         9.32% |          79/848  |
+| Etcp suspiciously high                    |        38.92% |         330/848  |
+| Ratio of etcp over eto exceeds KCP_MAX    |         0.00% |           0/848  |
+| kcp deviation too big                     |         0.35% |           3/848  |
+| kcp is NaN                                |        85.73% |         727/848  |
+| Faulty or Missing Heat Units              |         0.00% |           0/848  |
+| Imputed eto                               |         0.00% |           0/848  |
+| Stuck or faulty eto                       |         1.30% |          11/848  |
+| eto exceeds ETO_MAX                       |         0.00% |           0/848  |
+| Faulty etc                                |         0.00% |           0/848  |
+| etc exceeds ETCP_MAX                      |         0.00% |           0/848  |
++-------------------------------------------+---------------+------------------+
+| Only 14.27% of data, that is 121/848 samples, are useful for probe P-891.    |
++------------------------------------------------------------------------------+
+
+
++------------------------------------------------------------------------------+
+|                     Report for the entire SET of probes:                     |
++-------------------------------------------+---------------+------------------+
+| Rain perturbing etcp                      |        12.03% |         714/5936 |
+| Software simulation                       |        10.34% |         614/5936 |
+| `Possible` irrigation                     |         7.09% |         421/5936 |
+| Null profile value                        |        12.63% |         750/5936 |
+| Profile data blip                         |         0.91% |          54/5936 |
+| Large profile dip                         |         1.50% |          89/5936 |
+| Etcp is positive                          |        12.75% |         757/5936 |
+| Etcp larger than allowed maximum          |         0.00% |           0/5936 |
+| Etcp suspiciously low                     |         5.10% |         303/5936 |
+| Etcp suspiciously high                    |        31.72% |        1883/5936 |
+| Ratio of etcp over eto exceeds KCP_MAX    |         0.00% |           0/5936 |
+| kcp deviation too big                     |         0.35% |          21/5936 |
+| kcp is NaN                                |        91.91% |        5456/5936 |
+| Faulty or Missing Heat Units              |         0.00% |           0/5936 |
+| Imputed eto                               |         0.00% |           0/5936 |
+| Stuck or faulty eto                       |        18.11% |        1075/5936 |
+| eto exceeds ETO_MAX                       |         0.00% |           0/5936 |
+| Faulty etc                                |         0.34% |          20/5936 |
+| etc exceeds ETCP_MAX                      |         0.00% |           0/5936 |
++-------------------------------------------+---------------+------------------+
+| Only 8.09% of data, that is 480/5936 samples, are useful for the probe SET.  |
++------------------------------------------------------------------------------+

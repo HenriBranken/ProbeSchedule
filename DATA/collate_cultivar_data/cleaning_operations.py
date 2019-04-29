@@ -11,7 +11,7 @@ RAIN_THRESHOLD = 2  # The value (in mm) above which flagging needs to occur.
 ETO_MAX = 12  # Maximum allowed eto for the cultivar.
 KCP_MAX = 0.8  # Maximum allowed kcp for the cultivar.
 BEGINNING_MONTH = 7  # i.e. beginning of July.
-ETCP_PERC_DEVIATION = 0.30  # The smaller the value, the more strict flagging.
+ETCP_PERC_DEVIATION = 0.50  # The smaller the value, the more strict flagging.
 KCP_PERC_DEVIATION = 0.50  # Maximum allowed percentage deviation
 ETCP_MAX = ETO_MAX * KCP_MAX  # Maximum allowed etcp for the cultivar.
 DAY = datetime.timedelta(days=1)  # Define a time-delta object of 1-day long.
