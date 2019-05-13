@@ -12,9 +12,7 @@ done
 if [[ "${response}" = y ]]
 then
     cd ./data/
-    GLOBIGNORE=probe_numbers.txt
     rm -v *
-    unset GLOBIGNORE
     cd ../
 
     rm -rfv ./figures/*

@@ -13,7 +13,6 @@ done
 if [[ "${response}" = y ]]
 then
     rm -v ./data/api_dates.txt
-    rm -v ./data/base_temperature.txt
     rm -v ./data/probe_ids.txt
     rm -v ./data/starting_year.txt
     rm -rfv ./data/*_daily_data.csv

@@ -11,32 +11,8 @@ do
 done
 if [[ "${response}" = y ]]
 then
-#    rm -v ./data/binned_kcp_data.xlsx
-#    rm -v ./data/cleaned_and_sorted_kcp.xlsx
-#    rm -v ./data/cleaned_data_for_overlay.xlsx
-#    rm -v ./data/data_report.txt
-#    rm -v ./data/first_smoothed_kcp_trend.xlsx
-#    rm -v ./data/fit_of_kcp_vs_cumulative_gdd.xlsx
-#    rm -v ./data/kcp_vs_days.xlsx
-#    rm -v ./data/kcp_vs_smoothed_cumul_gdd.xlsx
-#    rm -v ./data/mode.txt
-#    rm -v ./data/prized_index.txt
-#    rm -v ./data/prized_n_neighbours.txt
-#    rm -v ./data/processed_probe_data.xlsx
-#    rm -v ./data/projected_weekly_data.xlsx
-#    rm -v ./data/reference_crop_coeff.xlsx
-#    rm -v ./data/smoothed_cumul_gdd_vs_season_day.xlsx
-#    rm -v ./data/stacked_cleaned_data_for_overlay.xlsx
-#    rm -v ./data/statistics_polynomial_fit.txt
-#    rm -v ./data/statistics_wma_trend_lines.txt
-#    rm -rfv ./figures/*
-#    rm -rfv ./probe_screening/*.txt
-#    rm -rfv ./probe_screening/*.gif
-#    rm -rfv ./probe_screening/*.png
-#    rm -rfv ./probe_screening/*.xlsx
-
     cd ./data/
-    GLOBIGNORE=probe_numbers.txt:*.csv:probe_ids.txt:api_dates.txt:base_temperature.txt:starting_year.txt:cultivar_data.xlsx:probes_to_be_discarded.txt:cultivar_data_unique.xlsx
+    GLOBIGNORE=*.csv:probe_ids.txt:api_dates.txt:base_temperature.txt:starting_year.txt:cultivar_data.xlsx:probes_to_be_discarded.txt:cultivar_data_unique.xlsx
     rm -v *
     unset GLOBIGNORE
     cd ../

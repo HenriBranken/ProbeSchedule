@@ -35,7 +35,7 @@ if not os.path.exists("./data"):
     os.makedirs("data")
 
 # Contains the raw probe numbers, e.g.: 370, 392, 891, etc...
-with open("./data/probe_numbers.txt", "r") as f:
+with open("./probe_numbers.txt", "r") as f:
     devices = [int(x.rstrip()) for x in list(f) if x != '\n']
 devices.sort()
 

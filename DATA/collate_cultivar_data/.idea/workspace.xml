@@ -2,108 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="49ef9e0d-250f-43a7-a4f1-33f52ead0df1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../ProbeSchedule_constants.odt" beforeDir="false" afterPath="$PROJECT_DIR$/../ProbeSchedule_constants.odt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PIPELINE.sh" beforeDir="false" afterPath="$PROJECT_DIR$/PIPELINE.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cleaning_operations.py" beforeDir="false" afterPath="$PROJECT_DIR$/cleaning_operations.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/P-370_daily_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/P-370_daily_data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/P-371_daily_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/P-371_daily_data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/P-372_daily_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/P-372_daily_data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/P-384_daily_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/P-384_daily_data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/P-391_daily_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/P-391_daily_data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/P-392_daily_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/P-392_daily_data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/P-891_daily_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/P-891_daily_data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/api_dates.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/api_dates.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/base_temperature.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/data/cleaned_and_sorted_kcp.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/cleaned_and_sorted_kcp.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/cleaned_data_for_overlay.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/cleaned_data_for_overlay.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/cultivar_data.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/cultivar_data.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/cultivar_data_unique.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/cultivar_data_unique.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data_report.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/data_report.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/first_smoothed_kcp_trend.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/first_smoothed_kcp_trend.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/fit_of_kcp_vs_cumulative_gdd.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/fit_of_kcp_vs_cumulative_gdd.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/kcp_vs_smoothed_cumul_gdd.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/kcp_vs_smoothed_cumul_gdd.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/probe_numbers.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/data/processed_probe_data.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed_probe_data.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/projected_weekly_data.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/projected_weekly_data.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/reference_crop_coeff.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/reference_crop_coeff.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/smoothed_cumul_gdd_vs_season_day.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/smoothed_cumul_gdd_vs_season_day.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/stacked_cleaned_data_for_overlay.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/stacked_cleaned_data_for_overlay.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/statistics_wma_trend_lines.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/statistics_wma_trend_lines.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/extract_1_get_daily_data_csv_format.py" beforeDir="false" afterPath="$PROJECT_DIR$/extract_1_get_daily_data_csv_format.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-370/cleaned_probe_data.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-370/cleaned_probe_data.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-370/irrigation.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-370/irrigation.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-371/cleaned_probe_data.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-371/cleaned_probe_data.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-371/irrigation.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-371/irrigation.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-372/cleaned_probe_data.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-372/cleaned_probe_data.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-372/irrigation.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-372/irrigation.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-384/cleaned_probe_data.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-384/cleaned_probe_data.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-384/irrigation.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-384/irrigation.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-384/profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-384/profile.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-391/cleaned_probe_data.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-391/cleaned_probe_data.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-391/irrigation.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-391/irrigation.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-392/cleaned_probe_data.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-392/cleaned_probe_data.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-392/irrigation.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-392/irrigation.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-891/cleaned_probe_data.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-891/cleaned_probe_data.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-891/irrigation.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-891/irrigation.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/P-891/profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/P-891/profile.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/et.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/et.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/etcp_overlay.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/etcp_overlay.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/first_smoothed_kcp_versus_days.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/first_smoothed_kcp_versus_days.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/first_smoothed_kcp_versus_month.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/first_smoothed_kcp_versus_month.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/gdd_heat_units_vs_time.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/gdd_heat_units_vs_time.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/irrigation/irrigation_P-370.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/irrigation/irrigation_P-370.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/irrigation/irrigation_P-371.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/irrigation/irrigation_P-371.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/irrigation/irrigation_P-372.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/irrigation/irrigation_P-372.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/irrigation/irrigation_P-384.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/irrigation/irrigation_P-384.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/irrigation/irrigation_P-391.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/irrigation/irrigation_P-391.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/irrigation/irrigation_P-392.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/irrigation/irrigation_P-392.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/irrigation/irrigation_P-891.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/irrigation/irrigation_P-891.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/kcp/kcp_P-370.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/kcp/kcp_P-370.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/kcp/kcp_P-371.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/kcp/kcp_P-371.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/kcp/kcp_P-372.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/kcp/kcp_P-372.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/kcp/kcp_P-384.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/kcp/kcp_P-384.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/kcp/kcp_P-391.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/kcp/kcp_P-391.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/kcp/kcp_P-392.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/kcp/kcp_P-392.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/kcp/kcp_P-891.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/kcp/kcp_P-891.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/kcp_overlay.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/kcp_overlay.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/kcp_versus_gdd.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/kcp_versus_gdd.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/kcp_versus_gdd_smoothed.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/kcp_versus_gdd_smoothed.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/profile/profile_P-370.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/profile/profile_P-370.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/profile/profile_P-371.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/profile/profile_P-371.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/profile/profile_P-372.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/profile/profile_P-372.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/profile/profile_P-384.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/profile/profile_P-384.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/profile/profile_P-391.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/profile/profile_P-391.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/profile/profile_P-392.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/profile/profile_P-392.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/profile/profile_P-891.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/profile/profile_P-891.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/rain.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/rain.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/smoothed_cumul_gdd.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/smoothed_cumul_gdd.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/temp_and_heat_units.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/temp_and_heat_units.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/weekly_binned_kcp.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/weekly_binned_kcp.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/weekly_vs_cco.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/weekly_vs_cco.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helper_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/helper_functions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helper_meta_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/helper_meta_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/probe_screening/healthy_idx.txt" beforeDir="false" afterPath="$PROJECT_DIR$/probe_screening/healthy_idx.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/probe_screening/healthy_iter_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/probe_screening/healthy_iter_0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/probe_screening/healthy_iter_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/probe_screening/healthy_iter_1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/probe_screening/healthy_iter_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/probe_screening/healthy_iter_2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/probe_screening/healthy_probes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/probe_screening/healthy_probes.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/probe_screening/probe_information.txt" beforeDir="false" afterPath="$PROJECT_DIR$/probe_screening/probe_information.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/probe_screening/progression_idx.txt" beforeDir="false" afterPath="$PROJECT_DIR$/probe_screening/progression_idx.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/probe_screening/progression_iter_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/probe_screening/progression_iter_0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/probe_screening/progression_iter_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/probe_screening/progression_iter_2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/probe_screening/progression_iter_3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/probe_screening/progression_iter_4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/extracts_1_to_3_pipeline.sh" beforeDir="false" afterPath="$PROJECT_DIR$/extracts_1_to_3_pipeline.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/probe_screening/pruned_kcp_vs_days.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/probe_screening/pruned_kcp_vs_days.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/probe_screening/r_sqr_cco_stat_list.txt" beforeDir="false" afterPath="$PROJECT_DIR$/probe_screening/r_sqr_cco_stat_list.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/probe_screening/r_squared_stat_list.txt" beforeDir="false" afterPath="$PROJECT_DIR$/probe_screening/r_squared_stat_list.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/probe_screening/removed_probes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/probe_screening/removed_probes.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/probe_screening/removed_vs_healthy.png" beforeDir="false" afterPath="$PROJECT_DIR$/probe_screening/removed_vs_healthy.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/probe_screening/screened_kcp_vs_days.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/probe_screening/screened_kcp_vs_days.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/probe_screening/screening_report.txt" beforeDir="false" afterPath="$PROJECT_DIR$/probe_screening/screening_report.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/probe_screening/xy_scatter_dfs.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/probe_screening/xy_scatter_dfs.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/probe_screening/xy_smoothed_dfs.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/probe_screening/xy_smoothed_dfs.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/step_7_et_al.py" beforeDir="false" afterPath="$PROJECT_DIR$/step_7_et_al.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/steps_1_to_8_run_pipeline.sh" beforeDir="false" afterPath="$PROJECT_DIR$/steps_1_to_8_run_pipeline.sh" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -113,12 +31,12 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PIPELINE.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="275">
-              <caret line="14" column="32" selection-start-line="14" selection-start-column="32" selection-end-line="14" selection-end-column="32" />
+            <state relative-caret-position="300">
+              <caret line="15" selection-start-line="15" selection-end-line="15" />
             </state>
           </provider>
         </entry>
@@ -126,29 +44,38 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/steps_1_to_8_run_pipeline.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1225">
-              <caret line="49" column="10" selection-start-line="49" selection-start-column="10" selection-end-line="49" selection-end-column="10" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/step_1a_perform_cleaning.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1025">
-              <caret line="41" column="65" selection-start-line="41" selection-start-column="65" selection-end-line="41" selection-end-column="65" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="376">
+              <caret line="17" column="10" selection-start-line="17" selection-start-column="10" selection-end-line="17" selection-end-column="10" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/extracts_1_to_3_pipeline.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="725">
+              <caret line="29" selection-start-line="29" selection-end-line="29" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/step_7_et_al.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="100">
               <caret line="4" column="33" selection-start-line="4" selection-start-column="33" selection-end-line="4" selection-end-column="33" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/extract_1_get_daily_data_csv_format.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2849">
+              <caret line="37" column="13" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
+              <folding>
+                <element signature="e#409#424#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -282,13 +209,13 @@
         <option value="$PROJECT_DIR$/step_2_overlay_compare.py" />
         <option value="$PROJECT_DIR$/step_4a_probe_screening.py" />
         <option value="$PROJECT_DIR$/cleaning_operations.py" />
-        <option value="$PROJECT_DIR$/steps_1_to_8_run_pipeline.sh" />
-        <option value="$PROJECT_DIR$/extract_1_get_daily_data_csv_format.py" />
         <option value="$PROJECT_DIR$/helper_functions.py" />
-        <option value="$PROJECT_DIR$/PIPELINE.sh" />
         <option value="$PROJECT_DIR$/parse_constants.py" />
         <option value="$PROJECT_DIR$/helper_meta_data.py" />
         <option value="$PROJECT_DIR$/step_7_et_al.py" />
+        <option value="$PROJECT_DIR$/extract_1_get_daily_data_csv_format.py" />
+        <option value="$PROJECT_DIR$/PIPELINE.sh" />
+        <option value="$PROJECT_DIR$/steps_1_to_8_run_pipeline.sh" />
       </list>
     </option>
   </component>
@@ -561,13 +488,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/step_x_figure_arrays.py" />
-    <entry file="file://$PROJECT_DIR$/extracts_1_to_3_pipeline.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="29" selection-start-line="29" selection-end-line="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/experimental.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="375">
@@ -644,16 +564,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/extract_1_get_daily_data_csv_format.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1700">
-          <caret line="80" selection-start-line="80" selection-end-line="80" />
-          <folding>
-            <element signature="e#409#424#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/step_1b_write_report.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1225">
@@ -710,24 +620,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/PIPELINE.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="14" column="32" selection-start-line="14" selection-start-column="32" selection-end-line="14" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/parse_constants.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="737">
           <caret line="131" lean-forward="true" selection-start-line="131" selection-end-line="131" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/steps_1_to_8_run_pipeline.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1225">
-          <caret line="49" column="10" selection-start-line="49" selection-start-column="10" selection-end-line="49" selection-end-column="10" />
         </state>
       </provider>
     </entry>
@@ -743,7 +639,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/step_1a_perform_cleaning.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1025">
+        <state relative-caret-position="925">
           <caret line="41" column="65" selection-start-line="41" selection-start-column="65" selection-end-line="41" selection-end-column="65" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
@@ -755,6 +651,37 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="100">
           <caret line="4" column="33" selection-start-line="4" selection-start-column="33" selection-end-line="4" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/extract_1_get_daily_data_csv_format.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2849">
+          <caret line="37" column="13" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
+          <folding>
+            <element signature="e#409#424#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PIPELINE.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/steps_1_to_8_run_pipeline.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="376">
+          <caret line="17" column="10" selection-start-line="17" selection-start-column="10" selection-end-line="17" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/extracts_1_to_3_pipeline.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="725">
+          <caret line="29" selection-start-line="29" selection-end-line="29" />
         </state>
       </provider>
     </entry>
